@@ -1,0 +1,108 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif; /* Choose a modern and clean font */
+    background: linear-gradient(to right, #ece9e6, #ffffff); /* Gradient background for a modern look */
+  }
+  
+  .settings-layout {
+    display: flex;
+    min-height: 100vh; /* Ensure the layout takes the full height of the viewport */
+    background: url('../../../img/5.jpg') no-repeat center center fixed; /* Add watermark background */
+    background-size: cover; /* Ensure the background covers the entire area */
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: rgba(244, 245, 248, 0.9); /* Transparent background color */
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    position: fixed; /* Fixed position to the left */
+    left: 0;
+    top: 100px; /* Adjust as needed */
+    height: calc(100% - 100px); /* Full height minus top offset */
+    overflow-y: auto;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 35px 0; /* Increased padding to increase the gap */
+    cursor: pointer;
+    color: #030e25;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    transition: color 0.3s ease, transform 0.3s ease; /* Transition for color and transform */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sidebar ul li + li {
+    margin-top: 10px; /* Additional margin between list items */
+  }
+  
+  .sidebar ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #115293;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar ul li:hover {
+    color: #115293;
+    transform: scale(1.05); /* Slightly scale up on hover */
+  }
+  
+  .sidebar ul li:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .content {
+    margin-left: 270px; /* Add margin to accommodate the fixed sidebar */
+    padding: 20px;
+    flex: 1;
+    min-height: calc(100vh - 100px); /* Ensure content area takes the full height minus the top offset */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Specific styles for each section's heading */
+  .user-profile-section h2 {
+    font-size: 24px; /* Resize the heading font for User Profile */
+    color: #030e25;
+    margin-bottom: 20px;
+  }
+  
+  .admin-account-section h2 {
+    font-size: 26px; /* Resize the heading font for Admin Account */
+    color: #115293;
+    margin-bottom: 20px;
+  }
+  
+  .vehicle-settings-section h2 {
+    font-size: 28px; /* Resize the heading font for Vehicle Settings */
+    color: #530e25;
+    margin-bottom: 20px;
+  }
+  
+  footer {
+    margin-top: auto; /* Push the footer to the bottom */
+    padding: 20px;
+    background-color: #030e25;
+    color: white;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  }
+  

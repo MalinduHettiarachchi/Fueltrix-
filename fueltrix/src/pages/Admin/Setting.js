@@ -1,55 +1,89 @@
 import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
+import './CSS/Settings.css'; // Make sure to create this file for custom styles
 
 const Settings = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [darkMode, setDarkMode] = useState(false);
+  const [selectedSection, setSelectedSection] = useState('UserProfile');
 
-  const handleSave = () => {
-    // Save settings logic here
-    alert('Settings saved!');
+  const renderContent = () => {
+    switch (selectedSection) {
+      case 'UserProfile':
+        return (
+          <div>
+            <h2>User Profile Setting</h2>
+            <form>
+              <label>
+                Username:
+                <input type="text" />
+              </label>
+              <label>
+                Email:
+                <input type="email" />
+              </label>
+              <label>
+                Dark Mode:
+                <input type="checkbox" />
+              </label>
+              <button type="submit">Save</button>
+            </form>
+          </div>
+        );
+      case 'AdminAccount':
+        return (
+          <div>
+            <h2>Admin Account Setting</h2>
+            <form>
+              <label>
+                Admin Name:
+                <input type="text" />
+              </label>
+              <label>
+                Admin Email:
+                <input type="email" />
+              </label>
+              <button type="submit">Save</button>
+            </form>
+          </div>
+        );
+      case 'VehicleSettings':
+        return (
+          <div>
+            <h2>Vehicle Settings</h2>
+            <form>
+              <label>
+                Vehicle Name:
+                <input type="text" />
+              </label>
+              <label>
+                Vehicle Type:
+                <input type="text" />
+              </label>
+              <button type="submit">Save</button>
+            </form>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
     <div>
-      <br></br>
-      <AdminNavbar/>
-    <div className="settings-container">
-      <h2>Settings</h2>
-      <div className="settings-item">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter your username"
-        />
+      <AdminNavbar />
+      <div className="settings-layout">
+        <div className="sidebar">
+          <ul>
+            <li onClick={() => setSelectedSection('UserProfile')}>User Profile Setting</li>
+            <li onClick={() => setSelectedSection('AdminAccount')}>Admin Account Setting</li>
+            <li onClick={() => setSelectedSection('VehicleSettings')}>Vehicle Settings</li>
+          </ul>
+        </div>
+        <div className="content">
+          {renderContent()}
+        </div>
       </div>
-      <div className="settings-item">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
-      </div>
-      <div className="settings-item">
-        <label htmlFor="darkMode">Dark Mode:</label>
-        <input
-          type="checkbox"
-          id="darkMode"
-          checked={darkMode}
-          onChange={() => setDarkMode(!darkMode)}
-        />
-      </div>
-      <button className="save-button" onClick={handleSave}>Save Settings</button>
-    </div>
-    <Footer/>
+      <Footer />
     </div>
   );
 };
