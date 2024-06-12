@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import './CSS/Settings.css'; // Make sure to create this file for custom styles
 
 const Settings = () => {
-  const [selectedSection, setSelectedSection] = useState('UserProfile');
+  const [selectedSection, setSelectedSection] = useState('VehicleSettings');
 
   const renderContent = () => {
     switch (selectedSection) {
