@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AdminNavbar from './AdminNavbar';
+import Footer from '../../components/Footer';
 
 const VehicleRegistration = () => {
   const [vehicleData, setVehicleData] = useState({
@@ -20,6 +22,9 @@ const VehicleRegistration = () => {
 
   return (
     <div>
+      <br></br>
+      <AdminNavbar/>
+    <div>
       <h2>Vehicle Registration</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="vehicleNumber">Vehicle Number:</label>
@@ -33,6 +38,8 @@ const VehicleRegistration = () => {
 
         <button type="submit">Submit</button>
       </form>
+    </div>
+    <Footer/>
     </div>
   );
 };

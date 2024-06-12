@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AdminNavbar from './AdminNavbar';
+import Footer from '../../components/Footer';
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,9 @@ const UserRegistration = () => {
 
   return (
     <div>
+      <br></br>
+      <AdminNavbar/>
+    <div>
       <h2>User Registration</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="firstName">First Name:</label>
@@ -37,6 +42,8 @@ const UserRegistration = () => {
 
         <button type="submit">Submit</button>
       </form>
+    </div>
+    <Footer/>
     </div>
   );
 };

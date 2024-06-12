@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AdminNavbar from './AdminNavbar';
+import Footer from '../../components/Footer';
 
 const ShedRegistration = () => {
   const [shedData, setShedData] = useState({
@@ -20,6 +22,9 @@ const ShedRegistration = () => {
 
   return (
     <div>
+      <br></br>
+      <AdminNavbar/>
+    <div>
       <h2>Shed Registration</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="shedName">Shed Name:</label>
@@ -33,6 +38,8 @@ const ShedRegistration = () => {
 
         <button type="submit">Submit</button>
       </form>
+    </div>
+    <Footer/>
     </div>
   );
 };
