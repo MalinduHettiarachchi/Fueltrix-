@@ -14,8 +14,8 @@ import VehicleRegistration from './pages/Admin/VehicleRegistration';
 import ShedRegistration from './pages/Admin/ShedRegistration';
 import ViewDetails from './pages/Admin/ViewDetails';
 import ViewSummary from './pages/Admin/ViewSummary';
-
-
+import Settings from './pages/Admin/Setting';
+import AdminNavbar from './pages/Admin/AdminNavbar';
 
 function App() {
   return (
@@ -34,6 +34,11 @@ function App() {
           <Route path="/shed-registration" element={<ShedRegistration />} />
           <Route path="/view-details" element={<ViewDetails />} />
           <Route path="/view-summary" element={<ViewSummary />} />
+          <Route path="/setting" element={<Settings />} />
+          <Route path="/adminNavbar" element={<AdminNavbar />} />
+
+
+
           
         </Routes>
       </div>
