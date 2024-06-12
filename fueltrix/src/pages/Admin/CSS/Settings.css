@@ -24,6 +24,7 @@ body, html {
     top: 100px; /* Adjust as needed */
     height: calc(100% - 100px); /* Full height minus top offset */
     overflow-y: auto;
+    animation: fadeInUp 1s ease; /* Apply fade-in animation */
   }
   
   .sidebar ul {
@@ -76,11 +77,12 @@ body, html {
     min-height: calc(100vh - 100px); /* Ensure content area takes the full height minus the top offset */
     display: flex;
     flex-direction: column;
+    animation: fadeInUp 1s ease; /* Apply fade-in animation */
   }
   
   /* Specific styles for each section's heading */
   .user-profile-section h2 {
-    font-size: 24px; /* Resize the heading font for User Profile */
+    font-size: 30px; /* Resize the heading font for User Profile */
     color: #030e25;
     margin-bottom: 20px;
   }
@@ -93,8 +95,10 @@ body, html {
   
   .vehicle-settings-section h2 {
     font-size: 28px; /* Resize the heading font for Vehicle Settings */
-    color: #530e25;
+    color: #000000;
     margin-bottom: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    animation: fadeInUp 1s ease; /* Apply animation to the section */
   }
   
   footer {
@@ -104,5 +108,81 @@ body, html {
     color: white;
     text-align: center;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Vehicle Form */
+  .modern-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent white background */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  select,
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn-save {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-save:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .vehicle-settings-section {
+    animation: fadeInUp 1s ease; /* Apply animation to the section */
+  }
+  
+  /* Additional styles for select dropdown */
+  select {
+    appearance: none; /* Remove default appearance */
+    background-color: #fff; /* Dropdown background color */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="#000000" width="24" height="24" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" /></svg>'); /* Custom dropdown arrow */
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    padding-right: 30px; /* Space for the arrow */
+  }
+  
+  input[type="number"] {
+    width: 380px; /* Adjust the width as needed */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
   

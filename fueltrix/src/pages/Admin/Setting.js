@@ -48,18 +48,34 @@ const Settings = () => {
         );
       case 'VehicleSettings':
         return (
-          <div>
+          <div className="vehicle-settings-section">
+            <br></br><br></br>
             <h2>Vehicle Settings</h2>
-            <form>
-              <label>
-                Vehicle Name:
-                <input type="text" />
-              </label>
-              <label>
-                Vehicle Type:
-                <input type="text" />
-              </label>
-              <button type="submit">Save</button>
+            <br></br>
+            <form className="modern-form">
+              <div className="form-group">
+                <label htmlFor="vehicleType">Vehicle Type:</label>
+                <select id="vehicleType">
+                  <option value="">Select Vehicle Type</option>
+                  <option value="sedan">Sedan</option>
+                  <option value="suv">SUV</option>
+                  <option value="truck">Truck</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="fuelType">Fuel Type:</label>
+                <select id="fuelType">
+                  <option value="">Select Fuel Type</option>
+                  <option value="petrol">Petrol</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="electric">Electric</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="fuelVolume">Fuel Volume:</label>
+                <input type="number" id="fuelVolume" min="0" />
+              </div>
+              <button type="submit" className="btn-save">Save</button>
             </form>
           </div>
         );
@@ -69,7 +85,7 @@ const Settings = () => {
   };
 
   return (
-    <div>
+    <div className='animation'>
       <AdminNavbar />
       <div className="settings-layout">
         <div className="sidebar">
