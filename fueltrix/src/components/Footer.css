@@ -1,3 +1,4 @@
+/* Footer Styles */
 .footer {
   background-color: #030e25;
   color: #fbf9f9;
@@ -6,7 +7,18 @@
   border-top: 2px solid #333;
   height: 45px;
   border-radius: 10px;
-  
+  animation: footerSlideIn 0.5s ease-in-out;
+}
+
+@keyframes footerSlideIn {
+  from {
+      transform: translateY(20px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
 }
 
 .footer .container {
@@ -29,9 +41,20 @@
   color: #fbf9f9;
   margin: 0 0.5rem;
   font-size: 1.2rem;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.3s;
 }
 
 .social-icons a:hover {
   color: #007bff; /* Change to your preferred hover color */
+  transform: scale(1.2);
+}
+
+/* Animation for hover effect */
+@keyframes iconHover {
+  from {
+      transform: scale(1);
+  }
+  to {
+      transform: scale(1.2);
+  }
 }
