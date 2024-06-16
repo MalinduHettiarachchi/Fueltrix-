@@ -22,7 +22,6 @@ const VehicleRegistration = () => {
 
   return (
     <div>
-      <br></br>
       <AdminNavbar/>
     <div>
       <h2>Vehicle Registration</h2>

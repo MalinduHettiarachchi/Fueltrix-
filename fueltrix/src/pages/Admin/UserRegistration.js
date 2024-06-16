@@ -23,7 +23,7 @@ const UserRegistration = () => {
 
   return (
     <div>
-      <br></br>
+
       <AdminNavbar/>
     <div>
       <h2>User Registration</h2>
