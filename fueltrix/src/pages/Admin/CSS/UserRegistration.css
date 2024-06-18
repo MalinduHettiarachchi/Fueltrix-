@@ -1,0 +1,112 @@
+/* UserRegistration.css */
+
+
+
+.hednav {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    min-height:800px;
+    display: flex;
+    flex-direction: column;
+    background: url('../../../img/6.jpg');
+    
+  }
+  
+/* Form heading */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  /* Form container */
+  .containerr {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255,0.7);
+
+  }
+  
+  /* Form groups */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Labels */
+  .form-group label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Input fields */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Input group */
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group .form-control {
+    flex: 1;
+  }
+  
+  .input-group-append {
+    margin-left: 10px;
+  }
+  
+  .input-group-append .btn {
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  .input-group-append .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Button */
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
