@@ -25,11 +25,13 @@ const VehicleRegistration = () => {
   };
 
   return (
-    <div className='navhedd'>
+    <div className='mmm'>
       <AdminNavbar />
-    <div className="container">
+    <div className='mvw'>
       
-      <div>
+    <div className='navhedd'>
+      
+      <div className="container">
         <h2>Vehicle Registration</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -107,7 +109,9 @@ const VehicleRegistration = () => {
           </button>
         </form>
       </div>
-      
+     
+    </div>
+    
     </div>
     <Footer />
     </div>
