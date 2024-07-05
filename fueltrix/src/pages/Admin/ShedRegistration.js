@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, useGoogleMap } from '@react-google-maps/api';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import Modal from 'react-modal';
 import AdminNavbar from './AdminNavbar';
 import './CSS/ShedRegistration.css';
@@ -10,9 +10,7 @@ const center = {
   lng: 80.5353,
 };
 
-const LocationPicker = ({ setShedData, closeMap }) => {
-  const map = useGoogleMap();
-
+const LocationPicker = ({ setShedData, closeMap, setMap }) => {
   useEffect(() => {
     const handleClick = (e) => {
       const selectedLocation = {
@@ -23,14 +21,16 @@ const LocationPicker = ({ setShedData, closeMap }) => {
       closeMap();
     };
 
-    const listenerRef = map.addListener('click', handleClick);
+    if (setMap) {
+      const listener = setMap.addListener('click', handleClick);
 
-    return () => {
-      if (listenerRef) {
-        listenerRef.remove();
-      }
-    };
-  }, [map, setShedData, closeMap]);
+      return () => {
+        if (listener) {
+          listener.remove();
+        }
+      };
+    }
+  }, [setMap, setShedData, closeMap]);
 
   return null;
 };
@@ -46,6 +46,7 @@ const ShedRegistration = () => {
 
   const [showMap, setShowMap] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [map, setMap] = useState(null); // Define map state and setMap function
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,13 +98,18 @@ const ShedRegistration = () => {
                 },
               }}
             >
-              <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
+              <LoadScript
+                googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI"
+                onLoad={() => setLoading(false)}
+                onError={() => console.error('Error loading Google Maps API')}
+              >
                 <GoogleMap
                   mapContainerStyle={{ height: '600px', width: '600px' }}
                   center={center}
                   zoom={10}
+                  onLoad={(map) => setMap(map)} // Set the map instance
                 >
-                  <LocationPicker setShedData={setShedData} closeMap={closeMap} />
+                  <LocationPicker setShedData={setShedData} closeMap={closeMap} setMap={map} />
                 </GoogleMap>
               </LoadScript>
               <button className="close" onClick={closeMap}>&times;</button>
