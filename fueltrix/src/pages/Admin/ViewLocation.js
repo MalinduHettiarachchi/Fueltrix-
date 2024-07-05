@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import Modal from 'react-modal';
 import AdminNavbar from './AdminNavbar';
@@ -70,7 +70,10 @@ const ShedRegistration = () => {
                 },
               }}
             >
-              <LoadScript googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70">
+              <LoadScript
+                googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70"
+                onLoad={() => setLoading(false)} // Handle loading state if needed
+              >
                 <GoogleMap
                   mapContainerStyle={{ height: '600px', width: '600px' }}
                   center={mapCenter}
@@ -80,7 +83,8 @@ const ShedRegistration = () => {
                     <Marker 
                       position={markerPosition} 
                       icon={{
-                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                        scaledSize: new window.google.maps.Size(30, 30)
                       }}
                     />
                   )}

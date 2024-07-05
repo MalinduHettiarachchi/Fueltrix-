@@ -97,7 +97,7 @@ const ShedRegistration = () => {
                 },
               }}
             >
-              <LoadScript googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70">
+              <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
                 <GoogleMap
                   mapContainerStyle={{ height: '600px', width: '600px' }}
                   center={center}
