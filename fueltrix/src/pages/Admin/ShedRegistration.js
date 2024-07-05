@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { GoogleMap, LoadScript, useGoogleMap } from '@react-google-maps/api';
 import Modal from 'react-modal';
-import 'leaflet/dist/leaflet.css';
 import AdminNavbar from './AdminNavbar';
 import './CSS/ShedRegistration.css';
 import Footer from '../../components/Footer';
@@ -12,16 +11,27 @@ const center = {
 };
 
 const LocationPicker = ({ setShedData, closeMap }) => {
-  useMapEvents({
-    click: (e) => {
+  const map = useGoogleMap();
+
+  useEffect(() => {
+    const handleClick = (e) => {
       const selectedLocation = {
-        lat: e.latlng.lat,
-        lng: e.latlng.lng,
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
       };
       setShedData((prevData) => ({ ...prevData, location: JSON.stringify(selectedLocation) }));
       closeMap();
-    },
-  });
+    };
+
+    const listenerRef = map.addListener('click', handleClick);
+
+    return () => {
+      if (listenerRef) {
+        listenerRef.remove();
+      }
+    };
+  }, [map, setShedData, closeMap]);
+
   return null;
 };
 
@@ -29,7 +39,7 @@ const ShedRegistration = () => {
   const [shedData, setShedData] = useState({
     shedId: '',
     shedName: '',
-    email: '', // Added email field
+    email: '',
     securityKey: '',
     location: '',
   });
@@ -52,15 +62,14 @@ const ShedRegistration = () => {
 
   const handleGenerateKey = () => {
     const { shedId, shedName } = shedData;
-    const randomSuffix = Math.floor(Math.random() * 10000); // Generate a random 4-digit number
+    const randomSuffix = Math.floor(Math.random() * 10000);
     const generatedKey = `${shedId}-${shedName}-${randomSuffix}`;
     setShedData((prevData) => ({ ...prevData, securityKey: generatedKey }));
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(shedData);
-    // Your form submission logic here
   };
 
   useEffect(() => {
@@ -73,7 +82,6 @@ const ShedRegistration = () => {
   return (
     <div className='common'>
       <AdminNavbar />
-      
 
       <div className={`container ${loading ? 'loading' : ''}`}>
         {loading && <div className="loading-spinner"></div>}
@@ -89,16 +97,18 @@ const ShedRegistration = () => {
                 },
               }}
             >
-              <MapContainer center={center} zoom={10} style={{ height: '600px', width: '600px' }}>
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <LocationPicker setShedData={setShedData} closeMap={closeMap} />
-              </MapContainer>
+              <LoadScript googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70">
+                <GoogleMap
+                  mapContainerStyle={{ height: '600px', width: '600px' }}
+                  center={center}
+                  zoom={10}
+                >
+                  <LocationPicker setShedData={setShedData} closeMap={closeMap} />
+                </GoogleMap>
+              </LoadScript>
               <button className="close" onClick={closeMap}>&times;</button>
             </Modal>
-            
+
             <div className="form-container">
               <form onSubmit={handleSubmit}>
                 <h1>Shed Registration</h1>
@@ -111,7 +121,7 @@ const ShedRegistration = () => {
                   <input type="text" id="shedName" name="shedName" value={shedData.shedName} onChange={handleChange} />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email">Email:</label> 
+                  <label htmlFor="email">Email:</label>
                   <input type="email" id="email" name="email" value={shedData.email} onChange={handleChange} />
                 </div>
                 <div className="form-group">
