@@ -32,7 +32,7 @@ const AdminNavbar = () => {
          
           )}
         </li>
-        <li><Link to="/view-details" className="navbar-link">View Details</Link></li>
+        <li><Link to="/viewlocation" className="navbar-link">View Details</Link></li>
         <li><Link to="/view-summary" className="navbar-link">View Summary</Link></li>
         <li>
           <Link

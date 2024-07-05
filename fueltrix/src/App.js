@@ -16,6 +16,7 @@ import ViewDetails from './pages/Admin/ViewDetails';
 import ViewSummary from './pages/Admin/ViewSummary';
 import Settings from './pages/Admin/Setting';
 import AdminNavbar from './pages/Admin/AdminNavbar';
+import ViewLocation from './pages/Admin/ViewLocation'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/view-summary" element={<ViewSummary />} />
           <Route path="/setting" element={<Settings />} />
           <Route path="/adminNavbar" element={<AdminNavbar />} />
+          <Route path="/viewlocation" element={<ViewLocation />} />
 
 
 
