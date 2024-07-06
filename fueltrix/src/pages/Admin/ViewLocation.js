@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GoogleMapComponent from './GoogleMapComponent';
+import LeafletMapComponent from './GoogleMapComponent';
 
 const App = () => {
   const [locationInput, setLocationInput] = useState('');
@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1>Show Location on Google Map</h1>
+      <h1>Show Location on Map</h1>
       <input
         type="text"
         placeholder='Enter location JSON {"lat":5.944550519515709,"lng":80.5253541469574}'
@@ -31,7 +31,7 @@ const App = () => {
         style={{ width: '300px', marginBottom: '10px' }}
       />
       <button onClick={handleShowMap}>Show Map</button>
-      {showMap && <GoogleMapComponent location={location} />}
+      {showMap && <LeafletMapComponent location={location} />}
     </div>
   );
 };
