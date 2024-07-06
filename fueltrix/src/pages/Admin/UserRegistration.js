@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
 import './CSS/UserRegistration.css'; // Import the CSS file
 
+
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
     employeeId: '',
