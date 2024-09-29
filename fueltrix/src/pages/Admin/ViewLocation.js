@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import LeafletMapComponent from './GoogleMapComponent';
+import Footer from '../../components/Footer';
 
 const App = () => {
   const [locationInput, setLocationInput] = useState('');

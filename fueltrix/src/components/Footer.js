@@ -7,7 +7,7 @@ import './Footer.css'; // Import your CSS file for footer styles
 const Footer = () => {
     return (
         <footer className="footer">
-            <div className="container">
+            <div className="footer-container">
                 <p>&copy; {new Date().getFullYear()} Fueltrix... All rights reserved.</p>
                 <div className="social-icons">
                     <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
