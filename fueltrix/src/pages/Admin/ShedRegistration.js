@@ -50,7 +50,7 @@ const ShedRegistration = () => {
   }, []);
 
   return (
-    <div className='common'>
+    <div className='commonn'>
       <AdminNavbar />
 
       <div className={`container ${loading ? 'loading' : ''}`}>
