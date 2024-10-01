@@ -43,8 +43,10 @@ const UserRegistration = () => {
 
   return (
     <div className='hednav'>
+      <br></br>
       <AdminNavbar />
-      <div className="registration-container">
+      <br></br><br></br><br></br>
+      <motion.div className="registration-container">
         <motion.div className="info-section">
           <img src={InfoImage} alt="Info" className="info-image" />
           <h2>Welcome to Fueltrix</h2>
@@ -136,7 +138,8 @@ const UserRegistration = () => {
             </motion.button>
           </motion.form>
         </motion.div>
-      </div>
+      </motion.div>
+      <br></br><br></br>
       <Footer />
     </div>
   );
