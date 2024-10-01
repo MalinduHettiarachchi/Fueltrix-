@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
-import './CSS/UserRegistration.css'; // Import the CSS file
+import './CSS/UserRegistration.css';
+import InfoImage from '../../img/istockphoto-1390980481-612x612.jpg'; // Update the path to your image
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const UserRegistration = () => {
     password: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -20,16 +23,37 @@ const UserRegistration = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Your form submission logic here
-    console.log(formData);
+    const newErrors = {};
+    if (!formData.employeeId) newErrors.employeeId = "Employee ID is required.";
+    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.contactNumber) newErrors.contactNumber = "Contact number is required.";
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email address is invalid.";
+    }
+    if (!formData.password) newErrors.password = "Password is required.";
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
+    console.log("Form Submitted:", formData);
   };
 
   return (
     <div className='hednav'>
       <AdminNavbar />
-      <div>
-        <br /><br />
-        <div className="containerr mt-4">
+      <div className="registration-container">
+        <motion.div className="info-section">
+          <img src={InfoImage} alt="Info" className="info-image" />
+          <h2>Welcome to Fueltrix</h2>
+          <p>
+            Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms.
+            It provides a seamless experience for tracking fuel usage and management.
+          </p>
+        </motion.div>
+        <motion.div className="form-section">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -60,7 +84,9 @@ const UserRegistration = () => {
                   onChange={handleChange}
                   className="form-control"
                   required
+                  placeholder={`Enter your ${field}`}
                 />
+                {errors[field] && <div className="error-message">{errors[field]}</div>}
               </motion.div>
             ))}
             <motion.div
@@ -77,7 +103,9 @@ const UserRegistration = () => {
                 onChange={handleChange}
                 className="form-control"
                 required
+                placeholder="Enter your email"
               />
+              {errors.email && <div className="error-message">{errors.email}</div>}
             </motion.div>
             <motion.div
               className="form-group"
@@ -93,7 +121,9 @@ const UserRegistration = () => {
                 onChange={handleChange}
                 className="form-control"
                 required
+                placeholder="Enter your password"
               />
+              {errors.password && <div className="error-message">{errors.password}</div>}
             </motion.div>
             <motion.button
               type="submit"
@@ -105,7 +135,7 @@ const UserRegistration = () => {
               Register
             </motion.button>
           </motion.form>
-        </div>
+        </motion.div>
       </div>
       <Footer />
     </div>

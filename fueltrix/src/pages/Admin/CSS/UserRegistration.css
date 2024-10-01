@@ -1,112 +1,143 @@
-/* UserRegistration.css */
-
-
-
 .hednav {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-    min-height:800px;
-    display: flex;
-    flex-direction: column;
-    background: url('../../../img/6.jpg');
-    
-  }
-  
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f4f7;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+}
+
+/* Container for the two-column layout */
+.registration-container {
+  display: flex;
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto;
+  padding: 30px;
+  gap: 0; /* Remove gap between columns */
+}
+
+/* Info section */
+.info-section {
+  flex: 1; /* Take up available space */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center; /* Center-align text */
+}
+
+/* Info image */
+.info-image {
+  width: 80%; /* Adjust width as needed */
+  max-width: 400px; /* Limit the maximum width */
+  border-radius: 10px;
+  margin-bottom: 20px; /* Space between image and text */
+}
+
+/* Info heading */
+.info-section h2 {
+  color: #1d1d1f;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Info paragraph */
+.info-section p {
+  color: #555; /* Adjust text color for better readability */
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+
+/* Form section */
+.form-section {
+  flex: 1; /* Take up available space */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
 /* Form heading */
 h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: 'Times New Roman', Times, serif;
-  }
-  
-  /* Form container */
-  .containerr {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255,0.7);
+  text-align: center;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+}
 
-  }
-  
-  /* Form groups */
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  /* Labels */
-  .form-group label {
-    font-weight: bold;
-    color: #555;
-  }
-  
-  /* Input fields */
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.3s;
-  }
-  
-  .form-control:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  /* Input group */
-  .input-group {
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-group .form-control {
-    flex: 1;
-  }
-  
-  .input-group-append {
-    margin-left: 10px;
-  }
-  
-  .input-group-append .btn {
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    transition: background-color 0.3s;
-  }
-  
-  .input-group-append .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Button */
-  .btn-primary {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 5px;
-    background-color: #007bff;
-    border: none;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #5a6268;
-  }
-  
+/* Form container */
+.registration-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 24px;
+}
+
+/* Labels */
+.form-group label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input fields */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fafafa;
+}
+
+.form-control:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.3);
+  outline: none;
+}
+
+/* Button */
+.btn-primary {
+  width: 90%;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #00c6ff, #034fa0);
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+}
+
+/* Button hover effect */
+.btn-primary:hover {
+  background: linear-gradient(45deg, #034fa0, #00c6ff);
+  box-shadow: 0 4px 20px rgba(0, 122, 255, 0.5);
+}
+
+/* Error messages */
+.error-message {
+  color: #ff3b30;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+}
