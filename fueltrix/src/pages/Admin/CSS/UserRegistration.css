@@ -130,7 +130,7 @@ h2 {
 
 /* Button styles */
 /* Button */
-.btn{
+.userRegbtn{
   width: 96%;
   padding: 14px;
   font-size: 18px;
@@ -145,25 +145,25 @@ h2 {
   box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); /* Subtle shadow */
 }
 
-.btn:hover {
+.userRegbtn:hover {
   background: linear-gradient(45deg, #006ae6, #00bfff); /* Darker gradient on hover */
   box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
   transform: translateY(-3px); /* Slight lift effect */
 }
 
-.btn:active {
+.userRegbtn:active {
   background: linear-gradient(45deg, #005bb5, #00a4e4); /* Slightly darker gradient on active */
   box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
   transform: translateY(0); /* Reset lift effect */
 }
 
-.btn:focus {
+.userRegbtn:focus {
   outline: none; /* Remove default focus outline */
   box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Focus shadow */
 }
 
 /* Additional styling for accessibility */
-.btn-primary:disabled {
+.userRegbtn-primary:disabled {
   background: #b0b0b0; /* Gray background for disabled state */
   cursor: not-allowed; /* Not allowed cursor */
   box-shadow: none; /* No shadow for disabled state */
