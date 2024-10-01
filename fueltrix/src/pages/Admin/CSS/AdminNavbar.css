@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-  background-color: #030e25;
+  background: linear-gradient(135deg, #0c3b6d, #021a33, #030e25);
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   font-family: 'Times New Roman', Times, serif;
@@ -22,6 +22,15 @@
       transform: translateY(0);
       opacity: 1;
   }
+}
+
+
+.adminnavbar:hover {
+  background: linear-gradient(135deg, #0c3b6d, #021a33, #030e25);
+  transition: background-color 0.3s ease, transform 0.3s ease;  
+  transform: translateY(-3px); /* Subtle lift effect */
+  border-radius: 10px;
+
 }
 
 .adminnavbar-brand a {
