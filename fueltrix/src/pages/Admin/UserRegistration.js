@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
-import './CSS/UserRegistration.css';
-import InfoImage from '../../img/istockphoto-1390980481-612x612.jpg'; // Update the path to your image
+import './CSS/UserRegistration.css'; // Make sure your styles are defined here
+import InfoImage from '../../img/istockphoto-1390980481-612x612.jpg';
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
@@ -43,9 +43,8 @@ const UserRegistration = () => {
 
   return (
     <div className='hednav'>
-      <br></br>
       <AdminNavbar />
-      <br></br><br></br><br></br>
+      <div className="spacer" />
       <motion.div className="registration-container">
         <motion.div className="info-section">
           <img src={InfoImage} alt="Info" className="info-image" />
@@ -139,7 +138,6 @@ const UserRegistration = () => {
           </motion.form>
         </motion.div>
       </motion.div>
-      <br></br><br></br>
       <Footer />
     </div>
   );
