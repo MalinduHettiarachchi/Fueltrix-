@@ -3,7 +3,7 @@ import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
 import './CSS/UserRegistration.css'; // Make sure your styles are defined here
-import InfoImage from '../../img/istockphoto-1390980481-612x612.jpg';
+import InfoImage from '../../img/istockphoto-1390980481-612x612-removebg-preview.png';
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({

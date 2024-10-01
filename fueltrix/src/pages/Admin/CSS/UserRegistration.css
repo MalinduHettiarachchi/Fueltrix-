@@ -1,7 +1,8 @@
 .hednav {
+  font-family: 'Times New Roman', Times, serif; /* Changed to Times New Roman */
   min-height: auto;
   font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: url('../../../img/6.jpg');
+  background: url('../../../img/istockphoto-1440574824-612x612.jpg');
   min-height: 800px;
   display: flex;
   flex-direction: column;
@@ -10,8 +11,8 @@
 }
 
 .registration-container {
-  background-color: rgba(255, 255, 255, 0.9);
-
+  background-color: rgba(255, 255, 255, 0.4);
+  font-family: 'Times New Roman', Times, serif; /* Changed to Times New Roman */
   margin: 20px 0; /* Adjust as needed */
   margin-bottom: 60px; /* Increased margin to add space below the registration container */
   flex-direction: column;
@@ -130,7 +131,7 @@ h2 {
 /* Button styles */
 /* Button */
 .btn{
-  width: 100%;
+  width: 96%;
   padding: 14px;
   font-size: 18px;
   border-radius: 12px;
