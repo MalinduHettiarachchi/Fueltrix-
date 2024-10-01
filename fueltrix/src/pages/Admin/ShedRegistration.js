@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import AdminNavbar from './AdminNavbar';
 import './CSS/ShedRegistration.css';
 import Footer from '../../components/Footer';
-import LocationPicker from './LocationPicker';
+import LocationPicker from './LocationPicker'; // Updated LocationPicker
 
 const ShedRegistration = () => {
   const [shedData, setShedData] = useState({
