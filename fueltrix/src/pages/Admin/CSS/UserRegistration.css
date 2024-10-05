@@ -135,7 +135,7 @@ h2 {
   padding: 14px;
   font-size: 18px;
   border-radius: 12px;
-  background: linear-gradient(45deg, #00c6ff,#043971 ); /* Gradient background */
+  background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
   border: none;
   color: #fff;
   font-weight: bold; /* Bold text for emphasis */
@@ -146,13 +146,13 @@ h2 {
 }
 
 .userRegbtn:hover {
-  background: linear-gradient(45deg, #006ae6, #00bfff); /* Darker gradient on hover */
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
   box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
   transform: translateY(-3px); /* Slight lift effect */
 }
 
 .userRegbtn:active {
-  background: linear-gradient(45deg, #005bb5, #00a4e4); /* Slightly darker gradient on active */
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
   box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
   transform: translateY(0); /* Reset lift effect */
 }
