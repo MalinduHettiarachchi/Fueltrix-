@@ -1,21 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
-import { QRCode } from 'qrcode.react'; // Import QR Code package
-import './CSS/VehicleRegistration.css'; 
+import { QRCodeCanvas } from 'qrcode.react'; // Import QRCodeCanvas
+import './CSS/VehicleRegistration.css';
 import InfoImage from '../../img/istockphoto-1390980481-612x612-removebg-preview.png';
 
-const UserRegistration = () => {
+
+const VehicleRegistration = () => {
   const [formData, setFormData] = useState({
-    vehicleRegistrationNo: '',
+    vehicleRegistrationNumber: '',
     vehicleType: '',
     fuelType: '',
-    fuelVolume: '',
+    fuelVolume: 0,
   });
 
   const [errors, setErrors] = useState({});
-  const qrRef = useRef(); // Reference to QR code for download
+  const [qrCode, setQRCode] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,86 +26,101 @@ const UserRegistration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.vehicleRegistrationNo) newErrors.vehicleRegistrationNo = "Vehicle Registration No is required.";
+    if (!formData.vehicleRegistrationNumber) newErrors.vehicleRegistrationNumber = "Vehicle Registration Number is required.";
     if (!formData.vehicleType) newErrors.vehicleType = "Vehicle Type is required.";
     if (!formData.fuelType) newErrors.fuelType = "Fuel Type is required.";
-    if (!formData.fuelVolume) newErrors.fuelVolume = "Fuel Volume is required.";
+    if (formData.fuelVolume <= 0) newErrors.fuelVolume = "Fuel Volume must be greater than 0.";
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+
     setErrors({});
+    // Generate QR code based on vehicle registration number
+    setQRCode(formData.vehicleRegistrationNumber);
     console.log("Form Submitted:", formData);
   };
 
-  const handleDownloadQR = () => {
-    const canvas = qrRef.current.querySelector("canvas");
-    const pngUrl = canvas
-      .toDataURL("image/png")
-      .replace("image/png", "image/octet-stream");
-    const downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = `${formData.vehicleRegistrationNo}_qrcode.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+  const handleRegister = () => {
+    // Register logic here (e.g., saving formData to the database)
+    console.log('Registering vehicle with data:', formData);
+    alert('Vehicle successfully registered!');
   };
 
   return (
     <div className='hednav'>
       <AdminNavbar />
       <div className="spacer" />
+      
       <motion.div className="registration-container">
-        <motion.div className="info-section">
+      <motion.div className="info-section">
           <img src={InfoImage} alt="Info" className="info-image" />
           <h2>Welcome to Fueltrix</h2>
-          <p>Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms.</p>
+          <p>
+            Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms.
+            It provides a seamless experience for tracking fuel usage and management.
+          </p>
         </motion.div>
         <motion.div className="form-section">
-          <motion.h2 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             Vehicle Registration
           </motion.h2>
-          <motion.form onSubmit={handleSubmit} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} className="registration-form">
-            {/* Vehicle Registration No */}
-            <motion.div className="form-group" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-              <label>Vehicle Registration No</label>
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="registration-form"
+          >
+            <div className="form-group">
+              <label>Vehicle Registration Number</label>
               <input
                 type="text"
-                name="vehicleRegistrationNo"
-                value={formData.vehicleRegistrationNo}
+                name="vehicleRegistrationNumber"
+                value={formData.vehicleRegistrationNumber}
                 onChange={handleChange}
                 className="form-control"
                 required
-                placeholder="Enter your Vehicle Registration No"
+                placeholder="Enter Vehicle Registration Number"
               />
-              {errors.vehicleRegistrationNo && <div className="error-message">{errors.vehicleRegistrationNo}</div>}
-            </motion.div>
-
-            {/* Vehicle Type */}
-            <motion.div className="form-group" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+              {errors.vehicleRegistrationNumber && <div className="error-message">{errors.vehicleRegistrationNumber}</div>}
+            </div>
+            <div className="form-group">
               <label>Vehicle Type</label>
-              <select name="vehicleType" value={formData.vehicleType} onChange={handleChange} className="form-control" required>
+              <select
+                name="vehicleType"
+                value={formData.vehicleType}
+                onChange={handleChange}
+                className="form-control"
+              >
                 <option value="">Select Vehicle Type</option>
                 <option value="Car">Car</option>
                 <option value="Truck">Truck</option>
-                <option value="Motorbike">Motorbike</option>
+                <option value="Motorcycle">Motorcycle</option>
               </select>
               {errors.vehicleType && <div className="error-message">{errors.vehicleType}</div>}
-            </motion.div>
-
-            {/* Fuel Type */}
-            <motion.div className="form-group" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
+            </div>
+            <div className="form-group">
               <label>Fuel Type</label>
-              <select name="fuelType" value={formData.fuelType} onChange={handleChange} className="form-control" required>
+              <select
+                name="fuelType"
+                value={formData.fuelType}
+                onChange={handleChange}
+                className="form-control"
+              >
                 <option value="">Select Fuel Type</option>
                 <option value="Petrol">Petrol</option>
                 <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
               </select>
               {errors.fuelType && <div className="error-message">{errors.fuelType}</div>}
-            </motion.div>
-
-            {/* Fuel Volume */}
-            <motion.div className="form-group" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.6 }}>
+            </div>
+            <div className="form-group">
               <label>Fuel Volume</label>
               <input
                 type="number"
@@ -113,31 +129,56 @@ const UserRegistration = () => {
                 onChange={handleChange}
                 className="form-control"
                 required
-                placeholder="Enter fuel volume"
+                placeholder="Enter Fuel Volume"
               />
               {errors.fuelVolume && <div className="error-message">{errors.fuelVolume}</div>}
-            </motion.div>
+            </div>
 
-            <motion.button type="submit" className="userRegbtn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ duration: 0.2 }}>
-              Register
-            </motion.button>
+{/* Buttons container */}
+<div className="buttons-container">
+      <motion.button
+        type="submit"
+        className="userRegbtn"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
+        Generate QR Code
+      </motion.button>
+
+      <motion.button
+        type="button"
+        className="registerBtn"
+        onClick={handleRegister}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
+        Register Vehicle
+      </motion.button>
+    </div>
           </motion.form>
+        </motion.div>
 
-          {/* QR Code Section */}
-          <div ref={qrRef} className="qr-code-container">
-            {formData.vehicleRegistrationNo && (
-              <QRCode value={formData.vehicleRegistrationNo} size={200} />
-            )}
-          </div>
-          <motion.button
-            onClick={handleDownloadQR}
-            className="userRegbtn"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-          >
-            Generate & Download QR Code
-          </motion.button>
+        <motion.div className="qr-code-section">
+          {qrCode && (
+            <>
+              <h3>QR Code:</h3>
+              <QRCodeCanvas value={qrCode} size={128} />
+              <button
+                onClick={() => {
+                  const canvas = document.querySelector('canvas');
+                  const image = canvas.toDataURL('image/png');
+                  const link = document.createElement('a');
+                  link.href = image;
+                  link.download = 'qr-code.png';
+                  link.click();
+                }}
+              >
+                Download QR Code
+              </button>
+            </>
+          )}
         </motion.div>
       </motion.div>
       <Footer />
@@ -145,4 +186,4 @@ const UserRegistration = () => {
   );
 };
 
-export default UserRegistration;
+export default VehicleRegistration;

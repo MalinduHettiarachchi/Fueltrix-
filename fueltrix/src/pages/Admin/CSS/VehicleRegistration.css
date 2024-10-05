@@ -129,42 +129,39 @@ h2 {
 }
 
 /* Button styles */
-/* Button */
-.userRegbtn{
-  width: 96%;
-  padding: 14px;
-  font-size: 18px;
-  border-radius: 12px;
-  background: linear-gradient(45deg, #00c6ff,#043971 ); /* Gradient background */
+
+/* Container for both buttons */
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Space between the buttons */
+  margin-top: 20px;
+}
+
+/* Professional button style */
+.userRegbtn, .registerBtn {
+  width: 48%; /* Keep buttons on the same line */
+  padding: 12px; /* Slightly increased padding for better touch target */
+  font-size: 16px; /* Appropriate font size */
+  border-radius: 6px; /* Subtle rounded corners */
+  background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
   border: none;
-  color: #fff;
-  font-weight: bold; /* Bold text for emphasis */
-  letter-spacing: 1px; /* Slight spacing for modern feel */
+  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 1px;
   transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); /* Subtle shadow */
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 50, 0.25); /* Darker shadow for depth */
 }
 
-.userRegbtn:hover {
-  background: linear-gradient(45deg, #006ae6, #00bfff); /* Darker gradient on hover */
-  box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
-  transform: translateY(-3px); /* Slight lift effect */
+.userRegbtn:hover, .registerBtn:hover {
+  background: linear-gradient(45deg, #001f55, #003f88); /* Slightly brighter blue on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 50, 0.3); /* Enhanced shadow for hover */
+  transform: translateY(-3px); /* Lift effect */
 }
 
-.userRegbtn:active {
-  background: linear-gradient(45deg, #005bb5, #00a4e4); /* Slightly darker gradient on active */
-  box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
-  transform: translateY(0); /* Reset lift effect */
-}
-
-.userRegbtn:focus {
-  outline: none; /* Remove default focus outline */
-  box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Focus shadow */
-}
-
-/* Additional styling for accessibility */
-.userRegbtn-primary:disabled {
-  background: #b0b0b0; /* Gray background for disabled state */
-  cursor: not-allowed; /* Not allowed cursor */
-  box-shadow: none; /* No shadow for disabled state */
+.userRegbtn:active, .registerBtn:active {
+  background: linear-gradient(45deg, #001437, #002d72); /* Darker blue for active state */
+  box-shadow: 0 4px 10px rgba(0, 0, 50, 0.2); /* Softer shadow when pressed */
+  transform: translateY(0); /* Reset on active */
 }
