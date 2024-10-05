@@ -139,7 +139,7 @@ h2 {
 }
 
 /* Professional button style */
-.vehicleRegbtn, .registerBtn {
+.vehicleRegbtn, .qrbtn {
   width: 48%; /* Keep buttons on the same line */
   padding: 12px; /* Slightly increased padding for better touch target */
   font-size: 16px; /* Appropriate font size */
@@ -154,13 +154,13 @@ h2 {
   box-shadow: 0 4px 12px rgba(0, 0, 50, 0.25); /* Darker shadow for depth */
 }
 
-.vehicleRegbtn:hover, .registerBtn:hover {
+.vehicleRegbtn:hover, .qrbtn:hover {
   background: linear-gradient(45deg, #003f88,#001f55); /* Slightly brighter blue on hover */
   box-shadow: 0 8px 16px rgba(0, 0, 50, 0.3); /* Enhanced shadow for hover */
   transform: translateY(-3px); /* Lift effect */
 }
 
-.vehicleRegbtn:active, .registerBtn:active {
+.vehicleRegbtn:active, .qrbtn:active {
   background: linear-gradient(45deg, #003f88,#001f55); /* Darker blue for active state */
   box-shadow: 0 4px 10px rgba(0, 0, 50, 0.2); /* Softer shadow when pressed */
   transform: translateY(0); /* Reset on active */
@@ -215,3 +215,4 @@ h2 {
   background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
   box-shadow: 0 4px 10px rgba(0, 106, 230, 0.3);
 }
+

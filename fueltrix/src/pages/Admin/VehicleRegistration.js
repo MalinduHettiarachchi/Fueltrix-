@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
 import { motion } from 'framer-motion';
-import { QRCodeCanvas } from 'qrcode.react'; // Import QRCodeCanvas
+import { QRCodeCanvas } from 'qrcode.react'; 
+import Swal from 'sweetalert2'; // Import SweetAlert2
 import './CSS/VehicleRegistration.css';
 import InfoImage from '../../img/istockphoto-1390980481-612x612-removebg-preview.png';
-
 
 const VehicleRegistration = () => {
   const [formData, setFormData] = useState({
@@ -37,15 +37,17 @@ const VehicleRegistration = () => {
     }
 
     setErrors({});
-    // Generate QR code based on vehicle registration number
     setQRCode(formData.vehicleRegistrationNumber);
-    console.log("Form Submitted:", formData);
   };
 
   const handleRegister = () => {
-    // Register logic here (e.g., saving formData to the database)
     console.log('Registering vehicle with data:', formData);
-    alert('Vehicle successfully registered!');
+    Swal.fire({
+      title: 'Success!',
+      text: 'Vehicle successfully registered!',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
   };
 
   return (
@@ -54,7 +56,7 @@ const VehicleRegistration = () => {
       <div className="spacer" />
       
       <motion.div className="registration-container">
-      <motion.div className="info-section">
+        <motion.div className="info-section">
           <img src={InfoImage} alt="Info" className="info-image" />
           <h2>Welcome to Fueltrix</h2>
           <p>
@@ -122,72 +124,72 @@ const VehicleRegistration = () => {
             </div>
             <div className="form-group">
               <label>Fuel Volume</label>
-              <input
-                type="number"
-                name="fuelVolume"
-                value={formData.fuelVolume}
-                onChange={handleChange}
-                className="form-control"
-                required
-                placeholder="Enter Fuel Volume"
-              />
-              {errors.fuelVolume && <div className="error-message">{errors.fuelVolume}</div>}
+              <div className="form-group">
+                <input
+                  type="number"
+                  name="fuelVolume"
+                  value={formData.fuelVolume}
+                  onChange={handleChange}
+                  className="form-control" 
+                  required
+                  placeholder="Enter Fuel Volume"
+                  style={{ width: '350px', padding: '12px', fontSize: '16px', border: '1px solid #d1d1d6', borderRadius: '10px', backgroundColor: '#fafafa' }}
+                />
+                {errors.fuelVolume && <div className="error-message">{errors.fuelVolume}</div>}
+              </div>
             </div>
 
-{/* Buttons container */}
-<div className="buttons-container">
-      <motion.button
-        type="submit"
-        className="vehicleRegbtn"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.2 }}
-      >
-        Generate QR Code
-      </motion.button>
+            {/* Buttons container */}
+            <div className="buttons-container">
+              <motion.button
+                type="submit"
+                className="qrbtn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                Generate QR Code
+              </motion.button>
 
-      <motion.button
-        type="button"
-        className="registerBtn"
-        onClick={handleRegister}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.2 }}
-      >
-        Register Vehicle
-      </motion.button>
-    </div>
+              <motion.button
+                type="button" // Change type to button to prevent form submission
+                onClick={handleRegister}
+                className="vehicleRegbtn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                Register Vehicle
+              </motion.button>
+            </div>
           </motion.form>
         </motion.div>
 
         <motion.div className="qr-code-section">
-  {qrCode && (
-    <>
-      <h3 className="qr-code-title">Your QR Code</h3>
-      <QRCodeCanvas value={qrCode} size={160} className="qr-code-canvas" />
-      
-      <motion.button
-        onClick={() => {
-          const canvas = document.querySelector('canvas');
-          const image = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.href = image;
-          
-          // Set the filename based on the vehicle registration number
-          link.download = `${formData.vehicleRegistrationNumber}`;
-          link.click();
-        }}
-        className="download-qr-btn"
-        whileHover={{ scale: 1.1, backgroundColor: '#006ae6' }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ duration: 0.3 }}
-      >
-        Download QR Code
-      </motion.button>
-    </>
-  )}
-</motion.div>
-
+          {qrCode && (
+            <>
+              <h3 className="qr-code-title">Your QR Code</h3>
+              <QRCodeCanvas value={qrCode} size={160} className="qr-code-canvas" />
+              
+              <motion.button
+                onClick={() => {
+                  const canvas = document.querySelector('canvas');
+                  const image = canvas.toDataURL('image/png');
+                  const link = document.createElement('a');
+                  link.href = image;
+                  link.download = `${formData.vehicleRegistrationNumber}`;
+                  link.click();
+                }}
+                className="download-qr-btn"
+                whileHover={{ scale: 1.1, backgroundColor: '#006ae6' }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                Download QR Code
+              </motion.button>
+            </>
+          )}
+        </motion.div>
       </motion.div>
       <Footer />
     </div>
