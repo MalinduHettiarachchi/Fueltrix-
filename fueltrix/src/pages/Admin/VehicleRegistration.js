@@ -12,7 +12,7 @@ const VehicleRegistration = () => {
     vehicleRegistrationNumber: '',
     vehicleType: '',
     fuelType: '',
-    fuelVolume: 0,
+    fuelVolume: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -161,25 +161,33 @@ const VehicleRegistration = () => {
         </motion.div>
 
         <motion.div className="qr-code-section">
-          {qrCode && (
-            <>
-              <h3>QR Code:</h3>
-              <QRCodeCanvas value={qrCode} size={128} />
-              <button
-                onClick={() => {
-                  const canvas = document.querySelector('canvas');
-                  const image = canvas.toDataURL('image/png');
-                  const link = document.createElement('a');
-                  link.href = image;
-                  link.download = 'qr-code.png';
-                  link.click();
-                }}
-              >
-                Download QR Code
-              </button>
-            </>
-          )}
-        </motion.div>
+  {qrCode && (
+    <>
+      <h3 className="qr-code-title">Your QR Code</h3>
+      <QRCodeCanvas value={qrCode} size={160} className="qr-code-canvas" />
+      
+      <motion.button
+        onClick={() => {
+          const canvas = document.querySelector('canvas');
+          const image = canvas.toDataURL('image/png');
+          const link = document.createElement('a');
+          link.href = image;
+          
+          // Set the filename based on the vehicle registration number
+          link.download = `${formData.vehicleRegistrationNumber}`;
+          link.click();
+        }}
+        className="download-qr-btn"
+        whileHover={{ scale: 1.1, backgroundColor: '#006ae6' }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.3 }}
+      >
+        Download QR Code
+      </motion.button>
+    </>
+  )}
+</motion.div>
+
       </motion.div>
       <Footer />
     </div>

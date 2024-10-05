@@ -155,13 +155,63 @@ h2 {
 }
 
 .userRegbtn:hover, .registerBtn:hover {
-  background: linear-gradient(45deg, #001f55, #003f88); /* Slightly brighter blue on hover */
+  background: linear-gradient(45deg, #003f88,#001f55); /* Slightly brighter blue on hover */
   box-shadow: 0 8px 16px rgba(0, 0, 50, 0.3); /* Enhanced shadow for hover */
   transform: translateY(-3px); /* Lift effect */
 }
 
 .userRegbtn:active, .registerBtn:active {
-  background: linear-gradient(45deg, #001437, #002d72); /* Darker blue for active state */
+  background: linear-gradient(45deg, #003f88,#001f55); /* Darker blue for active state */
   box-shadow: 0 4px 10px rgba(0, 0, 50, 0.2); /* Softer shadow when pressed */
   transform: translateY(0); /* Reset on active */
+}
+
+
+.qr-code-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f7f9fc;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.2);
+  margin-top: 20px;
+}
+
+.qr-code-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #043971;
+  margin-bottom: 10px;
+}
+
+.qr-code-canvas {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 106, 230, 0.2);
+}
+
+.download-qr-btn {
+  background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
+}
+
+.download-qr-btn:hover {
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+  box-shadow: 0 8px 20px rgba(0, 106, 230, 0.5);
+}
+
+.download-qr-btn:active {
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+  box-shadow: 0 4px 10px rgba(0, 106, 230, 0.3);
 }
