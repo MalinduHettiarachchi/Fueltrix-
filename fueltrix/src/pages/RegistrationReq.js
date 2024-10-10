@@ -16,7 +16,7 @@ const centerSriLanka = {
   lng: 80.7718, // Central point of Sri Lanka
 };
 
-cconst RegistrationReq = () => {
+const RegistrationReq = () => {
   const [formData, setFormData] = useState({
     shedRegisterNumber: '',
     shedName: '',
@@ -69,17 +69,10 @@ cconst RegistrationReq = () => {
     }
 
     const locationString = `Lat: ${lat}, Lng: ${lng}`;
-    setFormData({ ...formData, location: locationString });
-    setSelectedLocation({ lat, lng });
+    setFormData({ ...formData, location: locationString }); // Autofill location
+    setSelectedLocation({ lat, lng }); // Set selected location
     setLocationError('');
     setShowMap(false); // Hide the map after selecting location
-  };
-
-  const resetLocation = () => {
-    setSelectedLocation(null);
-    setFormData({ ...formData, location: '' });
-    setLocationError('');
-    setShowMap(false);
   };
 
   return (
@@ -88,15 +81,97 @@ cconst RegistrationReq = () => {
       <div className="spacer" />
       <motion.div className="container registration-container">
         <motion.div className="info-section">
-          {/* Information section with image */}
+          <img src={InfoImage} alt="Info" className="info-image" />
+          <h2>Welcome to Fueltrix</h2>
+          <p>
+            Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms, offering a seamless experience for fuel usage and management.
+          </p>
+          <p>
+            Once you submit your registration details, our team will review the information provided. You will receive an email with a unique security key once the review is complete. 
+            After receiving the security key, you can securely access our system using the Fueltrix mobile app.
+          </p>
+          <p>
+            We appreciate your patience and look forward to providing you with an efficient fuel management experience.
+          </p>
         </motion.div>
 
         <motion.div className="form-container">
-          <motion.h2>Shed Registration Request</motion.h2>
-          <motion.form onSubmit={handleSubmit}>
-            {/* ShedRegisterNumber, ShedName, and Email fields */}
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Shed Registration Request
+          </motion.h2>
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <label>Shed Register Number</label>
+              <input
+                type="text"
+                name="shedRegisterNumber"
+                value={formData.shedRegisterNumber}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter Shed Register Number"
+              />
+              {errors.shedRegisterNumber && <div className="error-message">{errors.shedRegisterNumber}</div>}
+            </motion.div>
 
-            <motion.div className="form-group">
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <label>Shed Name</label>
+              <input
+                type="text"
+                name="shedName"
+                value={formData.shedName}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter Shed Name"
+              />
+              {errors.shedName && <div className="error-message">{errors.shedName}</div>}
+            </motion.div>
+
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter Email Address"
+              />
+              {errors.email && <div className="error-message">{errors.email}</div>}
+            </motion.div>
+
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
               <label>Location</label>
               <div className="location-container">
                 <input
@@ -113,6 +188,9 @@ cconst RegistrationReq = () => {
                   type="button"
                   className="pick-location-btn"
                   onClick={handlePickLocation}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
                 >
                   Pick Location
                 </motion.button>
@@ -123,27 +201,28 @@ cconst RegistrationReq = () => {
 
             {showMap && (
               <div className="map-container">
-                <LoadScript googleMapsApiKey="API_KEY_HERE">
+                <LoadScript googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70">
                   <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={centerSriLanka}
-                    zoom={7}
-                    onClick={handleLocationSelect}
+                    zoom={7} // Zoom level for Sri Lanka
+                    onClick={handleLocationSelect} // Get clicked location
                   >
-                    {selectedLocation && <Marker position={selectedLocation} />}
+                    {selectedLocation && (
+                      <Marker position={selectedLocation} />
+                    )}
                   </GoogleMap>
                 </LoadScript>
-                <motion.button
-                  type="button"
-                  className="reset-location-btn"
-                  onClick={resetLocation}
-                >
-                  Reset Location
-                </motion.button>
               </div>
             )}
 
-            <motion.button type="submit" className="shedRegbtn">
+            <motion.button
+              type="submit"
+              className="shedRegbtn"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+            >
               Request
             </motion.button>
           </motion.form>
