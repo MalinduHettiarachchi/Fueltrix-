@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import './User/CSS/RegistrationReq.css'; // Link CSS file
 import InfoImage from '../img/istockphoto-1390980481-612x612-removebg-preview.png';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'; // Google Maps
+import axios from 'axios'; // Import Axios
 
 const mapContainerStyle = {
   height: '300px',
@@ -21,7 +22,7 @@ const RegistrationReq = () => {
     shedRegisterNumber: '',
     shedName: '',
     email: '',
-    location: '',
+    location: '', // Store address here
   });
 
   const [errors, setErrors] = useState({});
@@ -58,7 +59,7 @@ const RegistrationReq = () => {
     setShowMap(true);
   };
 
-  const handleLocationSelect = (e) => {
+  const handleLocationSelect = async (e) => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
 
@@ -68,10 +69,22 @@ const RegistrationReq = () => {
       return;
     }
 
-    const locationString = `Lat: ${lat}, Lng: ${lng}`;
-    setFormData({ ...formData, location: locationString }); // Autofill location
-    setSelectedLocation({ lat, lng }); // Set selected location
-    setLocationError('');
+    // Fetch address using Geocoding API
+    try {
+      const geocodeRes = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI`
+      );
+      const address = geocodeRes.data.results[0]?.formatted_address || 'Address not found';
+
+      // Set the address in the formData
+      setFormData({ ...formData, location: address });
+      setSelectedLocation({ lat, lng }); // Set selected location
+      setLocationError('');
+    } catch (error) {
+      setLocationError('Failed to retrieve address. Please try again.');
+      console.error(error);
+    }
+
     setShowMap(false); // Hide the map after selecting location
   };
 
@@ -109,12 +122,8 @@ const RegistrationReq = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <motion.div
-              className="form-group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
+            {/* Shed Register Number */}
+            <motion.div className="form-group">
               <label>Shed Register Number</label>
               <input
                 type="text"
@@ -128,12 +137,8 @@ const RegistrationReq = () => {
               {errors.shedRegisterNumber && <div className="error-message">{errors.shedRegisterNumber}</div>}
             </motion.div>
 
-            <motion.div
-              className="form-group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+            {/* Shed Name */}
+            <motion.div className="form-group">
               <label>Shed Name</label>
               <input
                 type="text"
@@ -147,12 +152,8 @@ const RegistrationReq = () => {
               {errors.shedName && <div className="error-message">{errors.shedName}</div>}
             </motion.div>
 
-            <motion.div
-              className="form-group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+            {/* Email */}
+            <motion.div className="form-group">
               <label>Email</label>
               <input
                 type="email"
@@ -166,12 +167,8 @@ const RegistrationReq = () => {
               {errors.email && <div className="error-message">{errors.email}</div>}
             </motion.div>
 
-            <motion.div
-              className="form-group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
+            {/* Location */}
+            <motion.div className="form-group">
               <label>Location</label>
               <div className="location-container">
                 <input
@@ -199,9 +196,10 @@ const RegistrationReq = () => {
               {locationError && <div className="error-message">{locationError}</div>}
             </motion.div>
 
+            {/* Map for Picking Location */}
             {showMap && (
               <div className="map-container">
-                <LoadScript googleMapsApiKey="AIzaSyCBOLcE9tLLtCDH1fh10MZeSPLD_Qw_V70">
+                <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
                   <GoogleMap
                     mapContainerStyle={mapContainerStyle}
                     center={centerSriLanka}
@@ -216,6 +214,7 @@ const RegistrationReq = () => {
               </div>
             )}
 
+            {/* Submit Button */}
             <motion.button
               type="submit"
               className="shedRegbtn"
@@ -223,7 +222,7 @@ const RegistrationReq = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              Request
+              Submit Registration Request
             </motion.button>
           </motion.form>
         </motion.div>
