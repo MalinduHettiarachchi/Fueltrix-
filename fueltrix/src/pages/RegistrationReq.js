@@ -3,11 +3,20 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { motion } from 'framer-motion';
 import './User/CSS/RegistrationReq.css'; // Link CSS file
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import InfoImage from '../img/istockphoto-1390980481-612x612-removebg-preview.png';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'; // Google Maps
 
+const mapContainerStyle = {
+  height: '300px',
+  width: '100%',
+};
 
-const RegistrationReq = () => {
+const centerSriLanka = {
+  lat: 7.8731,
+  lng: 80.7718, // Central point of Sri Lanka
+};
+
+cconst RegistrationReq = () => {
   const [formData, setFormData] = useState({
     shedRegisterNumber: '',
     shedName: '',
@@ -17,7 +26,8 @@ const RegistrationReq = () => {
 
   const [errors, setErrors] = useState({});
   const [showMap, setShowMap] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null); // Store selected location
+  const [locationError, setLocationError] = useState(''); // To display location error
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,22 +58,28 @@ const RegistrationReq = () => {
     setShowMap(true);
   };
 
-  const handleLocationSelect = (lat, lng) => {
+  const handleLocationSelect = (e) => {
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+
+    // Check if selected location is within Sri Lanka bounds
+    if (lat < 5 || lat > 10 || lng < 79 || lng > 82) {
+      setLocationError('Selected location is outside Sri Lanka. Please pick a valid location.');
+      return;
+    }
+
     const locationString = `Lat: ${lat}, Lng: ${lng}`;
     setFormData({ ...formData, location: locationString });
-    setSelectedLocation(locationString);
-    setShowMap(false);
+    setSelectedLocation({ lat, lng });
+    setLocationError('');
+    setShowMap(false); // Hide the map after selecting location
   };
 
-  const LocationMarker = () => {
-    useMapEvents({
-      click(e) {
-        handleLocationSelect(e.latlng.lat, e.latlng.lng);
-      },
-    });
-    return selectedLocation ? (
-      <Marker position={[selectedLocation.lat, selectedLocation.lng]}></Marker>
-    ) : null;
+  const resetLocation = () => {
+    setSelectedLocation(null);
+    setFormData({ ...formData, location: '' });
+    setLocationError('');
+    setShowMap(false);
   };
 
   return (
@@ -71,63 +87,16 @@ const RegistrationReq = () => {
       <Navbar />
       <div className="spacer" />
       <motion.div className="container registration-container">
-      <motion.div className="info-section">
-  <img src={InfoImage} alt="Info" className="info-image" />
-  <h2>Welcome to Fueltrix</h2>
-  <p>
-    Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms, offering a seamless experience for fuel usage and management.
-  </p>
-  <p>
-    Once you submit your registration details, our team will review the information provided. You will receive an email with a unique security key once the review is complete. 
-    After receiving the security key, you can securely access our system using the Fueltrix mobile app.
-  </p>
-  <p>
-    We appreciate your patience and look forward to providing you with an efficient fuel management experience.
-  </p>
-</motion.div>
+        <motion.div className="info-section">
+          {/* Information section with image */}
+        </motion.div>
 
         <motion.div className="form-container">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Shed Registration
-          </motion.h2>
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            {['ShedRegisterNumber', 'ShedName', 'Email'].map((field, index) => (
-              <motion.div
-                className="form-group"
-                key={field}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <label>{field.replace(/([A-Z])/g, ' $1').trim()}</label>
-                <input
-                  type="text"
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                  placeholder={`Enter ${field.replace(/([A-Z])/g, ' $1').trim()}`}
-                />
-                {errors[field] && <div className="error-message">{errors[field]}</div>}
-              </motion.div>
-            ))}
+          <motion.h2>Shed Registration Request</motion.h2>
+          <motion.form onSubmit={handleSubmit}>
+            {/* ShedRegisterNumber, ShedName, and Email fields */}
 
-            <motion.div
-              className="form-group"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
+            <motion.div className="form-group">
               <label>Location</label>
               <div className="location-container">
                 <input
@@ -144,32 +113,37 @@ const RegistrationReq = () => {
                   type="button"
                   className="pick-location-btn"
                   onClick={handlePickLocation}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
                 >
                   Pick Location
                 </motion.button>
               </div>
               {errors.location && <div className="error-message">{errors.location}</div>}
+              {locationError && <div className="error-message">{locationError}</div>}
             </motion.div>
 
             {showMap && (
               <div className="map-container">
-                <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: '300px', width: '100%' }}>
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  <LocationMarker />
-                </MapContainer>
+                <LoadScript googleMapsApiKey="API_KEY_HERE">
+                  <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    center={centerSriLanka}
+                    zoom={7}
+                    onClick={handleLocationSelect}
+                  >
+                    {selectedLocation && <Marker position={selectedLocation} />}
+                  </GoogleMap>
+                </LoadScript>
+                <motion.button
+                  type="button"
+                  className="reset-location-btn"
+                  onClick={resetLocation}
+                >
+                  Reset Location
+                </motion.button>
               </div>
             )}
 
-            <motion.button
-              type="submit"
-              className="shedRegbtn"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
+            <motion.button type="submit" className="shedRegbtn">
               Request
             </motion.button>
           </motion.form>
