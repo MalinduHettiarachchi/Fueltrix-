@@ -25,7 +25,7 @@ const AdminNavbar = () => {
           <span className="navbar-link" onClick={handleRegistrationClick}>Registration</span>
           {showRegistrations && (
            <ul className="dropdown-menu registration">
-           <li><Link to="/user-registration" className="navbar-link">UserRegistration</Link></li>
+           <li><Link to="/user-registration" className="navbar-link">DriverRegistration</Link></li>
            <li><Link to="/vehicle-registration" className="navbar-link">VehicleRegistration</Link></li>
            <li className="shed-registration"><Link to="/shed-registration" className="navbar-link">ShedRegistration</Link></li>
          </ul>

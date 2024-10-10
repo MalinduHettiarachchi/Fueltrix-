@@ -51,7 +51,7 @@ const VehicleRegistration = () => {
   };
 
   return (
-    <div className='hednav'>
+    <div className='hednavv'>
       <AdminNavbar />
       <div className="spacer" />
       
