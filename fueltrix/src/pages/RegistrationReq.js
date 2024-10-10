@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import AdminNavbar from './AdminNavbar';
-import Footer from '../../components/Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { motion } from 'framer-motion';
-import './User/CSS/RegistrationReq.css'; // Ensure the CSS for the new UI is defined here
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'; // For map functionality
+import './User/CSS/RegistrationReq.css'; // Link CSS file
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import InfoImage from '../img/istockphoto-1390980481-612x612-removebg-preview.png';
+
 
 const RegistrationReq = () => {
   const [formData, setFormData] = useState({
@@ -38,23 +40,21 @@ const RegistrationReq = () => {
       return;
     }
     setErrors({});
-    // Display a friendly message box (simple alert for now)
     alert('Shed Registration Request Submitted Successfully!');
     console.log('Form Data:', formData);
   };
 
   const handlePickLocation = () => {
-    setShowMap(true); // Show the map to pick the location
+    setShowMap(true);
   };
 
   const handleLocationSelect = (lat, lng) => {
     const locationString = `Lat: ${lat}, Lng: ${lng}`;
     setFormData({ ...formData, location: locationString });
     setSelectedLocation(locationString);
-    setShowMap(false); // Hide the map after selecting the location
+    setShowMap(false);
   };
 
-  // Component to handle the location picking on the map
   const LocationMarker = () => {
     useMapEvents({
       click(e) {
@@ -67,11 +67,26 @@ const RegistrationReq = () => {
   };
 
   return (
-    <div className='shed-reg'>
-      <AdminNavbar />
+    <div className='commonn'>
+      <Navbar />
       <div className="spacer" />
-      <motion.div className="registration-container">
-        <motion.div className="form-section">
+      <motion.div className="container registration-container">
+      <motion.div className="info-section">
+  <img src={InfoImage} alt="Info" className="info-image" />
+  <h2>Welcome to Fueltrix</h2>
+  <p>
+    Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms, offering a seamless experience for fuel usage and management.
+  </p>
+  <p>
+    Once you submit your registration details, our team will review the information provided. You will receive an email with a unique security key once the review is complete. 
+    After receiving the security key, you can securely access our system using the Fueltrix mobile app.
+  </p>
+  <p>
+    We appreciate your patience and look forward to providing you with an efficient fuel management experience.
+  </p>
+</motion.div>
+
+        <motion.div className="form-container">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,9 +99,8 @@ const RegistrationReq = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="registration-form"
           >
-            {['shedRegisterNumber', 'shedName', 'email'].map((field, index) => (
+            {['ShedRegisterNumber', 'ShedName', 'Email'].map((field, index) => (
               <motion.div
                 className="form-group"
                 key={field}
@@ -115,13 +129,13 @@ const RegistrationReq = () => {
               transition={{ duration: 0.5, delay: 0.5 }}
             >
               <label>Location</label>
-              <div className="location-picker">
+              <div className="location-container">
                 <input
                   type="text"
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
-                  className="form-control"
+                  className="location"
                   required
                   placeholder="Pick your location"
                   readOnly
