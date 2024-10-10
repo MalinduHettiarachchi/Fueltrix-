@@ -123,7 +123,7 @@ const VehicleRegistration = () => {
               {errors.fuelType && <div className="error-message">{errors.fuelType}</div>}
             </div>
             <div className="form-group">
-              <label>Fuel Volume</label>
+              <label>Fuel Volume Per Month</label>
               <div className="form-group">
                 <input
                   type="number"
