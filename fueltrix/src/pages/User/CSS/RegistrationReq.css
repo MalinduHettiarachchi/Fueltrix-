@@ -46,7 +46,7 @@
   
   .pick-location-btn {
     flex-shrink: 0;
-    background-color: #007bff;
+    background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -60,7 +60,7 @@
   }
   
   .shedRegbtn {
-    background-color: #007bff;
+    background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
     color: #fff;
     border: none;
     padding: 10px 20px;
