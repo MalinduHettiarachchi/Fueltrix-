@@ -7,8 +7,7 @@ import InfoImage from '../../img/istockphoto-1390980481-612x612-removebg-preview
 
 const UserRegistration = () => {
   const [formData, setFormData] = useState({
-    employeeId: '',
-    name: '',
+    fullName: '',
     contactNumber: '',
     email: '',
     password: '',
@@ -24,8 +23,7 @@ const UserRegistration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (!formData.employeeId) newErrors.employeeId = "Employee ID is required.";
-    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.fullName) newErrors.fullName = "Full Name is required.";
     if (!formData.contactNumber) newErrors.contactNumber = "Contact number is required.";
     if (!formData.email) {
       newErrors.email = "Email is required.";
@@ -60,7 +58,7 @@ const UserRegistration = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            User Registration
+            Drivers Registration
           </motion.h2>
           <motion.form
             onSubmit={handleSubmit}
@@ -69,27 +67,42 @@ const UserRegistration = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="registration-form"
           >
-            {['employeeId', 'name', 'contactNumber'].map((field, index) => (
-              <motion.div
-                className="form-group"
-                key={field}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                <input
-                  type="text"
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="form-control"
-                  required
-                  placeholder={`Enter your ${field}`}
-                />
-                {errors[field] && <div className="error-message">{errors[field]}</div>}
-              </motion.div>
-            ))}
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter your Full Name"
+              />
+              {errors.fullName && <div className="error-message">{errors.fullName}</div>}
+            </motion.div>
+            <motion.div
+              className="form-group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <label>Contact Number</label>
+              <input
+                type="text"
+                name="contactNumber"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter your contact number"
+              />
+              {errors.contactNumber && <div className="error-message">{errors.contactNumber}</div>}
+            </motion.div>
             <motion.div
               className="form-group"
               initial={{ opacity: 0, x: -20 }}
