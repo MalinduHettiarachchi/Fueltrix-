@@ -1,0 +1,87 @@
+.commonn {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    min-height: 800px;
+    display: flex;
+    flex-direction: column;
+    background: url('../../../img/map.jpg');
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .form-container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    animation: fadeIn 0.5s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+  
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .location-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .location {
+    width: 70%;
+    margin-right: 10px;
+  }
+  
+  .pick-location-btn {
+    flex-shrink: 0;
+    background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pick-location-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .shedRegbtn {
+    background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+  }
+  
+  .shedRegbtn:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+  }
+  
+  .map-container {
+    margin-top: 20px;
+    height: 300px;
+    width: 100%;
+  }
+  

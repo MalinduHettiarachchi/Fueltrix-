@@ -1,112 +1,170 @@
-/* UserRegistration.css */
-
-
-
 .hednav {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-    min-height:800px;
-    display: flex;
-    flex-direction: column;
-    background: url('../../../img/6.jpg');
-    
-  }
-  
+  font-family: 'Times New Roman', Times, serif; /* Changed to Times New Roman */
+  min-height: auto;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: url('../../../img/contact.jpg');
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+}
+
+.registration-container {
+  background-color: rgba(255, 255, 255, 0.4);
+  font-family: 'Times New Roman', Times, serif; /* Changed to Times New Roman */
+  margin: 20px 0; /* Adjust as needed */
+  margin-bottom: 60px; /* Increased margin to add space below the registration container */
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  justify-content: space-between; /* Space out columns */
+  max-width: 1000px; /* Limit the maximum width */
+  margin: 0 auto; /* Center horizontally */
+  padding: 30px; /* Padding around the container */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  gap: 40px; /* Space between columns */
+}
+
+/* Info section */
+.info-section {
+  margin-bottom: 20px; /* Adjust spacing as needed */
+  text-align: center;
+  flex: 1; /* Take 50% of the width */
+  padding: 40px; /* Padding for info section */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+}
+
+/* Info image */
+.info-image {
+  width: 100%; /* Adjust width to 100% of the container */
+  max-width: 400px; /* Limit the maximum width */
+  border-radius: 10px; /* Rounded corners for the image */
+  margin-bottom: 20px; /* Space below the image */
+}
+
+/* Info heading */
+.info-section h2 {
+  color: #1d1d1f;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Info paragraph */
+.info-section p {
+  color: #555; /* Adjust text color for better readability */
+  line-height: 1.8; /* Increased line-height for better spacing */
+  font-size: 16px;
+}
+
+.spacer {
+  margin: 20px 0; /* Adjust as needed */
+}
+
+/* Form section */
+.form-section {
+  width: 100%;
+  max-width: 400px; /* Adjust width as needed */
+  flex: 1; /* Take 50% of the width */
+  padding: 20px; /* Padding for form section */
+}
+
 /* Form heading */
 h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: 'Times New Roman', Times, serif;
-  }
-  
-  /* Form container */
-  .containerr {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255,0.7);
+  text-align: center;
+  color: #1d1d1f;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.4; /* Add line-height for headings */
+}
 
-  }
-  
-  /* Form groups */
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  /* Labels */
-  .form-group label {
-    font-weight: bold;
-    color: #555;
-  }
-  
-  /* Input fields */
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.3s;
-  }
-  
-  .form-control:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  /* Input group */
-  .input-group {
-    display: flex;
-    align-items: center;
-  }
-  
-  .input-group .form-control {
-    flex: 1;
-  }
-  
-  .input-group-append {
-    margin-left: 10px;
-  }
-  
-  .input-group-append .btn {
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    transition: background-color 0.3s;
-  }
-  
-  .input-group-append .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Button */
-  .btn-primary {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 5px;
-    background-color: #007bff;
-    border: none;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    border: none;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #5a6268;
-  }
-  
+/* Form container */
+.registration-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 24px;
+}
+
+/* Labels */
+.form-group label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input fields */
+.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #d1d1d6;
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #fafafa;
+}
+
+.form-control:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 8px rgba(0, 122, 255, 0.5);
+  outline: none;
+}
+
+/* Error messages */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  line-height: 1.5; /* Increased line-height for error messages */
+}
+
+/* Button styles */
+/* Button */
+.userRegbtn{
+  width: 96%;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
+  border: none;
+  color: #fff;
+  font-weight: bold; /* Bold text for emphasis */
+  letter-spacing: 1px; /* Slight spacing for modern feel */
+  transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); /* Subtle shadow */
+}
+
+.userRegbtn:hover {
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+  box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
+  transform: translateY(-3px); /* Slight lift effect */
+}
+
+.userRegbtn:active {
+  background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+  box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
+  transform: translateY(0); /* Reset lift effect */
+}
+
+.userRegbtn:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Focus shadow */
+}
+
+/* Additional styling for accessibility */
+.userRegbtn-primary:disabled {
+  background: #b0b0b0; /* Gray background for disabled state */
+  cursor: not-allowed; /* Not allowed cursor */
+  box-shadow: none; /* No shadow for disabled state */
+}

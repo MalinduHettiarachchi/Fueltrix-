@@ -1,39 +1,61 @@
 import React, { useState } from 'react';
-import LeafletMapComponent from './GoogleMapComponent';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const App = () => {
-  const [locationInput, setLocationInput] = useState('');
-  const [location, setLocation] = useState({ lat: 0, lng: 0 });
-  const [showMap, setShowMap] = useState(false);
+const MapComponent = () => {
+  // Default map center (any default location you want)
+  const [mapCenter, setMapCenter] = useState({ lat: 7.270856777915222, lng: 80.69489570312501 });
+  const [lat, setLat] = useState(7.270856777915222);
+  const [lng, setLng] = useState(80.69489570312501);
 
-  const handleShowMap = () => {
-    try {
-      const { lat, lng } = JSON.parse(locationInput);
-      setLocation({ lat, lng });
-      setShowMap(true);
-    } catch (error) {
-      console.error('Invalid input format');
+  // Handle form submission to update the map center
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newLat = parseFloat(lat);
+    const newLng = parseFloat(lng);
+
+    if (!isNaN(newLat) && !isNaN(newLng)) {
+      setMapCenter({ lat: newLat, lng: newLng });
     }
   };
 
-  const handleInputChange = (event) => {
-    setLocationInput(event.target.value);
-  };
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1>Show Location on Map</h1>
-      <input
-        type="text"
-        placeholder='Enter location JSON {"lat":5.944550519515709,"lng":80.5253541469574}'
-        value={locationInput}
-        onChange={handleInputChange}
-        style={{ width: '300px', marginBottom: '10px' }}
-      />
-      <button onClick={handleShowMap}>Show Map</button>
-      {showMap && <LeafletMapComponent location={location} />}
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Latitude:
+          <input
+            type="text"
+            value={lat}
+            onChange={(e) => setLat(e.target.value)}
+            placeholder="Enter Latitude"
+          />
+        </label>
+        <br />
+        <label>
+          Longitude:
+          <input
+            type="text"
+            value={lng}
+            onChange={(e) => setLng(e.target.value)}
+            placeholder="Enter Longitude"
+          />
+        </label>
+        <br />
+        <button type="submit">Show Location</button>
+      </form>
+
+      <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
+        <GoogleMap
+          mapContainerStyle={{ width: '100%', height: '400px' }}
+          center={mapCenter}
+          zoom={15}
+        >
+          {/* Marker to show the entered location */}
+          <Marker position={mapCenter} />
+        </GoogleMap>
+      </LoadScript>
     </div>
   );
 };
 
-export default App;
+export default MapComponent;

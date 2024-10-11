@@ -1,119 +1,197 @@
 import React, { useState } from 'react';
 import AdminNavbar from './AdminNavbar';
 import Footer from '../../components/Footer';
-import "./CSS/VehicleRegistration.css";
+import { motion } from 'framer-motion';
+import { QRCodeCanvas } from 'qrcode.react'; 
+import Swal from 'sweetalert2'; // Import SweetAlert2
+import './CSS/VehicleRegistration.css';
+import InfoImage from '../../img/istockphoto-1390980481-612x612-removebg-preview.png';
 
 const VehicleRegistration = () => {
-  const [vehicleData, setVehicleData] = useState({
-    vehicleId: '',
-    vehicleRegistrationNo: '',
+  const [formData, setFormData] = useState({
+    vehicleRegistrationNumber: '',
     vehicleType: '',
     fuelType: '',
     fuelVolume: '',
-    manufacturer: '',
   });
+
+  const [errors, setErrors] = useState({});
+  const [qrCode, setQRCode] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setVehicleData({ ...vehicleData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Your form submission logic here
-    console.log(vehicleData);
+    const newErrors = {};
+    if (!formData.vehicleRegistrationNumber) newErrors.vehicleRegistrationNumber = "Vehicle Registration Number is required.";
+    if (!formData.vehicleType) newErrors.vehicleType = "Vehicle Type is required.";
+    if (!formData.fuelType) newErrors.fuelType = "Fuel Type is required.";
+    if (formData.fuelVolume <= 0) newErrors.fuelVolume = "Fuel Volume must be greater than 0.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    setQRCode(formData.vehicleRegistrationNumber);
+  };
+
+  const handleRegister = () => {
+    console.log('Registering vehicle with data:', formData);
+    Swal.fire({
+      title: 'Success!',
+      text: 'Vehicle successfully registered!',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
   };
 
   return (
-    <div className='mmm'>
+    <div className='hednavv'>
       <AdminNavbar />
-    <div className='mvw'>
+      <div className="spacer" />
       
-    <div className='navhedd'>
-      
-      <div className="container">
-        <h2>Vehicle Registration</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="vehicleId">Vehicle ID</label>
-            <input
-              type="text"
-              id="vehicleId"
-              name="vehicleId"
-              value={vehicleData.vehicleId}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="vehicleRegistrationNo">Vehicle Registration No</label>
-            <input
-              type="text"
-              id="vehicleRegistrationNo"
-              name="vehicleRegistrationNo"
-              value={vehicleData.vehicleRegistrationNo}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="vehicleType">Vehicle Type</label>
-            <select
-              id="vehicleType"
-              name="vehicleType"
-              value={vehicleData.vehicleType}
-              onChange={handleChange}
-              className="form-control"
-              required
-            >
-              <option value="">Select Vehicle Type</option>
-              <option value="Car">Car</option>
-              <option value="Truck">Truck</option>
-              <option value="Motorcycle">Motorcycle</option>
-              {/* Add more options as needed */}
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="fuelType">Fuel Type</label>
-            <select
-              id="fuelType"
-              name="fuelType"
-              value={vehicleData.fuelType}
-              onChange={handleChange}
-              className="form-control"
-              required
-            >
-              <option value="">Select Fuel Type</option>
-              <option value="Gasoline">Gasoline</option>
-              <option value="Diesel">Diesel</option>
-              <option value="Electric">Electric</option>
-              {/* Add more options as needed */}
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="fuelVolume">Fuel Volume</label>
-            <input
-              type="text"
-              id="fuelVolume"
-              name="fuelVolume"
-              value={vehicleData.fuelVolume}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Register
-          </button>
-        </form>
-      </div>
-     
-    </div>
-    
-    </div>
-    <Footer />
+      <motion.div className="registration-container">
+        <motion.div className="info-section">
+          <img src={InfoImage} alt="Info" className="info-image" />
+          <h2>Welcome to Fueltrix</h2>
+          <p>
+            Fueltrix is a QR-based fuel tracking system designed for both mobile and web platforms.
+            It provides a seamless experience for tracking fuel usage and management.
+          </p>
+        </motion.div>
+        <motion.div className="form-section">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Vehicle Registration
+          </motion.h2>
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="registration-form"
+          >
+            <div className="form-group">
+              <label>Vehicle Registration Number</label>
+              <input
+                type="text"
+                name="vehicleRegistrationNumber"
+                value={formData.vehicleRegistrationNumber}
+                onChange={handleChange}
+                className="form-control"
+                required
+                placeholder="Enter Vehicle Registration Number"
+              />
+              {errors.vehicleRegistrationNumber && <div className="error-message">{errors.vehicleRegistrationNumber}</div>}
+            </div>
+            <div className="form-group">
+              <label>Vehicle Type</label>
+              <select
+                name="vehicleType"
+                value={formData.vehicleType}
+                onChange={handleChange}
+                className="form-control"
+              >
+                <option value="">Select Vehicle Type</option>
+                <option value="Car">Car</option>
+                <option value="Truck">Truck</option>
+                <option value="Motorcycle">Motorcycle</option>
+              </select>
+              {errors.vehicleType && <div className="error-message">{errors.vehicleType}</div>}
+            </div>
+            <div className="form-group">
+              <label>Fuel Type</label>
+              <select
+                name="fuelType"
+                value={formData.fuelType}
+                onChange={handleChange}
+                className="form-control"
+              >
+                <option value="">Select Fuel Type</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+              </select>
+              {errors.fuelType && <div className="error-message">{errors.fuelType}</div>}
+            </div>
+            <div className="form-group">
+              <label>Fuel Volume Per Month</label>
+              <div className="form-group">
+                <input
+                  type="number"
+                  name="fuelVolume"
+                  value={formData.fuelVolume}
+                  onChange={handleChange}
+                  className="form-control" 
+                  required
+                  placeholder="Enter Fuel Volume"
+                  style={{ width: '350px', padding: '12px', fontSize: '16px', border: '1px solid #d1d1d6', borderRadius: '10px', backgroundColor: '#fafafa' }}
+                />
+                {errors.fuelVolume && <div className="error-message">{errors.fuelVolume}</div>}
+              </div>
+            </div>
+
+            {/* Buttons container */}
+            <div className="buttons-container">
+              <motion.button
+                type="submit"
+                className="qrbtn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                Generate QR Code
+              </motion.button>
+
+              <motion.button
+                type="button" // Change type to button to prevent form submission
+                onClick={handleRegister}
+                className="vehicleRegbtn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                Register Vehicle
+              </motion.button>
+            </div>
+          </motion.form>
+        </motion.div>
+
+        <motion.div className="qr-code-section">
+          {qrCode && (
+            <>
+              <h3 className="qr-code-title">Your QR Code</h3>
+              <QRCodeCanvas value={qrCode} size={160} className="qr-code-canvas" />
+              
+              <motion.button
+                onClick={() => {
+                  const canvas = document.querySelector('canvas');
+                  const image = canvas.toDataURL('image/png');
+                  const link = document.createElement('a');
+                  link.href = image;
+                  link.download = `${formData.vehicleRegistrationNumber}`;
+                  link.click();
+                }}
+                className="download-qr-btn"
+                whileHover={{ scale: 1.1, backgroundColor: '#006ae6' }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                Download QR Code
+              </motion.button>
+            </>
+          )}
+        </motion.div>
+      </motion.div>
+      <Footer />
     </div>
   );
 };

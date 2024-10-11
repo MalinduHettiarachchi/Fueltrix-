@@ -17,6 +17,8 @@ import ViewSummary from './pages/Admin/ViewSummary';
 import Settings from './pages/Admin/Setting';
 import AdminNavbar from './pages/Admin/AdminNavbar';
 import ViewLocation from './pages/Admin/ViewLocation'
+import RegistrationReq from './pages/RegistrationReq'
+
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
           <Route path="/setting" element={<Settings />} />
           <Route path="/adminNavbar" element={<AdminNavbar />} />
           <Route path="/viewlocation" element={<ViewLocation />} />
+          <Route path="/registrationReq" element={<RegistrationReq />} />
 
 
 
