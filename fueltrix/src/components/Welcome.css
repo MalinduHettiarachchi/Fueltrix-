@@ -13,11 +13,12 @@
 .container {
   flex-direction: column;
   margin-bottom: 105px;
+  margin-top: 15px;
 }
 
 .header {
   font-size: 56px;
-  margin-bottom: 55px; /* Adjusted margin-bottom */
+  margin-bottom: 35px; /* Adjusted margin-bottom */
   margin-left: -680px; 
   font-family: sans-serif;
   color: #000000;
@@ -52,7 +53,7 @@
 
 /* Center the video on the page */
 .video-container {
-  margin-top: -60px;
+  margin-top: 70px;
   margin-left: -500px;
   display: flex;
 }
