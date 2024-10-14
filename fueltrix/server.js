@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 const cors = require('cors');
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require('./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Replace with your Firebase service account key JSON
+const serviceAccount = require('D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

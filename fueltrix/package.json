@@ -17,6 +17,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "firebase-admin": "^12.6.0",
     "framer-motion": "^11.2.12",
     "google-maps-react": "^2.0.6",
     "leaflet": "^1.9.4",
