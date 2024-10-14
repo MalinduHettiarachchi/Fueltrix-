@@ -1,66 +1,111 @@
-.login-container {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e7eff6; /* Light blue-gray background for a soft look */
+  }
+  
+  .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
-}
-
-.image-wrapper {
+  }
+  
+  .login-image {
     flex: 1;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100%;
-}
-
-.form-wrapper {
-    flex: 1;
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
     justify-content: center;
-}
-
-.form-title {
-    font-size: 24px;
+    align-items: center;
+  }
+  
+  .login-image img {
+    max-width: 90%; /* Adjusted for responsiveness */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .login-form {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin-left: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .login-form:hover {
+    transform: translateY(-5px); /* Subtle lift effect on hover */
+  }
+  
+  h2 {
     margin-bottom: 20px;
-    text-align: center;
     color: #333;
-}
-
-.auth-form .form-group {
-    margin-bottom: 20px;
-}
-
-.form-label {
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
     color: #555;
-}
-
-.form-input {
+  }
+  
+  input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4e73df;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 15px; /* Increased padding for a more comfortable touch */
+    border: 1px solid #dcdcdc;
+    border-radius: 10px; /* Rounded corners */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     font-size: 16px;
-    margin-top: 20px;
-}
-
-.submit-button:hover {
-    background-color: #375a7f;
-}
+  }
+  
+  input:focus {
+    border-color: #007bff; /* Blue color for focused input */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft blue glow on focus */
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 15px; /* Increased padding */
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 10px; /* Rounded button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform effect */
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.02); /* Slightly enlarge button on hover */
+  }
+  
+  .signup-link {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .signup-link a {
+    color: #007bff; /* Blue for links */
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
