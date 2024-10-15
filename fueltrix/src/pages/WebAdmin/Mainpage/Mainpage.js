@@ -3,7 +3,7 @@ import Navbar from '../NavBarr/navbarr'
 
 function Mainpage() {
   return (
-    <div>
+    <div >
         <Navbar/>
     </div>
   )
