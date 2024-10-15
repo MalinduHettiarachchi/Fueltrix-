@@ -1,6 +1,6 @@
 /* General Styling */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
     margin: 0;
     padding: 0;
     background-color: #f4f6f9;
@@ -14,6 +14,8 @@ body {
 
 /* Sidebar Styling */
 .webadmin-sidebar {
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
+
     min-height: 100vh;
     width: 250px;
     background: linear-gradient(45deg, #4b6cb7, #182848);
@@ -69,17 +71,42 @@ body {
 
 /* Header Styling */
 .webadmin-dashboard-header {
-    padding: 20px;
-    background-color: white;
+    padding: 20px 40px; /* Increased horizontal padding for more space */
+    background: linear-gradient(45deg, #f5f7fa, #c3cfe2); /* Light gradient background */
     border-bottom: 2px solid #e1e1e1;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly increased shadow for depth */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center the content vertically */
+    justify-content: flex-start; /* Align items to the start */
+}
+
+/* Header content alignment */
+.header-content {
+    display: flex; /* Flexbox for logo and title alignment */
+    align-items: center; /* Center the logo and title vertically */
 }
 
 .webadmin-dashboard-header h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 28px; /* Slightly larger font size */
     color: #333;
+    font-weight: 600; /* Bolder font weight for emphasis */
+    letter-spacing: 1px; /* Add letter spacing for a modern look */
+    margin-left: 15px; /* Space between logo and title */
 }
+
+/* Logo Styles */
+.logo {
+    width: 50px; /* Adjust logo size */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 15px; /* Space between logo and title */
+    transition: transform 0.3s ease; /* Add hover effect */
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Slightly enlarge the logo on hover */
+}
+
 
 /* Main Content */
 .webadmin-main-content {
@@ -166,4 +193,128 @@ body {
 .webadmin-sidebar-menu a i {
     margin-right: 10px;
     font-size: 18px; /* Adjust icon size */
+}
+
+
+
+
+/* shedRequests.css */
+
+.ShedRequest {
+    margin: 40px auto;
+    max-width: 1200px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.ShedRequest h1 {
+    color: #2c3e50;
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    margin-bottom: 40px;
+    background-color: #ffffff;
+}
+
+thead {
+    background-color: #f8f9fa;
+}
+
+th, td {
+    padding: 20px;
+    text-align: left;
+    font-size: 16px;
+    border-bottom: 1px solid #dee2e6;
+    color: #4d4d4d;
+}
+
+th {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+tbody tr:hover {
+    background-color: #f1f4f6;
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.Webapprove {
+    background: linear-gradient(45deg, #1c1f4a, #00509e);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(26, 188, 156, 0.4);
+}
+
+.Webapprove:hover {
+    background: linear-gradient(45deg, #00509e, #1c1f4a); /* Optional: reverse gradient on hover */
+}
+
+.Webapprove:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 8px rgba(26, 188, 156, 0.3);
+}
+
+
+.LoadingMessage, .ErrorMessage, .SuccessMessage {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 30px;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.LoadingMessage {
+    color: #555;
+}
+
+.ErrorMessage {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.SuccessMessage {
+    background-color: #2ecc71;
+    color: white;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    table, th, td {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
 }

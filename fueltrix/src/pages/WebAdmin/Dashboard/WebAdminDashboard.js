@@ -3,6 +3,13 @@ import './WebAdminDashboard.css'; // Import CSS styles
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom'; // Import necessary components from react-router-dom
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { format } from 'date-fns';
+import { motion } from 'framer-motion'; // Framer Motion for animations
+import styled from 'styled-components'; // styled-components for modern styling
+import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
+
 
 const Sidebar = ({ onChangeView }) => {
     const navigate = useNavigate(); // Get navigate function
@@ -35,40 +42,67 @@ const Sidebar = ({ onChangeView }) => {
     );
 };
 
+
+
 const Header = () => {
     return (
         <header className="webadmin-dashboard-header">
-            <h1>Welcome to the Admin Dashboard</h1>
+            <div className="header-content">
+                <img src={logo} alt="Logo" className="logo" /> {/* Importing the logo */}
+                <h1>Welcome to the Admin Dashboard</h1>
+            </div>
         </header>
     );
 };
 
+
+
+
 const ShedRequests = () => {
-    const [shedRequests, setShedRequests] = useState([]); // State to store shed requests
-    const [loading, setLoading] = useState(true); // State to manage loading state
+    const [shedRequests, setShedRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     useEffect(() => {
         const fetchShedRequests = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/shed-requests'); // Update with your server URL
-                setShedRequests(response.data); // Set the received data to state
-                setLoading(false); // Set loading to false
+                const response = await axios.get('http://localhost:5000/shed-requests');
+                setShedRequests(response.data);
             } catch (error) {
                 console.error('Error fetching shed requests:', error);
-                setLoading(false); // Set loading to false even on error
+                setError('Failed to load shed requests.');
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchShedRequests();
-    }, []); // Empty dependency array to run once on mount
+    }, []);
+
+    const handleApprove = async (id) => {
+        try {
+            await axios.put(`http://localhost:5000/shed-requests/${id}/approve`);
+            setShedRequests(prevRequests => prevRequests.filter(request => request.id !== id));
+            setSuccess('Shed request approved successfully!');
+        } catch (error) {
+            console.error('Error approving shed request:', error);
+            setError('Failed to approve shed request.');
+        }
+    };
 
     if (loading) {
-        return <p>Loading shed requests...</p>; // Loading state
+        return <div className="LoadingMessage">Loading shed requests...</div>;
+    }
+
+    if (error) {
+        return <div className="ErrorMessage">{error}</div>;
     }
 
     return (
         <div className="ShedRequest">
             <h1>Shed Registration Requests</h1>
+            {success && <div className="SuccessMessage">{success}</div>}
             {shedRequests.length > 0 ? (
                 <table>
                     <thead>
@@ -79,25 +113,38 @@ const ShedRequests = () => {
                             <th>Location</th>
                             <th>Security Key</th>
                             <th>Created At</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-    {shedRequests.map(request => (
-        <tr key={request.id}>
-            <td>{request.shedRegisterNumber}</td>
-            <td>{request.shedName}</td>
-            <td>{request.email}</td>
-            <td>{request.location}</td>
-            <td>{request.Security_Key}</td>
-            <td>
-                {request.createdAt 
-                    ? (request.createdAt.toDate ? request.createdAt.toDate().toString() : new Date(request.createdAt).toString()) 
-                    : 'N/A'}
-            </td>
-        </tr>
-    ))}
-</tbody>
-
+                        {shedRequests.map(request => (
+                            <tr key={request.id}>
+                                <td>{request.shedRegisterNumber}</td>
+                                <td>{request.shedName}</td>
+                                <td>{request.email}</td>
+                                <td>{request.location}</td>
+                                <td>{request.Security_Key}</td>
+                                <td>
+                                    {request.createdAt ? (
+                                        new Date(request.createdAt).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit',
+                                            hour12: true
+                                        }).replace(',', '')
+                                    ) : (
+                                        'Invalid Date'
+                                    )}
+                                </td>
+                                <td>
+                                    <button className='Webapprove' onClick={() => handleApprove(request.id)}>Approve</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             ) : (
                 <p>No shed registration requests found.</p>
@@ -105,6 +152,11 @@ const ShedRequests = () => {
         </div>
     );
 };
+
+
+
+
+
 
 
 

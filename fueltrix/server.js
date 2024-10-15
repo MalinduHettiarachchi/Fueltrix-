@@ -87,29 +87,53 @@ app.post('/WebAdminLogin', async (req, res) => {
 
 // Add this route to your existing Express server code
 
-// Route to get all shed registration requests with Approved_status: false
 app.get('/shed-requests', async (req, res) => {
   try {
-      const shedRequestsRef = db.collection('Shed');
-      const snapshot = await shedRequestsRef.where('Approved_status', '==', false).get();
-      
-      if (snapshot.empty) {
-          return res.status(404).json({ message: 'No shed registration requests found' });
-      }
+    const shedRequestsRef = db.collection('Shed');
+    const snapshot = await shedRequestsRef.where('Approved_status', '==', false).get();
+    
+    if (snapshot.empty) {
+      return res.status(404).json({ message: 'No shed registration requests found' });
+    }
 
-      const requests = [];
-      snapshot.forEach(doc => {
-          requests.push({ id: doc.id, ...doc.data() });
-      });
+    const requests = [];
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      // Convert Firestore Timestamp to Date object
+      const createdAtDate = data.createdAt ? data.createdAt.toDate() : null;
+      requests.push({ id: doc.id, ...data, createdAt: createdAtDate });
+    });
 
-      res.status(200).json(requests);
+    res.status(200).json(requests);
   } catch (error) {
-      console.error('Error retrieving shed requests:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    console.error('Error retrieving shed requests:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 
+// Route to update the Approved_status to true
+app.put('/shed-requests/:id/approve', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const shedRef = db.collection('Shed').doc(id);
+
+    // Check if the shed request exists
+    const doc = await shedRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Shed request not found' });
+    }
+
+    // Update the Approved_status to true
+    await shedRef.update({ Approved_status: true });
+
+    res.status(200).json({ message: 'Shed request approved successfully' });
+  } catch (error) {
+    console.error('Error updating shed request:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 // Start the server
