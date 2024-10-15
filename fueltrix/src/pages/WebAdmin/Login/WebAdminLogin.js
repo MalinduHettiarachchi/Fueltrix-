@@ -1,17 +1,20 @@
 import React from 'react';
 import './WebAdminLogin.css';
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png';  // Assuming you have a logo image in your project
-import { useHistory } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { useNavigate } from 'react-router-dom'; // useNavigate instead of useHistory
 
 const Login = () => {
-    const history = useHistory();
+    const navigate = useNavigate();  // Initialize useNavigate
 
     const handleBackClick = () => {
-        history.goBack(); // Go to the previous page
+        navigate(-1); // Go to the previous page
     };
 
     return (
         <div className="WebAdminContent">
+            {/* Back Button outside the main login container */}
+            <button className="btn-back" onClick={handleBackClick}>Back</button>
+
             <div className="login-container">
                 <div className="login-info">
                     {/* Image at the top */}
@@ -34,8 +37,6 @@ const Login = () => {
                         </div>
                         <button type="submit" className="WebAdminlogin-button">Login</button>
                     </form>
-                    {/* Back Button */}
-                    <button className="back-button" onClick={handleBackClick}>Back</button>
                 </div>
             </div>
         </div>
