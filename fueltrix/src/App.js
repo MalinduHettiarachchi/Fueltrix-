@@ -29,9 +29,6 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Mainpage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/fuelrix" element={<Mainpage />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
