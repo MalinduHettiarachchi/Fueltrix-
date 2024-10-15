@@ -29,6 +29,7 @@ body {
 }
 
 .webadmin-sidebar-brand {
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 30px;
@@ -71,7 +72,8 @@ body {
 
 /* Header Styling */
 .webadmin-dashboard-header {
-    padding: 20px 40px; /* Increased horizontal padding for more space */
+    max-height: 80px;
+    padding: 10px 40px; /* Reduced vertical padding for a shorter header height */
     background: linear-gradient(45deg, #f5f7fa, #c3cfe2); /* Light gradient background */
     border-bottom: 2px solid #e1e1e1;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Slightly increased shadow for depth */
@@ -88,7 +90,7 @@ body {
 
 .webadmin-dashboard-header h1 {
     margin: 0;
-    font-size: 28px; /* Slightly larger font size */
+    font-size: 24px; /* Slightly smaller font size to reduce overall height */
     color: #333;
     font-weight: 600; /* Bolder font weight for emphasis */
     letter-spacing: 1px; /* Add letter spacing for a modern look */
@@ -97,7 +99,7 @@ body {
 
 /* Logo Styles */
 .logo {
-    width: 50px; /* Adjust logo size */
+    width: 100px; /* Adjust logo size to reduce height further */
     height: auto; /* Maintain aspect ratio */
     margin-right: 15px; /* Space between logo and title */
     transition: transform 0.3s ease; /* Add hover effect */
@@ -106,6 +108,7 @@ body {
 .logo:hover {
     transform: scale(1.1); /* Slightly enlarge the logo on hover */
 }
+
 
 
 /* Main Content */
@@ -203,7 +206,7 @@ body {
 .ShedRequest {
     margin: 40px auto;
     max-width: 1200px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
 }
 
 .ShedRequest h1 {
@@ -318,3 +321,75 @@ tr:nth-child(even) {
         font-size: 14px;
     }
 }
+
+/* Container Styling  registered-sheds */
+.registered-sheds {
+    padding: 20px;
+    background-color: #f8f8f8; /* Soft light background */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Title Styling */
+.title {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #1d1d1f; /* Apple's dark gray color */
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
+}
+
+/* Table Styling */
+.shed-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
+    color: #1d1d1f; /* Dark gray */
+}
+
+/* Table Header */
+.shed-table th {
+    background-color: #e5e5ea; /* Light gray for header background */
+    color: #1d1d1f; /* Dark gray for text */
+    font-weight: 600;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #d1d1d6;
+}
+
+/* Table Body */
+.shed-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #d1d1d6; /* Subtle border */
+}
+
+/* Row Hover */
+.shed-table tr:hover {
+    background-color: #f2f2f7; /* Light hover effect */
+}
+
+/* Loading and Error States */
+.loading {
+    text-align: center;
+    font-size: 20px;
+    color: #6e6e73; /* Apple's muted text color */
+}
+
+.error {
+    text-align: center;
+    font-size: 20px;
+    color: #ff3b30; /* Apple's red for errors */
+}
+
+/* Table Responsiveness */
+@media (max-width: 768px) {
+    .shed-table th, .shed-table td {
+        padding: 10px;
+        font-size: 14px; /* Smaller font size on mobile */
+    }
+}
+
+
