@@ -9,7 +9,7 @@ function Login() {
       </div>
       <div className="rightc">
         <p className="login">Login</p>
-        <label className="loginun">Login to your LUXN account.</label>
+        <label className="loginun">Login to your FULETRIX account.</label>
         <div className="form-group">
           <label className="email-label">Email</label>
           <input type="email" placeholder="Your email address" className="email-input" />
@@ -20,7 +20,7 @@ function Login() {
         </div>
         <p className="dont">Don't remember password?</p>
         <button className="sign-in">Sign In</button>
-        <p className="buy-now">Don't have a LUXN card? <span>Buy Now</span></p>
+        <p className="buy-now">Don't have a FUELTRIX package? <span>Buy Now</span></p>
       </div>
     </div>
   );
