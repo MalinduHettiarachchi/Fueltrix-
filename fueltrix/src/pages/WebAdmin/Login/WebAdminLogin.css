@@ -244,3 +244,25 @@ input:focus {
     outline: none;
     box-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
 }
+
+/* WebAdminLogin.css */
+
+.alert-box {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Optional: Add a fade-out animation */
+.alert-box.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}

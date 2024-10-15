@@ -19,7 +19,7 @@ const Sidebar = () => {
 
 const Header = () => {
     return (
-        <header className="header">
+        <header className="AdminDashboardheader">
             <h1>Welcome to the Admin Dashboard</h1>
         </header>
     );

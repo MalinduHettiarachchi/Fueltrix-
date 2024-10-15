@@ -47,6 +47,44 @@ app.post('/register-shed', async (req, res) => {
     }
 });
 
+
+
+// New WebAdminLogin route
+app.post('/WebAdminLogin', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Simple validation
+  if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email and password are required' });
+  }
+
+  try {
+      // Query Firestore to find the user
+      const userRef = db.collection('Admin').where('Email', '==', email);
+      const snapshot = await userRef.get();
+
+      if (snapshot.empty) {
+          return res.status(401).json({ success: false, message: 'Invalid email or password' });
+      }
+
+      let user = null;
+      snapshot.forEach(doc => {
+          user = { id: doc.id, ...doc.data() }; // Store the user data
+      });
+
+      // Check password (assuming you have stored passwords in plain text)
+      if (user.Password === password) {
+          res.status(200).json({ success: true, message: 'Login successful' });
+      } else {
+          res.status(401).json({ success: false, message: 'Invalid email or password' });
+      }
+  } catch (error) {
+      console.error('Error during login:', error);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
