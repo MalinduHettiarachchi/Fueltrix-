@@ -20,6 +20,8 @@ import ViewLocation from './pages/Admin/ViewLocation';
 import RegistrationReq from './pages/RegistrationReq';
 import WebAdminLogin  from './pages/WebAdmin/Login/WebAdminLogin';
 import WebAdminDashboard from './pages/WebAdmin/Dashboard/WebAdminDashboard';
+import Mainpage from './pages/WebAdmin/Mainpage/Mainpage';
+import Login from './pages/WebAdmin/Userlogin/login';
 
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          
           <Route path="/" element={<Welcome />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
