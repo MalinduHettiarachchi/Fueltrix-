@@ -136,6 +136,32 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
 });
 
 
+
+// Route to get approved sheds
+app.get('/approved-sheds', async (req, res) => {
+  try {
+    const approvedShedsRef = db.collection('Shed');
+    const snapshot = await approvedShedsRef.where('Approved_status', '==', true).get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ message: 'No approved sheds found' });
+    }
+
+    const approvedSheds = [];
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const createdAtDate = data.createdAt ? data.createdAt.toDate() : null; // Convert Firestore Timestamp to Date object
+      approvedSheds.push({ id: doc.id, ...data, createdAt: createdAtDate });
+    });
+
+    res.status(200).json(approvedSheds);
+  } catch (error) {
+    console.error('Error retrieving approved sheds:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

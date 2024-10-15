@@ -155,14 +155,70 @@ const ShedRequests = () => {
 
 
 
+const RegisteredSheds = () => {
+    const [sheds, setSheds] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        const fetchApprovedSheds = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/approved-sheds'); // Update URL if needed
+                setSheds(response.data);
+            } catch (err) {
+                setError(err.response ? err.response.data.message : 'Error fetching approved sheds');
+            } finally {
+                setLoading(false);
+            }
+        };
 
+        fetchApprovedSheds();
+    }, []);
+
+    if (loading) return <div className="loading">Loading...</div>;
+    if (error) return <div className="error">Error: {error}</div>;
+
+    return (
+        <div className="registered-sheds">
+            <h2 className="title">Registered Sheds</h2>
+            {sheds.length > 0 ? (
+                <table className="shed-table">
+                    <thead>
+                        <tr>
+                            <th>Shed Name</th>
+                            <th>Register Number</th>
+                            <th>Email</th>
+                            <th>Location</th>
+                            <th>Security Key</th>
+                            <th>Approved Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sheds.map(shed => (
+                            <tr key={shed.id}>
+                                <td>{shed.shedName}</td>
+                                <td>{shed.shedRegisterNumber}</td>
+                                <td>{shed.email}</td>
+                                <td>{shed.location}</td>
+                                <td>{shed.Security_Key}</td>
+                                <td>{shed.Approved_status ? 'Approved' : 'Not Approved'}</td>
+                                <td>{shed.createdAt && new Date(shed.createdAt).toLocaleString()}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p>No approved sheds found.</p>
+            )}
+        </div>
+    );
+};
 
 
 
 // Add other components for different views if needed
 const CompanyRequests = () => <div>Company Registration Requests Content</div>;
-const RegisteredSheds = () => <div>Registered Sheds Content</div>;
 const RegisteredCompanies = () => <div>Registered Companies Content</div>;
 const CompanyVehicles = () => <div>Company Vehicles Content</div>;
 const DriverManagement = () => <div>Driver Management Content</div>;
