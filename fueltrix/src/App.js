@@ -16,8 +16,10 @@ import ViewDetails from './pages/Admin/ViewDetails';
 import ViewSummary from './pages/Admin/ViewSummary';
 import Settings from './pages/Admin/Setting';
 import AdminNavbar from './pages/Admin/AdminNavbar';
-import ViewLocation from './pages/Admin/ViewLocation'
-import RegistrationReq from './pages/RegistrationReq'
+import ViewLocation from './pages/Admin/ViewLocation';
+import RegistrationReq from './pages/RegistrationReq';
+import WebAdminLogin  from './pages/WebAdmin/Login/WebAdminLogin';
+import WebAdminDashboard from './pages/WebAdmin/Dashboard/WebAdminDashboard';
 
 
 function App() {
@@ -41,7 +43,8 @@ function App() {
           <Route path="/adminNavbar" element={<AdminNavbar />} />
           <Route path="/viewlocation" element={<ViewLocation />} />
           <Route path="/registrationReq" element={<RegistrationReq />} />
-
+          <Route path="/webAdminLogin" element={<WebAdminLogin />} />
+          <Route path="/webAdminDashboard" element={<WebAdminDashboard />} />
 
 
           

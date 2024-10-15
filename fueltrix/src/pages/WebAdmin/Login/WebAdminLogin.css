@@ -1,0 +1,268 @@
+/* Main container for centering the content */
+.WebAdminContent {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #eef2f7;
+    padding: 0 20px;
+    position: relative;
+    transition: background-color 0.5s ease; /* Smooth transition for background color */
+    font-family: 'Times New Roman', Times, serif; /* Set font style */
+}
+
+/* Back button styling */
+.btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    border: 2px solid #4b6cb7;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #4b6cb7;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #4b6cb7;
+    color: #fff;
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+/* Login container */
+.login-container {
+    display: flex;
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 90%;
+    max-width: 900px;
+    background-color: white;
+    transform: translateY(-20px); /* Initial position for slide-in effect */
+    animation: slideIn 0.5s forwards; /* Slide-in animation */
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Slide in from above */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Login info section */
+.login-info {
+    background: linear-gradient(135deg, #4b6cb7, #f0f0f0);
+    color: white;
+    padding: 50px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Style the image at the top */
+.login-logo {
+    width: 300px;
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease-in; /* Fade-in animation for logo */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px); /* Slide in from above */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style the heading */
+.login-info h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: white;
+    animation: bounceIn 0.5s forwards; /* Bounce animation for heading */
+}
+
+/* Bounce animation */
+@keyframes bounceIn {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Style for the description */
+.login-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 300px;
+}
+
+/* Login form section */
+.login-form {
+    background-color: white;
+    padding: 50px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+    opacity: 0; /* Initial opacity for fade-in */
+    animation: fadeIn 0.7s forwards; /* Fade-in animation */
+}
+
+.login-form h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+    animation: slideIn 0.5s forwards; /* Slide-in animation */
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 25px;
+    opacity: 0; /* Initial opacity for fade-in */
+    animation: fadeIn 0.7s forwards; /* Fade-in animation */
+    animation-delay: 0.3s; /* Delay for staggered effect */
+}
+
+/* Fade-in animation for form groups */
+@keyframes formGroupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Slide up */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Input fields styling */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    position: relative; /* For pseudo-elements */
+}
+
+input:focus {
+    border-color: #4b6cb7;
+    outline: none;
+    box-shadow: 0 0 5px rgba(75, 107, 183, 0.5); /* Focus shadow effect */
+    animation: pulse 0.3s; /* Pulse effect on focus */
+}
+
+/* Pulse effect on input focus */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03); /* Slight grow effect */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Login button styling */
+.WebAdminlogin-button {
+    background: linear-gradient(45deg, #1c1f4a, #00509e);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    position: relative; /* For pseudo-elements */
+    animation: pulse 1s infinite; /* Continuous pulse effect */
+}
+
+.WebAdminlogin-button:hover {
+    background: linear-gradient(45deg, #003f88, #001f55);
+    box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4);
+    transform: translateY(-3px); /* Lift effect */
+    animation: shake 0.3s; /* Shake effect on hover */
+}
+
+/* Shake effect on button hover */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.WebAdminlogin-button:active {
+    transform: translateY(1px); /* Slight press effect */
+}
+
+.WebAdminlogin-button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+}
+
+/* WebAdminLogin.css */
+
+.alert-box {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Optional: Add a fade-out animation */
+.alert-box.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}

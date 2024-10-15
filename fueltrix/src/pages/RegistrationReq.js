@@ -23,6 +23,8 @@ const RegistrationReq = () => {
     shedName: '',
     email: '',
     location: '', // Store address here
+    Approved_status: false,
+    Security_Key: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -35,9 +37,11 @@ const RegistrationReq = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const newErrors = {};
+    // Validation
     if (!formData.shedRegisterNumber) newErrors.shedRegisterNumber = 'Shed Register Number is required.';
     if (!formData.shedName) newErrors.shedName = 'Shed Name is required.';
     if (!formData.email) {
@@ -46,15 +50,40 @@ const RegistrationReq = () => {
       newErrors.email = 'Invalid email address.';
     }
     if (!formData.location) newErrors.location = 'Location is required.';
+  
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    setErrors({});
-    alert('Shed Registration Request Submitted Successfully!');
-    console.log('Form Data:', formData);
+  
+    // Generate a user-friendly Security_Key
+    const shedNameInitials = formData.shedName.split(' ').map(word => word.charAt(0)).join(''); // Get initials
+    const emailPart = formData.email.split('@')[0]; // Get part before '@'
+    const locationCode = formData.location.split(',')[0].substring(0, 3).toUpperCase(); // Use first 3 chars of location
+  
+    // Combine to form Security_Key
+    const generatedKey = `${shedNameInitials}_${emailPart}_${locationCode}`;
+    const updatedFormData = { ...formData, Security_Key: generatedKey };
+  
+    try {
+      const response = await axios.post('http://localhost:5000/register-shed', updatedFormData);
+      alert('Shed Registration Request Submitted Successfully!');
+      console.log('Form Data:', response.data);
+      // Reset form after submission
+      setFormData({
+        shedRegisterNumber: '',
+        shedName: '',
+        email: '',
+        location: '',
+        Approved_status: false,
+        Security_Key: '',
+      });
+    } catch (error) {
+      console.error('Error submitting form', error);
+      alert('Failed to submit the registration request.');
+    }
   };
-
+  
   const handlePickLocation = () => {
     setShowMap(true);
   };
@@ -222,7 +251,7 @@ const RegistrationReq = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
             >
-              Submit Registration Request
+              Submit Registration
             </motion.button>
           </motion.form>
         </motion.div>
