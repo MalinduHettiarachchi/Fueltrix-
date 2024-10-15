@@ -1,29 +1,108 @@
 /* General reset */
+.two-column-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  font-family: 'Poppins', sans-serif;
+}
 
-  .two-column-container {
-    display: flex;
-    height: 100vh; /* Full height of the viewport */
-  }
+.leftc {
+  flex: 1;
+  background-color: #ffffff; /* Light background for left column */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightc {
+  flex: 1;
+  background-color: #041228; /* Dark background for right column */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 100px; /* Increased padding for a centered feel */
+  align-items: flex-start; /* Align content to the left */
+}
+
+.login {
+  font-size: 2.5rem; /* Larger font for 'Login' */
+  margin-bottom: 10px;
+}
+
+.loginun {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%; /* Ensure full-width form elements */
   
-  .left-column {
-    flex: 1;
-    background-color: #f0f4fa; /* Light background for left column */
-  }
-  
-  .right-column {
-    flex: 1;
-    background-color: #0c0c0c; /* Dark background for right column */
-    color: white;
-  }
-  
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-  }
-  
+}
+
+.email-label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-right: 610px;
+}
+.password-label{
+  color: #ffffff;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-right: 573px;
+}
+
+.email-input, .password-input {
+  width: 70% !important;
+  padding: 10px !important;
+  font-size: 1rem;
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 0.5px 1px white; /* White outline */
+  outline: none; 
+  margin-right: 193px;
+  background-color: #041228;
+  color: white;
+  box-sizing: border-box;
+}
+
+/* White outline when focused */
+.email-input:focus, .password-input:focus {
+  box-shadow: 0 0 0.5px 1px white; /* White outline */
+  outline: none; /* Ensures no default outline */
+}
+
+
+.dont {
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin-top: 10px;
+  width: 100%;/* Ensure this is aligned to the left */
+  align-items: flex-end;
+  margin-left: 20px;
+}
+
+.sign-in {
+  width: 70%; /* Full-width sign-in button */
+  padding: 10px; /* Increased padding for larger button */
+  font-size: 1rem;
+  background-color: #fff;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.buy-now {
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+.buy-now span {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+}
