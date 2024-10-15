@@ -5,7 +5,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
+    <nav className="mainnavbar">
       <div className="navbar-brand">
         <Link to="/">Fueltrix</Link>
       </div>
