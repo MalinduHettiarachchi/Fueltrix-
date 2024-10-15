@@ -13,7 +13,7 @@ const Login = () => {
     return (
         <div className="WebAdminContent">
             {/* Back Button outside the main login container */}
-            <button className="back-button-outside" onClick={handleBackClick}>Back</button>
+            <button className="btn-back" onClick={handleBackClick}>Back</button>
 
             <div className="login-container">
                 <div className="login-info">
