@@ -1,4 +1,14 @@
+/* Main container for centering the content */
+.WebAdminContent {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f3f3; /* Optional: background for the page */
+}
 
+/* Login container */
 .login-container {
     display: flex;
     border-radius: 10px;
@@ -6,8 +16,10 @@
     overflow: hidden;
     width: 90%;
     max-width: 900px;
+    background-color: white;
 }
 
+/* Login info section */
 .login-info {
     background: linear-gradient(135deg, #0c3b6d, #021a33, #030e25);
     color: white;
@@ -15,21 +27,33 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: center; /* Center vertically */
+    align-items: center;     /* Center horizontally */
+    text-align: center;      /* Center text content */
 }
 
+/* Style the image at the top */
+.login-logo {
+    width: 250px;
+    height: 250px;;  /* Adjust size */
+    margin-bottom: 20px;  /* Space between the image and text */
+}
+
+/* Style the heading with white color */
 .login-info h1 {
     font-size: 28px;
     margin-bottom: 15px;
-    text-align: left;
+    color: white;  /* Set text color to white */
 }
 
 .login-info p {
     font-size: 16px;
     line-height: 1.6;
+    max-width: 300px; /* Optional: limit text width */
 }
 
+
+/* Login form section */
 .login-form {
     background-color: white;
     padding: 50px;
@@ -45,6 +69,7 @@
     color: #333;
 }
 
+/* Form group styling */
 .form-group {
     margin-bottom: 25px;
 }
@@ -68,8 +93,9 @@ input:focus {
     outline: none;
 }
 
-.login-button {
-    background-color: #4CAF50;
+/* Login button styling */
+.WebAdminlogin-button {
+    background: linear-gradient(45deg, #1c1f4a, #00509e); /* Dark blue mix gradient */
     color: white;
     padding: 12px;
     border: none;
@@ -79,14 +105,43 @@ input:focus {
     transition: background-color 0.3s ease;
 }
 
-.login-button:hover {
-    background-color: #45a049;
+.WebAdminlogin-button:hover {
+    background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+    box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
+    transform: translateY(-3px); /* Slight lift effect */}
+
+
+
+    .WebAdminlogin-button:active {
+        background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+        box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
+        transform: translateY(0); /* Reset lift effect */
+      }
+      
+      .WebAdminlogin-button:focus {
+        outline: none; /* Remove default focus outline */
+        box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Focus shadow */
+      }
+
+
+      /* Back Button styling */
+.back-button {
+    margin-top: 20px;
+    background-color: #ccc; /* Gray background */
+    color: #333; /* Dark text */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
-.forgot-password {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    color: #007BFF;
-    cursor: pointer;
+.back-button:hover {
+    background-color: #bbb; /* Darker gray on hover */
+}
+
+.back-button:focus {
+    outline: none; /* Remove focus outline */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Focus shadow */
 }
