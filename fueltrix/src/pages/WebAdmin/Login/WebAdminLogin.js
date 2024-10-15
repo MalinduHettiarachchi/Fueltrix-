@@ -12,7 +12,7 @@ const Login = () => {
     const [error, setError] = useState('');
 
     const handleBackClick = () => {
-        navigate(-1); // Go to the previous page
+        navigate('/'); // Go to the previous page
     };
 
     const handleSubmit = async (e) => {
