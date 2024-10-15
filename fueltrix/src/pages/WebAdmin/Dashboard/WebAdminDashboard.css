@@ -392,4 +392,17 @@ tr:nth-child(even) {
     }
 }
 
+.reject-button {
+    background-color: #ff3b30; /* Apple-style red */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reject-button:hover {
+    background-color: #ff2a1f;
+}
 
