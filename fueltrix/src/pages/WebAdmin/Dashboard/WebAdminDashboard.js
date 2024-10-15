@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { motion } from 'framer-motion'; // Framer Motion for animations
 import styled from 'styled-components'; // styled-components for modern styling
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 
 const Sidebar = ({ onChangeView }) => {
@@ -163,7 +164,7 @@ const RegisteredSheds = () => {
     useEffect(() => {
         const fetchApprovedSheds = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/approved-sheds'); // Update URL if needed
+                const response = await axios.get('http://localhost:5000/approved-sheds');
                 setSheds(response.data);
             } catch (err) {
                 setError(err.response ? err.response.data.message : 'Error fetching approved sheds');
@@ -174,6 +175,42 @@ const RegisteredSheds = () => {
 
         fetchApprovedSheds();
     }, []);
+
+    const handleReject = async (shedId) => {
+        // SweetAlert2 Confirmation Box
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you really want to reject this shed?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, reject it!',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // Make API call to update the shed's Approved_status to false
+                    await axios.put(`http://localhost:5000/reject-shed/${shedId}`, {
+                        Approved_status: false,
+                    });
+
+                    // Update the UI by setting the shed's Approved_status to false
+                    setSheds((prevSheds) =>
+                        prevSheds.map((shed) =>
+                            shed.id === shedId ? { ...shed, Approved_status: false } : shed
+                        )
+                    );
+
+                    // Show success message
+                    Swal.fire('Rejected!', 'The shed has been rejected.', 'success');
+                } catch (err) {
+                    console.error('Error rejecting shed:', err);
+                    setError('Error rejecting the shed.');
+                    Swal.fire('Error', 'There was an error rejecting the shed.', 'error');
+                }
+            }
+        });
+    };
 
     if (loading) return <div className="loading">Loading...</div>;
     if (error) return <div className="error">Error: {error}</div>;
@@ -192,10 +229,11 @@ const RegisteredSheds = () => {
                             <th>Security Key</th>
                             <th>Approved Status</th>
                             <th>Created At</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sheds.map(shed => (
+                        {sheds.map((shed) => (
                             <tr key={shed.id}>
                                 <td>{shed.shedName}</td>
                                 <td>{shed.shedRegisterNumber}</td>
@@ -204,6 +242,16 @@ const RegisteredSheds = () => {
                                 <td>{shed.Security_Key}</td>
                                 <td>{shed.Approved_status ? 'Approved' : 'Not Approved'}</td>
                                 <td>{shed.createdAt && new Date(shed.createdAt).toLocaleString()}</td>
+                                <td>
+                                    {shed.Approved_status && (
+                                        <button
+                                            onClick={() => handleReject(shed.id)}
+                                            className="reject-button"
+                                        >
+                                            Reject
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -214,7 +262,6 @@ const RegisteredSheds = () => {
         </div>
     );
 };
-
 
 
 // Add other components for different views if needed

@@ -162,6 +162,30 @@ app.get('/approved-sheds', async (req, res) => {
 });
 
 
+// Route to reject the shed request by setting Approved_status to false
+app.put('/reject-shed/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const shedRef = db.collection('Shed').doc(id);
+
+    // Check if the shed request exists
+    const doc = await shedRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Shed request not found' });
+    }
+
+    // Update the Approved_status to true
+    await shedRef.update({ Approved_status: false });
+
+    res.status(200).json({ message: 'Shed request approved successfully' });
+  } catch (error) {
+    console.error('Error updating shed request:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
