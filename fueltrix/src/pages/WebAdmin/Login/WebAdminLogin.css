@@ -3,9 +3,33 @@
     height: 100vh;
     margin: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #f3f3f3; /* Optional: background for the page */
+}
+
+/* Back button styling */
+.back-button-outside {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ff5c5c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button-outside:hover {
+    background-color: #ff3838; /* Brighter red on hover */
+}
+
+.back-button-outside:focus {
+    outline: none;
 }
 
 /* Login container */
@@ -35,7 +59,7 @@
 /* Style the image at the top */
 .login-logo {
     width: 250px;
-    height: 250px;;  /* Adjust size */
+    height: 250px;  /* Adjust size */
     margin-bottom: 20px;  /* Space between the image and text */
 }
 
@@ -51,7 +75,6 @@
     line-height: 1.6;
     max-width: 300px; /* Optional: limit text width */
 }
-
 
 /* Login form section */
 .login-form {
@@ -106,42 +129,18 @@ input:focus {
 }
 
 .WebAdminlogin-button:hover {
-    background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
+    background: linear-gradient(45deg, #003f88, #001f55); /* Slightly brighter blue on hover */
     box-shadow: 0 8px 20px rgba(0, 106, 230, 0.4); /* Enhanced shadow on hover */
-    transform: translateY(-3px); /* Slight lift effect */}
-
-
-
-    .WebAdminlogin-button:active {
-        background: linear-gradient(45deg,  #003f88,#001f55); /* Slightly brighter blue on hover */
-        box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2); /* Reduce shadow on active */
-        transform: translateY(0); /* Reset lift effect */
-      }
-      
-      .WebAdminlogin-button:focus {
-        outline: none; /* Remove default focus outline */
-        box-shadow: 0 0 10px rgba(0, 122, 255, 0.5); /* Focus shadow */
-      }
-
-
-      /* Back Button styling */
-.back-button {
-    margin-top: 20px;
-    background-color: #ccc; /* Gray background */
-    color: #333; /* Dark text */
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    transform: translateY(-3px); /* Slight lift effect */
 }
 
-.back-button:hover {
-    background-color: #bbb; /* Darker gray on hover */
+.WebAdminlogin-button:active {
+    background: linear-gradient(45deg, #003f88, #001f55);
+    box-shadow: 0 4px 10px rgba(0, 106, 230, 0.2);
+    transform: translateY(0);
 }
 
-.back-button:focus {
-    outline: none; /* Remove focus outline */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Focus shadow */
+.WebAdminlogin-button:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
 }
