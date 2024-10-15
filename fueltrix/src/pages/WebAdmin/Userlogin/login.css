@@ -1,0 +1,29 @@
+/* General reset */
+
+  .two-column-container {
+    display: flex;
+    height: 100vh; /* Full height of the viewport */
+  }
+  
+  .left-column {
+    flex: 1;
+    background-color: #f0f4fa; /* Light background for left column */
+  }
+  
+  .right-column {
+    flex: 1;
+    background-color: #0c0c0c; /* Dark background for right column */
+    color: white;
+  }
+  
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+  }
+  
