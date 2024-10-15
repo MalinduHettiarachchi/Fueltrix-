@@ -5,8 +5,17 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.leftc, .rightc {
+  flex: 1; /* Both columns will take up equal space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .leftc {
-  flex: 1;
+  background-color: #ffffff; /* Light background for left column */
+}
+.leftc {
   background-color: #ffffff; /* Light background for left column */
   display: flex;
   justify-content: center;
@@ -14,24 +23,26 @@
 }
 
 .rightc {
-  flex: 1;
   background-color: #041228; /* Dark background for right column */
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 100px; /* Increased padding for a centered feel */
   align-items: flex-start; /* Align content to the left */
 }
 
 .login {
+  margin-left: 100px;
   font-size: 2.5rem; /* Larger font for 'Login' */
   margin-bottom: 10px;
 }
 
 .loginun {
+  margin-left: 100px;
   font-size: 1.1rem;
   margin-bottom: 30px;
+  color: rgb(100, 100, 100);
+  
 }
 
 .form-group {
@@ -39,30 +50,33 @@
   width: 100%; /* Ensure full-width form elements */
   
 }
+.email-input::placeholder,.password-input::placeholder{
+  color: rgb(100, 100, 100);
+}
 
 .email-label {
+  color: #ffffff;
   display: block;
   font-size: 1rem;
   margin-bottom: 5px;
-  margin-right: 610px;
+  margin-left: 100px;
 }
 .password-label{
   color: #ffffff;
   display: block;
   font-size: 1rem;
   margin-bottom: 5px;
-  margin-right: 573px;
+  margin-left: 100px;
 }
 
 .email-input, .password-input {
   width: 70% !important;
-  padding: 10px !important;
+  padding: 8px !important;
   font-size: 1rem;
   border-radius: 25px !important;
   border: none !important;
   box-shadow: 0 0 0.5px 1px white; /* White outline */
-  outline: none; 
-  margin-right: 193px;
+  outline: none;
   background-color: #041228;
   color: white;
   box-sizing: border-box;
@@ -76,29 +90,32 @@
 
 
 .dont {
+  align-self:flex-end;
   font-size: 0.9rem;
   color: #ffffff;
   margin-top: 10px;
-  width: 100%;/* Ensure this is aligned to the left */
-  align-items: flex-end;
-  margin-left: 20px;
+  margin-right: 100px;
+  cursor: pointer;
 }
 
 .sign-in {
   width: 70%; /* Full-width sign-in button */
-  padding: 10px; /* Increased padding for larger button */
+  padding: 8px; /* Increased padding for larger button */
   font-size: 1rem;
   background-color: #fff;
   color: black;
   border: none;
   border-radius: 25px;
+  margin-left: 100px;
   margin-top: 20px;
   cursor: pointer;
 }
 
 .buy-now {
+  margin-left: 100px;
   font-size: 0.9rem;
   margin-top: 20px;
+  
 }
 
 .buy-now span {
@@ -106,3 +123,4 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
