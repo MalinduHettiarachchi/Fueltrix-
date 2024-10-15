@@ -16,9 +16,9 @@ import ViewDetails from './pages/Admin/ViewDetails';
 import ViewSummary from './pages/Admin/ViewSummary';
 import Settings from './pages/Admin/Setting';
 import AdminNavbar from './pages/Admin/AdminNavbar';
-import ViewLocation from './pages/Admin/ViewLocation'
-import RegistrationReq from './pages/RegistrationReq'
-import WebAdminLogin  from './pages/WebAdmin/Login/WebAdminLogin'
+import ViewLocation from './pages/Admin/ViewLocation';
+import RegistrationReq from './pages/RegistrationReq';
+import WebAdminLogin  from './pages/WebAdmin/Login/WebAdminLogin';
 
 
 function App() {
