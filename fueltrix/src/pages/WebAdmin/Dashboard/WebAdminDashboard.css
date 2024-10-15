@@ -1,9 +1,6 @@
 /* src/App.css */
 
-body {
-    margin: 0;
-    font-family: 'Times New Roman', Times, serif; /* Using Times New Roman */
-}
+
 
 .dashboard-container {
     display: flex;
@@ -43,7 +40,7 @@ body {
     text-decoration: underline;
 }
 
-.header {
+.AdminDashboardheader {
     padding: 20px;
     background-color: #f7f7f7;
     border-bottom: 2px solid #e1e1e1;
