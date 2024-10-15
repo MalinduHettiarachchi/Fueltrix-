@@ -85,6 +85,33 @@ app.post('/WebAdminLogin', async (req, res) => {
 });
 
 
+// Add this route to your existing Express server code
+
+// Route to get all shed registration requests with Approved_status: false
+app.get('/shed-requests', async (req, res) => {
+  try {
+      const shedRequestsRef = db.collection('Shed');
+      const snapshot = await shedRequestsRef.where('Approved_status', '==', false).get();
+      
+      if (snapshot.empty) {
+          return res.status(404).json({ message: 'No shed registration requests found' });
+      }
+
+      const requests = [];
+      snapshot.forEach(doc => {
+          requests.push({ id: doc.id, ...doc.data() });
+      });
+
+      res.status(200).json(requests);
+  } catch (error) {
+      console.error('Error retrieving shed requests:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
