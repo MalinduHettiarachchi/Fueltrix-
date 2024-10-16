@@ -1,6 +1,5 @@
 import React from 'react';
 import './login.css';
-import img from '../Userlogin/Fueltixlogo2.png'
 
 function Login() {
   return (
@@ -19,7 +18,7 @@ function Login() {
           <input type="password" placeholder="Your password" className="password-input" />
         </div>
         <p className="dont">Don't remember password?</p>
-        <button className="sign-in">SIGN IN</button>
+        <button className="sign-in"><a href="/signin">SIGN IN</a></button>
         <p className="buy-now">Don't have a FUELTRIX package? <span>Buy Now</span></p>
       </div>
     </div>

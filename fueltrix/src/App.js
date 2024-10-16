@@ -22,7 +22,14 @@ import WebAdminLogin  from './pages/WebAdmin/Login/WebAdminLogin';
 import WebAdminDashboard from './pages/WebAdmin/Dashboard/WebAdminDashboard';
 import Mainpage from './pages/WebAdmin/Mainpage/Mainpage';
 import Login from './pages/WebAdmin/Userlogin/login';
+import Dashboard from './pages/ComManager/dashboard/dashboard';
 
+
+
+/*<Route path="/" element={<Mainpage />} />
+ <Route path="/login" element={<Login />} />
+<Route path="/fueltrix" element={<Mainpage />} />
+<Route path="/signin" element={<Dashboard />} />*/ 
 
 function App() {
   return (
