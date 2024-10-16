@@ -1,0 +1,36 @@
+.navbar {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #041228;
+    color: white;
+    border-bottom: 0.px  white;
+  }
+  .row{
+    display: flex;
+  list-style: none;
+  }
+  .row li{
+    margin-left: 3.5rem;
+  }
+  .row li a{
+    padding: 0.5rem 0;   /* Adjust this value to move the links up/down */
+    line-height: 2.2;
+  }
+  .logo-img {
+    width: 45px; /* Adjust the size of the logo and login images */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the images fit their container */
+  }
+  .login-img {
+    width: 30px; /* Adjust the size of the logo and login images */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the images fit their container */
+  }
+  
+  .log a img, .login a img {
+    vertical-align: middle; /* Vertically align the images within the list */
+  }
+ 
