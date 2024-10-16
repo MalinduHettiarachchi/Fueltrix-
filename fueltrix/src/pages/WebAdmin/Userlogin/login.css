@@ -1,29 +1,126 @@
 /* General reset */
+.two-column-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  font-family: 'Poppins', sans-serif;
+}
 
-  .two-column-container {
-    display: flex;
-    height: 100vh; /* Full height of the viewport */
-  }
+.leftc, .rightc {
+  flex: 1; /* Both columns will take up equal space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftc {
+  background-color: #ffffff; /* Light background for left column */
+}
+.leftc {
+  background-color: #ffffff; /* Light background for left column */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightc {
+  background-color: #041228; /* Dark background for right column */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Align content to the left */
+}
+
+.login {
+  margin-left: 100px;
+  font-size: 2.5rem; /* Larger font for 'Login' */
+  margin-bottom: 10px;
+}
+
+.loginun {
+  margin-left: 100px;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: rgb(100, 100, 100);
   
-  .left-column {
-    flex: 1;
-    background-color: #f0f4fa; /* Light background for left column */
-  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%; /* Ensure full-width form elements */
   
-  .right-column {
-    flex: 1;
-    background-color: #0c0c0c; /* Dark background for right column */
-    color: white;
-  }
+}
+.email-input::placeholder,.password-input::placeholder{
+  color: rgb(100, 100, 100);
+}
+
+.email-label {
+  color: #ffffff;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-left: 100px;
+}
+.password-label{
+  color: #ffffff;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-left: 100px;
+}
+
+.email-input, .password-input {
+  width: 70% !important;
+  padding: 8px !important;
+  font-size: 1rem;
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 0.5px 1px white; /* White outline */
+  outline: none;
+  background-color: #041228;
+  color: white;
+  box-sizing: border-box;
+}
+
+/* White outline when focused */
+.email-input:focus, .password-input:focus {
+  box-shadow: 0 0 0.5px 1px white; /* White outline */
+  outline: none; /* Ensures no default outline */
+}
+
+
+.dont {
+  align-self:flex-end;
+  font-size: 0.9rem;
+  color: #ffffff;
+  margin-top: 10px;
+  margin-right: 100px;
+  cursor: pointer;
+}
+
+.sign-in {
+  width: 70%; /* Full-width sign-in button */
+  padding: 8px; /* Increased padding for larger button */
+  font-size: 1rem;
+  background-color: #fff;
+  color: black;
+  border: none;
+  border-radius: 25px;
+  margin-left: 100px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.buy-now {
+  margin-left: 100px;
+  font-size: 0.9rem;
+  margin-top: 20px;
   
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-  }
-  
+}
+
+.buy-now span {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
