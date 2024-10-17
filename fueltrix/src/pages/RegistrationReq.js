@@ -6,6 +6,7 @@ import './User/CSS/RegistrationReq.css'; // Link CSS file
 import InfoImage from '../img/istockphoto-1390980481-612x612-removebg-preview.png';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'; // Google Maps
 import axios from 'axios'; // Import Axios
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const mapContainerStyle = {
   height: '300px',
@@ -39,7 +40,7 @@ const RegistrationReq = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const newErrors = {};
     // Validation
     if (!formData.shedRegisterNumber) newErrors.shedRegisterNumber = 'Shed Register Number is required.';
@@ -50,24 +51,32 @@ const RegistrationReq = () => {
       newErrors.email = 'Invalid email address.';
     }
     if (!formData.location) newErrors.location = 'Location is required.';
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-  
+
     // Generate a user-friendly Security_Key
     const shedNameInitials = formData.shedName.split(' ').map(word => word.charAt(0)).join(''); // Get initials
     const emailPart = formData.email.split('@')[0]; // Get part before '@'
     const locationCode = formData.location.split(',')[0].substring(0, 3).toUpperCase(); // Use first 3 chars of location
-  
+
     // Combine to form Security_Key
     const generatedKey = `${shedNameInitials}_${emailPart}_${locationCode}`;
     const updatedFormData = { ...formData, Security_Key: generatedKey };
-  
+
     try {
       const response = await axios.post('http://localhost:5000/register-shed', updatedFormData);
-      alert('Shed Registration Request Submitted Successfully!');
+      
+      // Use SweetAlert2 for success message
+      Swal.fire({
+        title: 'Success!',
+        text: 'Shed Registration Request Submitted Successfully!',
+        icon: 'success',
+        confirmButtonColor: '#007bff', // Blue theme
+      });
+
       console.log('Form Data:', response.data);
       // Reset form after submission
       setFormData({
@@ -80,10 +89,17 @@ const RegistrationReq = () => {
       });
     } catch (error) {
       console.error('Error submitting form', error);
-      alert('Failed to submit the registration request.');
+
+      // Use SweetAlert2 for error message
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to submit the registration request.',
+        icon: 'error',
+        confirmButtonColor: '#007bff', // Blue theme
+      });
     }
   };
-  
+
   const handlePickLocation = () => {
     setShowMap(true);
   };
@@ -225,35 +241,29 @@ const RegistrationReq = () => {
               {locationError && <div className="error-message">{locationError}</div>}
             </motion.div>
 
-            {/* Map for Picking Location */}
-            {showMap && (
-              <div className="map-container">
-                <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
-                  <GoogleMap
-                    mapContainerStyle={mapContainerStyle}
-                    center={centerSriLanka}
-                    zoom={7} // Zoom level for Sri Lanka
-                    onClick={handleLocationSelect} // Get clicked location
-                  >
-                    {selectedLocation && (
-                      <Marker position={selectedLocation} />
-                    )}
-                  </GoogleMap>
-                </LoadScript>
-              </div>
-            )}
-
             {/* Submit Button */}
-            <motion.button
-              type="submit"
-              className="shedRegbtn"
+            <motion.button type="submit" className="shedRegbtn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              Submit Registration
+              transition={{ duration: 0.2 }}>
+              Submit Request
             </motion.button>
           </motion.form>
+
+          {showMap && (
+            <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI">
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={centerSriLanka}
+                zoom={8}
+                onClick={handleLocationSelect}
+              >
+                {selectedLocation && (
+                  <Marker position={selectedLocation} />
+                )}
+              </GoogleMap>
+            </LoadScript>
+          )}
         </motion.div>
       </motion.div>
       <Footer />
