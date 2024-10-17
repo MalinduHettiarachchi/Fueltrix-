@@ -85,3 +85,24 @@
     width: 100%;
   }
   
+
+  .error-message, .success-message {
+    margin-top: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+  }
+  
+  .error-message {
+    color: #ff4d4d;
+    background-color: #ffe6e6;
+    border: 1px solid #ff4d4d;
+  }
+  
+  .success-message {
+    color: #4caf50;
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+  }
+  
