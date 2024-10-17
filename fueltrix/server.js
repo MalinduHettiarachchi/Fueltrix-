@@ -20,31 +20,48 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.post('/register-shed', async (req, res) => {
-    const { shedRegisterNumber, shedName, email, location, Approved_status, Security_Key } = req.body; // Include Security_Key here
+  const { shedRegisterNumber, shedName, email, location, Approved_status, Security_Key } = req.body;
 
-    // Simple validation
-    if (!shedRegisterNumber || !shedName || !email || !location || !Security_Key) { // Validate Security_Key
-      return res.status(400).json({ message: 'All fields are required' });
+  // Validation
+  if (!shedRegisterNumber || !shedName || !email || !location || !Security_Key) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    // Fetch all sheds and get their emails
+    const allShedsSnapshot = await db.collection('Shed').get();
+    let emailExists = false;
+
+    // Check if the submitted email already exists
+    allShedsSnapshot.forEach((doc) => {
+      if (doc.data().email === email) {
+        emailExists = true;
+      }
+    });
+
+    if (emailExists) {
+      // If the email already exists, return an error
+      return res.status(400).json({ message: 'Email already exists. Please use a different email.' });
     }
 
-    try {
-      // Add shed registration data to Firestore
-      const newShedRef = db.collection('Shed').doc();
-      await newShedRef.set({
-        shedRegisterNumber,
-        shedName,
-        email,
-        location,
-        Approved_status,
-        Security_Key, // Include Security_Key in the Firestore document
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
+    // Add shed registration data to Firestore if the email is unique
+    const newShedRef = db.collection('Shed').doc(); // Creates a new document reference
+    await newShedRef.set({
+      shedRegisterNumber,
+      shedName,
+      email,
+      location,
+      Approved_status,
+      Security_Key,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
 
-      res.status(200).json({ message: 'Shed registration saved successfully' });
-    } catch (error) {
-      console.error('Error saving shed registration:', error);
-      res.status(500).json({ message: 'Internal server error' });
-    }
+    // Successfully registered
+    return res.status(200).json({ message: 'Shed registration saved successfully' });
+  } catch (error) {
+    console.error('Error saving shed registration:', error);
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
 });
 
 

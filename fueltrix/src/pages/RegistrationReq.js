@@ -42,63 +42,68 @@ const RegistrationReq = () => {
     e.preventDefault();
 
     const newErrors = {};
+    
     // Validation
     if (!formData.shedRegisterNumber) newErrors.shedRegisterNumber = 'Shed Register Number is required.';
     if (!formData.shedName) newErrors.shedName = 'Shed Name is required.';
     if (!formData.email) {
-      newErrors.email = 'Email is required.';
+        newErrors.email = 'Email is required.';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Invalid email address.';
+        newErrors.email = 'Invalid email address.';
     }
     if (!formData.location) newErrors.location = 'Location is required.';
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+        setErrors(newErrors);
+        return;
     }
 
-    // Generate a user-friendly Security_Key
-    const shedNameInitials = formData.shedName.split(' ').map(word => word.charAt(0)).join(''); // Get initials
-    const emailPart = formData.email.split('@')[0]; // Get part before '@'
-    const locationCode = formData.location.split(',')[0].substring(0, 3).toUpperCase(); // Use first 3 chars of location
-
-    // Combine to form Security_Key
+    // Generate Security_Key
+    const shedNameInitials = formData.shedName.split(' ').map(word => word.charAt(0)).join('');
+    const emailPart = formData.email.split('@')[0];
+    const locationCode = formData.location.split(',')[0].substring(0, 3).toUpperCase();
     const generatedKey = `${shedNameInitials}_${emailPart}_${locationCode}`;
     const updatedFormData = { ...formData, Security_Key: generatedKey };
 
     try {
-      const response = await axios.post('http://localhost:5000/register-shed', updatedFormData);
-      
-      // Use SweetAlert2 for success message
-      Swal.fire({
-        title: 'Success!',
-        text: 'Shed Registration Request Submitted Successfully!',
-        icon: 'success',
-        confirmButtonColor: '#007bff', // Blue theme
-      });
+        const response = await axios.post('http://localhost:5000/register-shed', updatedFormData);
+        
+        Swal.fire({
+            title: 'Success!',
+            text: 'Shed Registration Request Submitted Successfully!',
+            icon: 'success',
+            confirmButtonColor: '#007bff',
+        });
 
-      console.log('Form Data:', response.data);
-      // Reset form after submission
-      setFormData({
-        shedRegisterNumber: '',
-        shedName: '',
-        email: '',
-        location: '',
-        Approved_status: false,
-        Security_Key: '',
-      });
+        // Reset form
+        setFormData({
+            shedRegisterNumber: '',
+            shedName: '',
+            email: '',
+            location: '',
+            Approved_status: false,
+            Security_Key: '',
+        });
     } catch (error) {
-      console.error('Error submitting form', error);
+        console.error('Error submitting form:', error);
 
-      // Use SweetAlert2 for error message
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to submit the registration request.',
-        icon: 'error',
-        confirmButtonColor: '#007bff', // Blue theme
-      });
+        if (error.response && error.response.data) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response.data.message || 'An unknown error occurred.',
+                icon: 'error',
+                confirmButtonColor: '#007bff',
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to submit the registration request.',
+                icon: 'error',
+                confirmButtonColor: '#007bff',
+            });
+        }
     }
-  };
+};
 
   const handlePickLocation = () => {
     setShowMap(true);
@@ -117,7 +122,7 @@ const RegistrationReq = () => {
     // Fetch address using Geocoding API
     try {
       const geocodeRes = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=YOUR_GOOGLE_MAPS_API_KEY`
       );
       const address = geocodeRes.data.results[0]?.formatted_address || 'Address not found';
 
@@ -258,9 +263,7 @@ const RegistrationReq = () => {
                 zoom={8}
                 onClick={handleLocationSelect}
               >
-                {selectedLocation && (
-                  <Marker position={selectedLocation} />
-                )}
+                {selectedLocation && <Marker position={selectedLocation} />}
               </GoogleMap>
             </LoadScript>
           )}
