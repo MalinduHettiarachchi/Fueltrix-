@@ -203,6 +203,49 @@ app.put('/reject-shed/:id', async (req, res) => {
 });
 
 
+// API route to get pump assistants with shed names by matching Security_Key
+app.get('/api/pump-assistants', async (req, res) => {
+  try {
+      const pumpAssistantRef = db.collection('PumpAssistant');
+      const shedRef = db.collection('Shed');
+      const pumpAssistantSnapshot = await pumpAssistantRef.get();
+
+      const assistantsData = [];
+
+      for (const doc of pumpAssistantSnapshot.docs) {
+          const assistantData = doc.data();
+
+          if (assistantData.securityCode) {
+              // Find the matching shed based on Security_Key
+              const shedQuerySnapshot = await shedRef
+                  .where('Security_Key', '==', assistantData.securityCode)
+                  .where('Approved_status', '==', true) // Only approved sheds
+                  .get();
+
+              if (!shedQuerySnapshot.empty) {
+                  const shedDoc = shedQuerySnapshot.docs[0]; // Assuming one shed with this Security_Key
+                  assistantData.shedName = shedDoc.data().shedName;
+              } else {
+                  assistantData.shedName = 'Unknown Shed';
+              }
+          } else {
+              assistantData.shedName = 'Unknown Shed';
+          }
+
+          assistantsData.push({
+              id: doc.id,
+              ...assistantData,
+          });
+      }
+
+      res.status(200).json(assistantsData);
+  } catch (error) {
+      console.error('Error fetching pump assistants:', error);
+      res.status(500).json({ message: 'Failed to fetch pump assistant data.' });
+  }
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -264,13 +264,69 @@ const RegisteredSheds = () => {
 };
 
 
+
+const PumpAssistantManagement = () => {
+    const [pumpAssistants, setPumpAssistants] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPumpAssistants = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/pump-assistants');
+                setPumpAssistants(response.data);
+            } catch (err) {
+                console.error('Error fetching pump assistants:', err);
+                setError('Failed to fetch pump assistant data.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPumpAssistants();
+    }, []);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+    return (
+        <div className="Pump_Assistant-content"><br/>
+            <h1 className='title'>Pump Assistant Management</h1>
+            {pumpAssistants.length > 0 ? (
+                <table className="pump-assistant-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Shed Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pumpAssistants.map((assistant) => (
+                            <tr key={assistant.id}>
+                                <td>{assistant.firstName}</td>
+                                <td>{assistant.lastName}</td>
+                                <td>{assistant.email}</td>
+                                <td>{assistant.shedName}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p>No pump assistants found.</p>
+            )}
+        </div>
+    );
+};
+
+
+
 // Add other components for different views if needed
 const CompanyRequests = () => <div>Company Registration Requests Content</div>;
 const RegisteredCompanies = () => <div>Registered Companies Content</div>;
 const CompanyVehicles = () => <div>Company Vehicles Content</div>;
 const DriverManagement = () => <div>Driver Management Content</div>;
-const PumpAssistantManagement = () => <div>Pump Assistant Management Content</div>;
-
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('dashboard'); // State to manage current view
 

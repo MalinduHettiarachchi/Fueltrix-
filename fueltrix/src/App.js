@@ -39,7 +39,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Mainpage />} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/fueltrix" element={<Mainpage />} />
           <Route path="/buy" element={<Buynow />} />
