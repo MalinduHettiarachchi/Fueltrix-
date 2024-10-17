@@ -19,7 +19,7 @@ function Login() {
         </div>
         <p className="dont">Don't remember password?</p>
         <button className="sign-in"><a href="/signin">SIGN IN</a></button>
-        <p className="buy-now">Don't have a FUELTRIX package? <span>Buy Now</span></p>
+        <p className="buy-now">Don't have a FUELTRIX package? <span><a href="/buy">Buy Now</a></span></p>
       </div>
     </div>
   );

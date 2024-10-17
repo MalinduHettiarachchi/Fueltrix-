@@ -1,6 +1,95 @@
-.dashboard{
-    background-color: #041228;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+.dashboard {
+    display: flex; /* Enable flexbox for the dashboard */
+    flex-direction: column; /* Arrange children in a column */
+    height: 100vh; /* Ensure it takes full height of the viewport */
 }
+
+.up {
+    display: flex; /* Enable flexbox for the up section */
+    flex: 1; /* This section will take up remaining space */
+}
+
+.left1 {
+    flex: 1; /* Left part will take half the space of up */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff; /* White background */
+}
+
+.right1 {
+    display: flex; /* Enable flexbox for the up section */
+    flex: 1; /* This section will take up remaining space */
+}
+.left11 {
+    flex: 1; /* Left part will take half the space of up */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #b92c2c; /* White background */
+}
+
+.right11 {
+    flex: 1; /* Right part will take half the space of up */
+    display: flex;
+    background-color: #1b8699; /* Light gray background (or change as needed) */
+}
+
+.down {
+    flex: 1; /* The down section will take remaining space */
+    display: flex;/* Black background */
+}
+.left2{
+    flex: 1; /* Left part will take half the space of up */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000; /* White background */
+}
+
+.right2 {
+    display: flex; /* Enable flexbox for the up section */
+    flex: 1; /* This section will take up remaining space */
+}
+.left21 {
+    flex: 1; /* Left part will take half the space of up */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d4d3d3; /* White background */
+}
+
+.right21 {
+    flex: 1; /* Right part will take half the space of up */
+    display: flex;
+    background-color: #ffffff; /* Light gray background (or change as needed) */
+}
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    width: 100%; /* Full width of the container */
+}
+
+.request, .vehicle {
+    margin-top: 20px;
+    width: 90%; /* Each button takes 60% of the container's width */
+    height: 40px; /* Standard height for both buttons */
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #1b8699; /* Button background color */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Rounded corners */
+    cursor: pointer; /* Show pointer on hover */
+    text-align: center;
+    margin-bottom: px; /* Space between buttons */
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', sans-serif;font-family: 'Poppins', sans-serif;
+}
+
+
+
+
+
+

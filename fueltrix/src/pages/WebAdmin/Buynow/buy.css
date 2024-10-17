@@ -1,0 +1,55 @@
+/* General reset */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.buy-page {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+.two-column-container {
+    display: flex;
+    flex: 1; /* Takes up the remaining space after the Navbar */
+}
+
+/* Styling for the left and right columns */
+.leftc, .rightc {
+    flex: 1; /* Both columns take up equal space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftc {
+    background-color: #041228; /* Left column background color */
+}
+
+.rightc {
+    background-color: #041228; /* Right column background color */
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+}
+
+.fueltrix{
+    font-family: 'Poppins', sans-serif;
+    font-size: 50px;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.link {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    bottom: 20px; /* Positioned at the bottom with some margin */
+    left: 50%;
+    transform: translateX(-50%); /* Center the link horizontally */
+}
