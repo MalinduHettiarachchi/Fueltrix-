@@ -23,19 +23,27 @@ import WebAdminDashboard from './pages/WebAdmin/Dashboard/WebAdminDashboard';
 import Mainpage from './pages/WebAdmin/Mainpage/Mainpage';
 import Login from './pages/WebAdmin/Userlogin/login';
 import Dashboard from './pages/ComManager/dashboard/dashboard';
+import Buynow from './pages/WebAdmin/Buynow/buy'
 
 
 
 /*<Route path="/" element={<Mainpage />} />
- <Route path="/login" element={<Login />} />
-<Route path="/fueltrix" element={<Mainpage />} />
-<Route path="/signin" element={<Dashboard />} />*/ 
+          <Route path="/login" element={<Login />} />
+          <Route path="/fueltrix" element={<Mainpage />} />
+          <Route path="/buy" element={<Buynow />} />
+          <Route path="/signin" element={<Dashboard />} />
+          <Route path="/sumbit" element={<Mainpage />} />*/ 
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/" element={<Mainpage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/fueltrix" element={<Mainpage />} />
+          <Route path="/buy" element={<Buynow />} />
+          <Route path="/sumbit" element={<Mainpage />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />

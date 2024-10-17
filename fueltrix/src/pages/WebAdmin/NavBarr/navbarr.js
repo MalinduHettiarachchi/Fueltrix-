@@ -10,6 +10,7 @@ const Navbar = () => {
       <ul className='row'>
         <li className='log'><a href="/fueltrix"><img src={logoImage} alt="Logo" className="logo-img" /></a></li>
         <li><a href="/card">Custom Card</a></li>
+        <li><a href="/buy">Buy Now</a></li>
         <li><a href="/review">Review</a></li>
         <li><a href="/ambassadors">Ambassadors</a></li>
         <li><a href="/about">About</a></li>
