@@ -128,8 +128,8 @@ html, body {
     width: 70%; /* Full-width button */
     padding: 8px; /* Increased padding for larger button */
     font-size: 1rem;
-    background-color: #fdfdfd; /* Default background color */
-    color: #041228; /* Default font color */
+    background-color: #041228; /* Default background color */
+    color: #ffffff; /* Default font color */
     border: none;
     border-radius: 25px;
     margin-left: 100px;
