@@ -8,44 +8,49 @@ function card() {
          <h1 class='we'>We have different types of packages for you.</h1>
       <div class="card-container">
         <div class="card">
-          <h2>Classic White Card</h2>
+          <h2>Basic</h2>
+          <p>200 Vehicles </p>
+          <p>200 Drivers</p>
+          <p>Smart Business Card</p>
           <p>Smart Business Card</p>
           <div class="card-image"></div>
           <div class="price">
-            <p class="new-price">LKR 3590</p>
-            <p class="old-price">LKR 4490 - 20%</p>
           </div>
           <p>
-            or 3 X LKR 1,196.66 with <span class="payment-options">KOKO</span>{" "}
+             <span class="payment-options">KOKO</span>{" "}
             or <span class="payment-options">mintpay</span>
           </p>
-          <button class="buy-now">Buy Now</button>
+          <button class="buy-now"><a href="/buyb">Buy Now</a></button>
         </div>
         <div class="card">
-          <h2>Classic Black Card</h2>
+          <h2>Standard</h2>
+          <p>500 Vehicles</p>
+          <p>Unlimit Drivers</p>
+          <p>Smart Business Card</p>
           <p>Smart Business Card</p>
           <div class="card-image"></div>
           <div class="price">
-            <p class="new-price">LKR 4990</p>
           </div>
           <p>
-            or 3 X LKR 1,683.33 with <span class="payment-options">KOKO</span>{" "}
+            <span class="payment-options">KOKO</span>{" "}
             or <span class="payment-options">mintpay</span>
           </p>
-          <button class="buy-now">Buy Now</button>
+          <button class="buy-now"><a href="/buys">Buy Now</a></button>
         </div>
         <div class="card">
-          <h2>Company Card</h2>
+          <h2>Premium</h2>
+          <p>Unlimit Vehicles</p>
+          <p>Unlimit Drivers</p>
+          <p>Smart Business Card</p>
           <p>Smart Business Card</p>
           <div class="card-image"></div>
-          <div class="price">
-            <p class="new-price">LKR 5490</p>
+          <div class="price"> 
           </div>
           <p>
-            or 3 X LKR 1,830 with <span class="payment-options">KOKO</span> or{" "}
+            <span class="payment-options">KOKO</span> or{" "}
             <span class="payment-options">mintpay</span>
           </p>
-          <button class="buy-now">Buy Now</button>
+          <button  class="buy-now"><a href="/buyp">Buy Now</a></button>
         </div>
       </div>
     </div>
