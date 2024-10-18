@@ -1,3 +1,36 @@
-.all{
-    background-color: #041228;
+.mainpage {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+.twoclomn {
+    display: flex;
+    flex: 1; /* Takes up the remaining space after the Navbar */
+}
+
+/* Styling for the left and right columns */
+.leftmp, .rightmp {
+    flex: 1; /* Both columns take up equal space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftmp {
+    background-color: #ffffff;
+}
+
+.rightmp {
+    background-color: #ffffff; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+}
+
+.leftmp p{
+    color: #041228;
+    font-weight: 500;
+    font-size: 80px;
+    font-family: 'Poppins', sans-serif;
 }
