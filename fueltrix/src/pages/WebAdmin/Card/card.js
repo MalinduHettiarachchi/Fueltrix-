@@ -4,7 +4,7 @@ import "../Card/card.css";
 function card() {
   return (
     <div style={{ backgroundColor: 'white' }}>
-         <p class="grab">Grab Your FUELTRIX </p>
+         <p class="grab" >Grab Your FUELTRIX </p>
          <h1 class='we'>We have different types of packages for you.</h1>
       <div class="card-container">
         <div class="card">
