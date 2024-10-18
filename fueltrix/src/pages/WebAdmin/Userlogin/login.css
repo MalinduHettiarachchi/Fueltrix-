@@ -95,10 +95,14 @@
   margin-right: 100px;
   cursor: pointer;
 }
+.dont:hover{
+  text-decoration: underline;
+}
+
 
 .sign-in {
-  width: 70%; /* Full-width sign-in button */
-  padding: 8px; /* Increased padding for larger button */
+  width: 70%; 
+  padding: 8px; 
   font-size: 1rem;
   background-color: #041228;
   color: rgb(255, 255, 255);
@@ -109,7 +113,7 @@
   cursor: pointer;
 }
 
-.buy-now {
+.buyn {
   margin-left: 100px;
   font-size: 0.9rem;
   margin-top: 20px;
@@ -118,9 +122,11 @@
   
 }
 
-.buy-now span {
+.buyn span {
   color: #041228;
   cursor: pointer;
+  font-weight: 600;
+}
+.buyn span:hover{
   text-decoration: underline;
 }
-

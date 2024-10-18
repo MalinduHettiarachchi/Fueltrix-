@@ -1,0 +1,30 @@
+.shrc{
+    display: flex;
+    height: 48.5vh; /* Full height of the viewport */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .leftsr, .rightsr {
+    flex: 1; /* Both columns will take up equal space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .leftsr {
+    background-color: #041228; /* Light background for left column */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rightsr {
+    background-color: #ffffff; /* Dark background for right column */
+    color: #041228;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+  }
+  
