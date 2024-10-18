@@ -20,19 +20,18 @@ body {
 
 .card {
     background-color: #d8d7d7;
-    border-radius: 10px;
+    border-radius: 30px;
     padding: 20px;
     text-align: center;
     width: 300px; /* Width is now 80% of the parent container */
-    max-width: 400px; /* Maximum width of the card */
-    height: auto; /* Let height adjust automatically */
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 4px 8px rgba(173, 168, 168, 0.2);
     transition: border 0.3s ease, box-shadow 0.3s ease;
     border: 2px solid transparent;
-    margin-bottom: -30px;
+    margin-bottom: -20px;
 }
 
 
@@ -48,11 +47,6 @@ body {
 .card p {
     font-size: 1rem;
     color: #041228;
-}
-
-.card-image img {
-    max-width: 100%;
-    height: auto;
 }
 
 .price {
@@ -75,16 +69,13 @@ body {
     color: #00bfff;
 }
 
-.buy-now {
+.buy-now a {
     background-color: #041228;
     color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 20px;
+    padding: 8px 25px;
     font-size: 1rem;
     cursor: pointer;
-    display: block; /* Ensures the button takes full width */
-    margin: 0 auto; /* Center the button */
 }
 
 .buy-page{
