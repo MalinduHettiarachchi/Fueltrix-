@@ -424,7 +424,7 @@ tr:nth-child(even) {
 }
 
 /* Reject button styles */
-button {
+.reject-btn {
     background-color: #f44336; /* Red color for reject button */
     color: white;              /* Text color */
     border: none;              /* No border */
@@ -435,12 +435,12 @@ button {
     transition: background-color 0.3s, transform 0.2s; /* Transition effects */
 }
 
-button:hover {
+.reject-btn:hover {
     background-color: #d32f2f; /* Darker red on hover */
     transform: scale(1.05);     /* Slightly enlarge on hover */
 }
 
-button:focus {
+.reject-btn:focus {
     outline: none;              /* Remove default outline */
 }
 
@@ -450,7 +450,7 @@ button:focus {
         font-size: 12px;       /* Smaller font size for mobile */
     }
 
-    button {
+    .reject-btn {
         font-size: 12px;       /* Smaller font size for buttons on mobile */
         padding: 6px 10px;     /* Smaller padding on buttons for mobile */
     }
