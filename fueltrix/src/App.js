@@ -28,6 +28,8 @@ import Ourteam from './pages/WebAdmin/Ourteam/ourteam'
 import Buypb from './pages/WebAdmin/Card/basicpb'
 import Buyps from './pages/WebAdmin/Card/basicps'
 import Buypp from './pages/WebAdmin/Card/basicpp'
+import Driver from './pages/ComManager/Driveregi/driveregi'
+import Vehicle from './pages/ComManager/Vehiregi/vehiregi'
 
 
 
@@ -46,7 +48,10 @@ function App() {
           <Route path="/" element={<Mainpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/fueltrix" element={<Mainpage />} />
-          <Route path="/buy" element={<Buynow />} />
+          <Route path="/drivers" element={<Driver />} /> 
+          <Route path="/vehicle" element={<Vehicle />} /> 
+          <Route path="/buy" element={<Buynow />} />          
+          <Route path="/signin" element={<Dashboard />} />
           <Route path="/ourteam" element={<Ourteam />} />
           <Route path="/buyb" element={<Buypb />} />
           <Route path="/buys" element={<Buyps />} />

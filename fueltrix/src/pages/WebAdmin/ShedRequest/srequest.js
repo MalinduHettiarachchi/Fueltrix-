@@ -7,6 +7,7 @@ function srequest() {
       <div className="leftsr">
       </div>
       <div className="rightsr">
+        
       </div>
     </div>
   )

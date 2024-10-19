@@ -1,0 +1,36 @@
+.drivrg{
+    display: flex;
+    height: 100vh; /* Full height of the viewport */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .leftdr, .rightdr {
+    flex: 1; /* Both columns will take up equal space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .leftdr {
+    background-color: #041228; /* Light background for left column */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .leftdr p{
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 80px;
+    font-family: 'Poppins', sans-serif;
+}
+  
+  .rightdr {
+    background-color: #ffffff; /* Dark background for right column */
+    color: #041228;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+  }
+  
