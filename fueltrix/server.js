@@ -246,6 +246,32 @@ app.get('/api/pump-assistants', async (req, res) => {
 });
 
 
+// reservation system manager part
+app.post("/submit-reservation", async (req, res) => {
+  const { company, email, packageType } = req.body;
+
+  try {
+    // Insert data into Firebase with default values for Approved_status and password
+    await db.collection("Manager").add({
+      company: company,
+      email: email,
+      package: packageType,
+      password: "fueltrix1234",      // Default password
+      Approved_status: false,        // Default Approved_status
+      createdAt: new Date(),
+    });
+
+    res.status(200).send({ message: "Reservation added successfully" });
+  } catch (error) {
+    console.error("Error adding reservation: ", error);
+    res.status(500).send({ message: "Failed to add reservation" });
+  }
+});
+
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
