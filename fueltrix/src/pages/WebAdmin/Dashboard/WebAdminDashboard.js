@@ -454,11 +454,125 @@ const formatDate = (dateString) => {
 };
 
 
-  
+const RegisteredCompanies = () => {
+    const [companies, setCompanies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/registered-companies');
+                // Filter for only approved companies
+                const approvedCompanies = response.data.filter(company => company.Approved_status === true);
+                setCompanies(approvedCompanies);
+            } catch (error) {
+                console.error('Error fetching registered companies:', error);
+                setError('Failed to fetch registered companies. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCompanies();
+    }, []);
+
+    const handleReject = (companyId) => {
+        // Display confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reject it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                // Proceed to update the status if confirmed
+                try {
+                    await axios.put(`http://localhost:5000/api/registered-companies/${companyId}`, {
+                        Approved_status: false,
+                    });
+                    setCompanies(prevCompanies => prevCompanies.filter(company => company.id !== companyId));
+                    Swal.fire(
+                        'Rejected!',
+                        'The company has been rejected.',
+                        'success'
+                    );
+                } catch (error) {
+                    console.error('Error rejecting company:', error);
+                    setError('Failed to reject the company. Please try again later.');
+                }
+            }
+        });
+    };
+
+    if (loading) {
+        return <div className="LoadingMessage">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="ErrorMessage">{error}</div>;
+    }
+
+    return (
+        <div className="RegisteredCompanies-content"><br/>
+            <h1>Registered Companies</h1>
+            {companies.length === 0 ? (
+                <p>No approved companies found.</p>
+            ) : (
+                <table className="companies-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Package Type</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {companies.map(company => (
+                            <tr key={company.id}>
+                                <td>{company.company}</td>
+                                <td>{company.email}</td>
+                                <td>{company.package}</td>
+                                <td>{formatDateCompany(company.createdAt)}</td>
+                                <td>
+                                    <button className="reject-btn" onClick={() => handleReject(company.id)}>Reject</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+const formatDateCompany = (dateString) => {
+    if (!dateString) return 'Invalid Date';
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+    }
+
+    return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    }).replace(',', '');
+};
+
 
 
 // Add other components for different views if needed
-const RegisteredCompanies = () => <div>Registered Companies Content</div>;
 const CompanyVehicles = () => <div>Company Vehicles Content</div>;
 const DriverManagement = () => <div>Driver Management Content</div>;
 const Dashboard = () => {

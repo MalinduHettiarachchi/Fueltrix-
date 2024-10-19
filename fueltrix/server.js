@@ -316,6 +316,38 @@ app.post('/api/approve-request/:requestId', async (req, res) => {
 
 
 
+app.get('/api/registered-companies', async (req, res) => {
+  try {
+      const snapshot = await db.collection('Manager').where('Approved_status', '==', true).get();
+      const companies = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : null // Ensure createdAt is a Date
+      }));
+
+      res.status(200).json(companies);
+  } catch (error) {
+      console.error('Error fetching registered companies:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+// API endpoint to update the Approved_status of a registered company
+app.put('/api/registered-companies/:id', async (req, res) => {
+  const companyId = req.params.id;
+  const { Approved_status } = req.body;
+
+  try {
+      await db.collection('Manager').doc(companyId).update({ Approved_status });
+      res.status(200).json({ message: 'Company status updated successfully.' });
+  } catch (error) {
+      console.error('Error updating company status:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 // Start the server
