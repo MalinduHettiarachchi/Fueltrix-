@@ -3,15 +3,18 @@ import '../Partners/partners.css';
 import p1Logo  from '../Partners/pr1.png'
 import p2Logo  from '../Partners/pr2.png'
 import p3Logo  from '../Partners/pr3.png'
+import p4Logo  from '../Partners/pr4.png'
+import p5Logo  from '../Partners/pr5.png'
+import p6Logo  from '../Partners/pr6.png'
 
 function Partners() {
   const partners = [
-    { name: 'Partner 1', logo: '/images/p4.png' }, 
+    { name: 'Partner 1', logo: p1Logo }, 
     { name: 'Partner 2', logo: p2Logo },
     { name: 'Partner 3', logo: p3Logo },
-    { name: 'Partner 4', logo: '/images/p4.png' },
-    { name: 'Partner 5', logo: '/images/p5.png' },
-    { name: 'Partner 6', logo: '/images/p6.png' },
+    { name: 'Partner 4', logo: p4Logo },
+    { name: 'Partner 5', logo: p5Logo },
+    { name: 'Partner 6', logo: p6Logo },
   ];
 
   return (
