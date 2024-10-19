@@ -66,6 +66,9 @@ function basicps() {
           <button className="sign">
             <a href="/sumbit">SUBMIT</a>
           </button>
+          <button className="successful">
+            <a >Reservation Successful Submitted.</a>
+          </button>
         </div>
       </div>
     </div>

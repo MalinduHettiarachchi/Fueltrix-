@@ -140,6 +140,21 @@ html, body {
     transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for hover effect */
 }
 
+.successful {
+  width: 70%; /* Full-width button */
+  padding: 15px; /* Increased padding for larger button */
+  font-size: 1rem;
+  background-color: #041228; /* Default background color */
+  color: #ffffff; /* Default font color */
+  border: none;
+  border-radius: 25px;
+  margin-left: 100px;
+  margin-top: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 0.5px 1px #041228; /* White outline */
+  outline: none; /* Ensures no default outline */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for hover effect */
+}
 /* Blue outline and white font on hover */
 .sign:hover {
     box-shadow: 0 0 0.5px 2px #041228; /* Blue outline on hover */
