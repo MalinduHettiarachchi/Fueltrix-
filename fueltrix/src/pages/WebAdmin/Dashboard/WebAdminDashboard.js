@@ -246,7 +246,7 @@ const RegisteredSheds = () => {
                                     {shed.Approved_status && (
                                         <button
                                             onClick={() => handleReject(shed.id)}
-                                            className="reject-button"
+                                            className="reject-btn"
                                         >
                                             Reject
                                         </button>
