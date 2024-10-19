@@ -269,6 +269,52 @@ app.post("/submit-reservation", async (req, res) => {
 });
 
 
+// Fetch company requests where 'Approved_status' is false
+app.get('/api/company-requests', async (req, res) => {
+  try {
+      const snapshot = await admin.firestore().collection('Manager').where('Approved_status', '==', false).get();
+      const requests = [];
+
+      snapshot.forEach(doc => {
+          const data = doc.data();
+          // Convert Firestore Timestamp to Date object
+          const createdAtDate = data.createdAt ? data.createdAt.toDate() : null;
+          requests.push({ id: doc.id, ...data, createdAt: createdAtDate });
+      });
+
+      res.status(200).json(requests);
+  } catch (error) {
+      console.error('Error fetching company requests:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+
+
+// API endpoint to approve a request by updating the Approved_status
+app.post('/api/approve-request/:requestId', async (req, res) => {
+  const { requestId } = req.params;
+
+  try {
+      const requestRef = db.collection('Manager').doc(requestId);
+
+      // Check if the request exists
+      const doc = await requestRef.get();
+      if (!doc.exists) {
+          return res.status(404).json({ message: 'Manager request not found' });
+      }
+
+      // Update the Approved_status to true
+      await requestRef.update({ Approved_status: true });
+
+      res.status(200).json({ message: 'Request approved successfully' });
+  } catch (error) {
+      console.error('Error approving request:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 
