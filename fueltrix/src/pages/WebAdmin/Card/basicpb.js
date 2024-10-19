@@ -12,24 +12,24 @@ function basicpb() {
             <h2 className="benefit-title">What you get as a FUELTRIX Basic?</h2>
             <div className="benefit-grid">
               <div className="benefit-item">
-                <h3>20% Commission</h3>
-                <p>Earn 20% of each sale made with your link.</p>
+                <h3>24/7 Customer Support</h3>
+                <p>We're here to help you anytime, day or night.</p>
               </div>
               <div className="benefit-item">
-                <h3>FREE Gifts</h3>
-                <p>Win FREE gifts every month.</p>
+                <h3>Real-Time Tracking</h3>
+                <p>Monitor fuel usage in real-time for better efficiency and cost savings.</p>
               </div>
               <div className="benefit-item">
                 <h3>FREE Products</h3>
-                <p>Receive new LUXN features, products, and other freebies.</p>
+                <p>Receive new FuelTrix features, products, and other freebies.</p>
               </div>
               <div className="benefit-item">
-                <h3>Target Bonuses</h3>
-                <p>Get additional bonus on achieving your targets.</p>
+                <h3>Fuel Reports</h3>
+                <p>Receive comprehensive reports to track and analyze fuel consumption..</p>
               </div>
               <div className="benefit-item">
-                <h3>Discount Codes</h3>
-                <p>Get discount codes to share with friends and family.</p>
+                <h3>Vehicle Performance Alerts</h3>
+                <p>Get alerts on vehicle performance.</p>
               </div>
               <div className="price">
                 <h3>LKR 14990</h3>
