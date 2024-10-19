@@ -212,7 +212,7 @@ const RegisteredSheds = () => {
         });
     };
 
-    if (loading) return <div className="loading">Loading...</div>;
+    if (loading) return <div className="LoadingMessage">Loading...</div>;
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
@@ -286,7 +286,7 @@ const PumpAssistantManagement = () => {
         fetchPumpAssistants();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className='LoadingMessage'>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
@@ -321,9 +321,143 @@ const PumpAssistantManagement = () => {
 };
 
 
+const CompanyRequests = () => {
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        const fetchRequests = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/company-requests');
+                setRequests(response.data);
+            } catch (error) {
+                console.error('Error fetching company requests:', error);
+                setError('Failed to fetch requests. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRequests();
+    }, []);
+
+    const handleApprove = async (requestId) => {
+        try {
+            // Clear previous success and error messages
+            setSuccess('');
+            setError('');
+
+            // Log before making request
+            console.log(`Approving request with requestId: ${requestId}`);
+
+            // Approve the request
+            const approvalResponse = await axios.post(`http://localhost:5000/api/approve-request/${requestId}`);
+
+            // Log approval response
+            console.log('Approval response:', approvalResponse.data);
+
+            // Check if the request approval was successful
+            if (approvalResponse.status === 200 && approvalResponse.data.message === 'Request approved successfully') {
+                console.log('Request approved successfully!');
+
+                // Set success message
+                setSuccess('Request approved successfully!');
+
+                // Update the state to remove the approved request
+                setRequests(prevRequests => prevRequests.filter(req => req.id !== requestId));
+
+                // Clear the success message after a delay (optional)
+                setTimeout(() => setSuccess(''), 3000); // Hide the message after 3 seconds
+            } else {
+                throw new Error('Failed to approve request');
+            }
+
+        } catch (error) {
+            console.error('Error approving request:', error);
+
+            // Log specific error details if available
+            if (error.response) {
+                console.error('Error details:', error.response.data);
+            }
+
+            // Set the error message to be displayed
+            setError('Failed to approve the request. Please try again later.');
+        }
+    };
+
+    if (loading) {
+        return <div className="LoadingMessage">Loading...</div>;
+    }
+
+    return (
+        <div className="Company-Registration-Requests">
+            <br />
+            <h1>Company Registration Requests</h1>
+            
+            {/* Display success message */}
+            {success && <div className="SuccessMessage">{success}</div>}
+            
+            {/* Display error message */}
+            {error && <div className="ErrorMessage">{error}</div>}
+
+            {requests.length === 0 ? (
+                <p>No pending requests found.</p>
+            ) : (
+                <table className="requests-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Package Type</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {requests.map((request) => (
+                            <tr key={request.id}>
+                                <td>{request.company}</td>
+                                <td>{request.email}</td>
+                                <td>{request.package}</td>
+                                <td>{formatDate(request.createdAt)}</td>
+                                <td>
+                                    <button
+                                        className="Webapprove"
+                                        onClick={() => handleApprove(request.id)} // Only pass requestId here
+                                    >
+                                        Approve
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+// Utility function to format date
+const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid Date';
+    return new Date(dateString).toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    }).replace(',', '');
+};
+
+
+  
+
 
 // Add other components for different views if needed
-const CompanyRequests = () => <div>Company Registration Requests Content</div>;
 const RegisteredCompanies = () => <div>Registered Companies Content</div>;
 const CompanyVehicles = () => <div>Company Vehicles Content</div>;
 const DriverManagement = () => <div>Driver Management Content</div>;
