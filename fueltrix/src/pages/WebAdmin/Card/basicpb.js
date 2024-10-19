@@ -1,10 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import "../Card/basicpb.css";
 
-function basicpb() {
+function Basicpb() {
+  const [company, setCompany] = useState("");
+  const [email, setEmail] = useState("");
+  const [messageVisible, setMessageVisible] = useState(false); // To control visibility of the success message
+  const packageType = "Basic";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const reservationData = {
+      company: company,
+      email: email,
+      packageType: packageType,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/submit-reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reservationData),
+      });
+
+      if (response.ok) {
+        // Handle success
+        setMessageVisible(true); // Show the success message
+
+        // Clear input fields
+        setCompany("");
+        setEmail("");
+
+        // Hide the message after 5 seconds
+        setTimeout(() => {
+          setMessageVisible(false);
+        }, 5000);
+      } else {
+        alert("Failed to submit reservation.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to submit reservation. Please try again.");
+    }
+  };
+
   return (
     <div className="buy-page">
-      {" "}
       {/* Navbar at the top */}
       <div className="twcp">
         <div className="leftpb">
@@ -25,7 +68,7 @@ function basicpb() {
               </div>
               <div className="benefit-item">
                 <h3>Fuel Reports</h3>
-                <p>Receive comprehensive reports to track and analyze fuel consumption..</p>
+                <p>Receive comprehensive reports to track and analyze fuel consumption.</p>
               </div>
               <div className="benefit-item">
                 <h3>Vehicle Performance Alerts</h3>
@@ -42,16 +85,18 @@ function basicpb() {
         </div>
 
         <div className="rightpb">
-          <div class="close-btn">
+          <div className="close-btn">
             <a href="/close"><span>&times;</span></a>
           </div>
           <label className="pby">Your Reservation</label>
           <p className="email-label">Company</p>
           <div className="form-group">
             <input
-              type="email"
+              type="text"
               placeholder="Company Name"
               className="email-input"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
             />
           </div>
           <p className="password-label">Email</p>
@@ -60,19 +105,25 @@ function basicpb() {
               type="email"
               placeholder="Email"
               className="password-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <p className="package">Package : Basic</p>
-          <button className="sign">
-            <a href="/sumbit">SUBMIT</a>
+          <button className="sign" onClick={handleSubmit}>
+            SUBMIT
           </button>
-          <button className="successful">
-            <a >Reservation Successful Submitted.</a>
-          </button>
+
+          {/* Your existing message box for successful submission */}
+          {messageVisible && (
+            <button className="successful">
+              <a>Reservation Successfully Submitted.</a>
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default basicpb;
+export default Basicpb;
