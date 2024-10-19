@@ -1,8 +1,6 @@
 import React from 'react'
 import Navbar from '../NavBarr/navbarr'
 import '../Mainpage/mainpage.css'
-import Card from '../Card/card'
-
 function Mainpage() {
   return (
     <div className="mainpage">
@@ -12,7 +10,6 @@ function Mainpage() {
         <p className="fueltrix">Fueltrix</p>
         </div>
         <div className="rightmp">
-        
         </div>
       </div>
     </div>

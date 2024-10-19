@@ -24,6 +24,7 @@ import Mainpage from './pages/WebAdmin/Mainpage/Mainpage';
 import Login from './pages/WebAdmin/Userlogin/login';
 import Dashboard from './pages/ComManager/dashboard/dashboard';
 import Buynow from './pages/WebAdmin/Buynow/buy'
+import Ourteam from './pages/WebAdmin/Ourteam/ourteam'
 import Buypb from './pages/WebAdmin/Card/basicpb'
 import Buyps from './pages/WebAdmin/Card/basicps'
 import Buypp from './pages/WebAdmin/Card/basicpp'
@@ -46,6 +47,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/fueltrix" element={<Mainpage />} />
           <Route path="/buy" element={<Buynow />} />
+          <Route path="/ourteam" element={<Ourteam />} />
           <Route path="/buyb" element={<Buypb />} />
           <Route path="/buys" element={<Buyps />} />
           <Route path="/buyp" element={<Buypp />} />
