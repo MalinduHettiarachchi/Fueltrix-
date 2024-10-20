@@ -30,7 +30,7 @@ body {
 
 .webadmin-sidebar-brand {
     font-family: 'Times New Roman', Times, serif; /* Set font style */
-    font-size: 26px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 30px;
     text-align: center;
@@ -49,7 +49,7 @@ body {
 .webadmin-sidebar-menu a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 17px;
     display: block;
     padding: 10px;
     border-radius: 5px;
@@ -211,7 +211,7 @@ body {
 
 .ShedRequest h1 {
     color: #2c3e50;
-    font-size: 32px;
+    font-size: 25px;
     text-align: center;
     margin-bottom: 40px;
     letter-spacing: 1px;
@@ -234,7 +234,7 @@ thead {
 th, td {
     padding: 20px;
     text-align: left;
-    font-size: 16px;
+    font-size: 14px;
     border-bottom: 1px solid #dee2e6;
     color: #4d4d4d;
 }
@@ -261,7 +261,7 @@ tr:nth-child(even) {
     border: none;
     color: white;
     padding: 12px 24px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     border-radius: 30px;
     cursor: pointer;
@@ -332,7 +332,7 @@ tr:nth-child(even) {
 
 /* Title Styling */
 .title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
     margin-bottom: 20px;
     text-align: center;
@@ -405,4 +405,55 @@ tr:nth-child(even) {
 .reject-button:hover {
     background-color: #ff2a1f;
 }
+
+
+
+/* styles.css */
+
+/* Table styles */
+.companies-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.companies-table th, .companies-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Reject button styles */
+.reject-btn {
+    background-color: #f44336; /* Red color for reject button */
+    color: white;              /* Text color */
+    border: none;              /* No border */
+    border-radius: 4px;       /* Rounded corners */
+    padding: 8px 12px;        /* Padding */
+    cursor: pointer;           /* Pointer cursor on hover */
+    font-size: 14px;          /* Font size */
+    transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+}
+
+.reject-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+    transform: scale(1.05);     /* Slightly enlarge on hover */
+}
+
+.reject-btn:focus {
+    outline: none;              /* Remove default outline */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .companies-table {
+        font-size: 12px;       /* Smaller font size for mobile */
+    }
+
+    .reject-btn {
+        font-size: 12px;       /* Smaller font size for buttons on mobile */
+        padding: 6px 10px;     /* Smaller padding on buttons for mobile */
+    }
+}
+
 

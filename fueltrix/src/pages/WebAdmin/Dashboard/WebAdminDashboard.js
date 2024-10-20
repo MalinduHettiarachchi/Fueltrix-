@@ -212,7 +212,7 @@ const RegisteredSheds = () => {
         });
     };
 
-    if (loading) return <div className="loading">Loading...</div>;
+    if (loading) return <div className="LoadingMessage">Loading...</div>;
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
@@ -246,7 +246,7 @@ const RegisteredSheds = () => {
                                     {shed.Approved_status && (
                                         <button
                                             onClick={() => handleReject(shed.id)}
-                                            className="reject-button"
+                                            className="reject-btn"
                                         >
                                             Reject
                                         </button>
@@ -264,13 +264,317 @@ const RegisteredSheds = () => {
 };
 
 
+
+const PumpAssistantManagement = () => {
+    const [pumpAssistants, setPumpAssistants] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPumpAssistants = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/pump-assistants');
+                setPumpAssistants(response.data);
+            } catch (err) {
+                console.error('Error fetching pump assistants:', err);
+                setError('Failed to fetch pump assistant data.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPumpAssistants();
+    }, []);
+
+    if (loading) return <div className='LoadingMessage'>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
+    return (
+        <div className="Pump_Assistant-content"><br/>
+            <h1 className='title'>Pump Assistant Management</h1>
+            {pumpAssistants.length > 0 ? (
+                <table className="pump-assistant-table">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Shed Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pumpAssistants.map((assistant) => (
+                            <tr key={assistant.id}>
+                                <td>{assistant.firstName}</td>
+                                <td>{assistant.lastName}</td>
+                                <td>{assistant.email}</td>
+                                <td>{assistant.shedName}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p>No pump assistants found.</p>
+            )}
+        </div>
+    );
+};
+
+
+const CompanyRequests = () => {
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        const fetchRequests = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/company-requests');
+                setRequests(response.data);
+            } catch (error) {
+                console.error('Error fetching company requests:', error);
+                setError('Failed to fetch requests. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRequests();
+    }, []);
+
+    const handleApprove = async (requestId) => {
+        try {
+            // Clear previous success and error messages
+            setSuccess('');
+            setError('');
+
+            // Log before making request
+            console.log(`Approving request with requestId: ${requestId}`);
+
+            // Approve the request
+            const approvalResponse = await axios.post(`http://localhost:5000/api/approve-request/${requestId}`);
+
+            // Log approval response
+            console.log('Approval response:', approvalResponse.data);
+
+            // Check if the request approval was successful
+            if (approvalResponse.status === 200 && approvalResponse.data.message === 'Request approved successfully') {
+                console.log('Request approved successfully!');
+
+                // Set success message
+                setSuccess('Request approved successfully!');
+
+                // Update the state to remove the approved request
+                setRequests(prevRequests => prevRequests.filter(req => req.id !== requestId));
+
+                // Clear the success message after a delay (optional)
+                setTimeout(() => setSuccess(''), 3000); // Hide the message after 3 seconds
+            } else {
+                throw new Error('Failed to approve request');
+            }
+
+        } catch (error) {
+            console.error('Error approving request:', error);
+
+            // Log specific error details if available
+            if (error.response) {
+                console.error('Error details:', error.response.data);
+            }
+
+            // Set the error message to be displayed
+            setError('Failed to approve the request. Please try again later.');
+        }
+    };
+
+    if (loading) {
+        return <div className="LoadingMessage">Loading...</div>;
+    }
+
+    return (
+        <div className="Company-Registration-Requests">
+            <br />
+            <h1>Company Registration Requests</h1>
+            
+            {/* Display success message */}
+            {success && <div className="SuccessMessage">{success}</div>}
+            
+            {/* Display error message */}
+            {error && <div className="ErrorMessage">{error}</div>}
+
+            {requests.length === 0 ? (
+                <p>No pending requests found.</p>
+            ) : (
+                <table className="requests-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Package Type</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {requests.map((request) => (
+                            <tr key={request.id}>
+                                <td>{request.company}</td>
+                                <td>{request.email}</td>
+                                <td>{request.package}</td>
+                                <td>{formatDate(request.createdAt)}</td>
+                                <td>
+                                    <button
+                                        className="Webapprove"
+                                        onClick={() => handleApprove(request.id)} // Only pass requestId here
+                                    >
+                                        Approve
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+// Utility function to format date
+const formatDate = (dateString) => {
+    if (!dateString) return 'Invalid Date';
+    return new Date(dateString).toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    }).replace(',', '');
+};
+
+
+const RegisteredCompanies = () => {
+    const [companies, setCompanies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCompanies = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/registered-companies');
+                // Filter for only approved companies
+                const approvedCompanies = response.data.filter(company => company.Approved_status === true);
+                setCompanies(approvedCompanies);
+            } catch (error) {
+                console.error('Error fetching registered companies:', error);
+                setError('Failed to fetch registered companies. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCompanies();
+    }, []);
+
+    const handleReject = (companyId) => {
+        // Display confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, reject it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                // Proceed to update the status if confirmed
+                try {
+                    await axios.put(`http://localhost:5000/api/registered-companies/${companyId}`, {
+                        Approved_status: false,
+                    });
+                    setCompanies(prevCompanies => prevCompanies.filter(company => company.id !== companyId));
+                    Swal.fire(
+                        'Rejected!',
+                        'The company has been rejected.',
+                        'success'
+                    );
+                } catch (error) {
+                    console.error('Error rejecting company:', error);
+                    setError('Failed to reject the company. Please try again later.');
+                }
+            }
+        });
+    };
+
+    if (loading) {
+        return <div className="LoadingMessage">Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="ErrorMessage">{error}</div>;
+    }
+
+    return (
+        <div className="RegisteredCompanies-content"><br/>
+            <h1>Registered Companies</h1>
+            {companies.length === 0 ? (
+                <p>No approved companies found.</p>
+            ) : (
+                <table className="companies-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Email</th>
+                            <th>Package Type</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {companies.map(company => (
+                            <tr key={company.id}>
+                                <td>{company.company}</td>
+                                <td>{company.email}</td>
+                                <td>{company.package}</td>
+                                <td>{formatDateCompany(company.createdAt)}</td>
+                                <td>
+                                    <button className="reject-btn" onClick={() => handleReject(company.id)}>Reject</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+const formatDateCompany = (dateString) => {
+    if (!dateString) return 'Invalid Date';
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+    }
+
+    return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+    }).replace(',', '');
+};
+
+
+
 // Add other components for different views if needed
-const CompanyRequests = () => <div>Company Registration Requests Content</div>;
-const RegisteredCompanies = () => <div>Registered Companies Content</div>;
 const CompanyVehicles = () => <div>Company Vehicles Content</div>;
 const DriverManagement = () => <div>Driver Management Content</div>;
-const PumpAssistantManagement = () => <div>Pump Assistant Management Content</div>;
-
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('dashboard'); // State to manage current view
 

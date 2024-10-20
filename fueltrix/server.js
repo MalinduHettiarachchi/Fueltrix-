@@ -203,6 +203,153 @@ app.put('/reject-shed/:id', async (req, res) => {
 });
 
 
+// API route to get pump assistants with shed names by matching Security_Key
+app.get('/api/pump-assistants', async (req, res) => {
+  try {
+      const pumpAssistantRef = db.collection('PumpAssistant');
+      const shedRef = db.collection('Shed');
+      const pumpAssistantSnapshot = await pumpAssistantRef.get();
+
+      const assistantsData = [];
+
+      for (const doc of pumpAssistantSnapshot.docs) {
+          const assistantData = doc.data();
+
+          if (assistantData.securityCode) {
+              // Find the matching shed based on Security_Key
+              const shedQuerySnapshot = await shedRef
+                  .where('Security_Key', '==', assistantData.securityCode)
+                  .where('Approved_status', '==', true) // Only approved sheds
+                  .get();
+
+              if (!shedQuerySnapshot.empty) {
+                  const shedDoc = shedQuerySnapshot.docs[0]; // Assuming one shed with this Security_Key
+                  assistantData.shedName = shedDoc.data().shedName;
+              } else {
+                  assistantData.shedName = 'Unknown Shed';
+              }
+          } else {
+              assistantData.shedName = 'Unknown Shed';
+          }
+
+          assistantsData.push({
+              id: doc.id,
+              ...assistantData,
+          });
+      }
+
+      res.status(200).json(assistantsData);
+  } catch (error) {
+      console.error('Error fetching pump assistants:', error);
+      res.status(500).json({ message: 'Failed to fetch pump assistant data.' });
+  }
+});
+
+
+// reservation system manager part
+app.post("/submit-reservation", async (req, res) => {
+  const { company, email, packageType } = req.body;
+
+  try {
+    // Insert data into Firebase with default values for Approved_status and password
+    await db.collection("Manager").add({
+      company: company,
+      email: email,
+      package: packageType,
+      password: "fueltrix1234",      // Default password
+      Approved_status: false,        // Default Approved_status
+      createdAt: new Date(),
+    });
+
+    res.status(200).send({ message: "Reservation added successfully" });
+  } catch (error) {
+    console.error("Error adding reservation: ", error);
+    res.status(500).send({ message: "Failed to add reservation" });
+  }
+});
+
+
+// Fetch company requests where 'Approved_status' is false
+app.get('/api/company-requests', async (req, res) => {
+  try {
+      const snapshot = await admin.firestore().collection('Manager').where('Approved_status', '==', false).get();
+      const requests = [];
+
+      snapshot.forEach(doc => {
+          const data = doc.data();
+          // Convert Firestore Timestamp to Date object
+          const createdAtDate = data.createdAt ? data.createdAt.toDate() : null;
+          requests.push({ id: doc.id, ...data, createdAt: createdAtDate });
+      });
+
+      res.status(200).json(requests);
+  } catch (error) {
+      console.error('Error fetching company requests:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+
+
+// API endpoint to approve a request by updating the Approved_status
+app.post('/api/approve-request/:requestId', async (req, res) => {
+  const { requestId } = req.params;
+
+  try {
+      const requestRef = db.collection('Manager').doc(requestId);
+
+      // Check if the request exists
+      const doc = await requestRef.get();
+      if (!doc.exists) {
+          return res.status(404).json({ message: 'Manager request not found' });
+      }
+
+      // Update the Approved_status to true
+      await requestRef.update({ Approved_status: true });
+
+      res.status(200).json({ message: 'Request approved successfully' });
+  } catch (error) {
+      console.error('Error approving request:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+app.get('/api/registered-companies', async (req, res) => {
+  try {
+      const snapshot = await db.collection('Manager').where('Approved_status', '==', true).get();
+      const companies = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : null // Ensure createdAt is a Date
+      }));
+
+      res.status(200).json(companies);
+  } catch (error) {
+      console.error('Error fetching registered companies:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+// API endpoint to update the Approved_status of a registered company
+app.put('/api/registered-companies/:id', async (req, res) => {
+  const companyId = req.params.id;
+  const { Approved_status } = req.body;
+
+  try {
+      await db.collection('Manager').doc(companyId).update({ Approved_status });
+      res.status(200).json({ message: 'Company status updated successfully.' });
+  } catch (error) {
+      console.error('Error updating company status:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
