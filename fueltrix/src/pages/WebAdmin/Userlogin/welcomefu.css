@@ -1,0 +1,46 @@
+.welc{
+    color: white;
+    background-color: #041228;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    font-family: 'Poppins', sans-serif;
+    font-size: 70px;
+    font-weight: 500;
+}
+.loading-wrapper {
+    position: fixed;
+    bottom: 40px; /* Position the animation at the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.progress-bar {
+    width: 200px;
+    height: 5px;
+    background-color: #333; /* Background color of the bar */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: white;
+    width: 0;
+    animation: load 3s infinite;
+}
+
+@keyframes load {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}

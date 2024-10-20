@@ -4,7 +4,7 @@ import '../Card/thank.css';
 export default function Thank() {  // Updated function name to be capitalized as per React naming convention
   return (
     <div className="thankp">
-      <div className="close-btn">
+      <div className="close-btnn">
         <a href="/close"><span>&times;</span></a>
       </div>
       <div className="thank-container">

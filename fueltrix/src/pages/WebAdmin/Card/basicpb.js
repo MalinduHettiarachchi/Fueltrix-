@@ -5,7 +5,6 @@ function basicpb() {
   return (
     <div className="buy-page">
       {" "}
-      {/* Navbar at the top */}
       <div className="twcp">
         <div className="leftpb">
           <div className="ambassador-benefits">
