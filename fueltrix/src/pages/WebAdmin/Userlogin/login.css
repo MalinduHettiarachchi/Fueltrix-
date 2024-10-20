@@ -19,7 +19,10 @@
   justify-content: center;
   align-items: center;
 }
-
+.left-image {
+  width: 100vh;
+    height: auto; /* Maintain aspect ratio */
+}
 .rightc {
   background-color: #ffffff; /* Dark background for right column */
   color: #041228;
