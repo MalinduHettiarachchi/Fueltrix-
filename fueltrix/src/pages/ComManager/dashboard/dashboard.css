@@ -88,8 +88,69 @@
     font-family: 'Poppins', sans-serif;font-family: 'Poppins', sans-serif;
 }
 
-
-
-
-
-
+.custom-modal {
+    background-color: white;
+    padding: 40px;
+    width: 600px;
+    margin: auto;
+    border-radius: 20px;
+    border: none; /* Ensure there is no border */
+    box-shadow: none; /* Remove any box shadow */
+}
+  
+  .custom-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.done {
+    width: 100%; 
+    padding: 8px; 
+    font-size: 1rem;
+    background-color: #041228;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 25px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .npw {
+    color: #041228;
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  .rpw{
+    color: #041228;
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .npwi, .rpwi {
+    width: 100% !important;
+    padding: 8px !important;
+    font-size: 1rem;
+    border-radius: 25px !important;
+    border: none !important;
+    box-shadow: 0 0 0.5px 1px #041228; /* White outline */
+    outline: none;
+    background-color: #ffffff;
+    color: #041228;
+    box-sizing: border-box;
+  }
+  
+ 
+  .topicpl{
+    color: #041228;
+    font-size: 30px;
+  }
+  

@@ -1,10 +1,13 @@
 import React from 'react';
 import './login.css';
+import img from './logo.png'
+
 
 function Login() {
   return (
     <div className="two-column-container">
       <div className="leftc">
+      <img src={img} alt="Fuletrix" className="left-image" />
       </div>
       <div className="rightc">
         <p className="login">Login</p>
