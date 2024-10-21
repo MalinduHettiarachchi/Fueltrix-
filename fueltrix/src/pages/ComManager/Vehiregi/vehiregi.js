@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import { QRCodeCanvas } from "qrcode.react"; // Correct named import
 import "../Vehiregi/vehiregi.css";
 
-function srequest() {
+function SRequest() {
+  const [vehicleRegNo, setVehicleRegNo] = useState("");
+  const [qrCode, setQrCode] = useState(null);
+
+  const handleRegisterClick = () => {
+    if (vehicleRegNo) {
+      // Generate QR code with vehicle registration number
+      setQrCode(vehicleRegNo);
+    }
+  };
+
   return (
     <div className="vehirg">
-      <div className="leftvr"></div>
+      <div className="leftvr">
+        {qrCode ? (
+          <QRCodeCanvas value={qrCode} size={200} /> // Use QRCodeCanvas correctly
+        ) : (
+          <p>No QR Code generated yet.</p>
+        )}
+      </div>
       <div className="rightvr">
-      <p className="email-label">Registration Number</p>
+        <p className="email-label">Registration Number</p>
         <div className="form-group">
           <input
             type="text"
             placeholder="Vehicle Registration Number"
             className="email-input"
+            value={vehicleRegNo}
+            onChange={(e) => setVehicleRegNo(e.target.value)}
           />
         </div>
         <p className="email-label">Vehicle Type</p>
@@ -42,12 +61,12 @@ function srequest() {
             className="email-input"
           />
         </div>
-        <button className="sign-in">
-          <a href="/regivehi">Register</a>
+        <button className="sign-in" onClick={handleRegisterClick}>
+          Register
         </button>
       </div>
     </div>
   );
 }
 
-export default srequest;
+export default SRequest;
