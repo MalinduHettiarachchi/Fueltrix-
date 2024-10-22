@@ -33,4 +33,9 @@
     justify-content: center;
     align-items: flex-start; /* Align content to the left */
   }
-  
+  .topdrive{
+    font-size: 40px;
+    margin-bottom: 30px;
+    margin-left: 100px;
+    font-weight: 500;
+  }

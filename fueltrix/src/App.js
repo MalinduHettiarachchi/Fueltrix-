@@ -82,9 +82,6 @@ function App() {
           <Route path="/registrationReq" element={<RegistrationReq />} />
           <Route path="/webAdminLogin" element={<WebAdminLogin />} />
           <Route path="/webAdminDashboard" element={<WebAdminDashboard />} />
-
-
-          
         </Routes>
       </div>
     </Router>
