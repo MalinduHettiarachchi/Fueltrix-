@@ -8,6 +8,7 @@ function driveregi() {
       <p className="fueltrix">Fueltrix</p>
       </div>
       <div className="rightdr">
+        <p className="topdrive">Driver Registration</p>
         <p className="email-label">Name</p>
         <div className="form-group">
           <input
@@ -49,3 +50,5 @@ function driveregi() {
 }
 
 export default driveregi;
+
+<p className="topvehi">Vehicle Registration</p>
