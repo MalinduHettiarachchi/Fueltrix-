@@ -53,7 +53,7 @@ function App() {
           <Route path="/drivers" element={<Driver />} /> 
           <Route path="/vehicle" element={<Vehicle />} /> 
           <Route path="/buy" element={<Buynow />} />  
-          <Route path="/card" element={<Resetpw />} />          
+          <Route path="/card" element={<Resetpw />} />        
           <Route path="/signin" element={<WelcomeFu />} />        
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ourteam" element={<Ourteam />} />

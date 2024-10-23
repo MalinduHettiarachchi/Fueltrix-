@@ -21,22 +21,22 @@ function SRequest() {
   const [mapVisible, setMapVisible] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
   const [searchText, setSearchText] = useState('');
-  const [showAddressInput, setShowAddressInput] = useState(false); // State to toggle address input
-  const [isDoneClicked, setIsDoneClicked] = useState(false); // Track if the Done button has been clicked
+  const [showAddressInput, setShowAddressInput] = useState(false);
+  const [isDoneClicked, setIsDoneClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMapClick = (event) => {
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
     setSelectedPosition({ lat, lng });
 
-    // Use Geocoder to get the location address from lat, lng
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
       if (status === 'OK' && results[0]) {
-        setSearchText(results[0].formatted_address); // Set the search input to the address
+        setSearchText(results[0].formatted_address);
       } else {
         console.error('Geocoding failed: ', status);
-        setSearchText(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`); // Fallback to coordinates
+        setSearchText(`Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`);
       }
     });
   };
@@ -69,8 +69,23 @@ function SRequest() {
 
   const handleDoneClick = () => {
     setMapVisible(false);
-    setShowAddressInput(true); // Show the address input after done is clicked
-    setIsDoneClicked(true); // Mark that the Done button was clicked
+    setShowAddressInput(true);
+    setIsDoneClicked(true);
+  };
+
+  const handleChangeLocation = () => {
+    setShowAddressInput(false); // Hide address input
+    setIsLoading(true); // Start loading
+
+    // Load map and pick up location
+    setTimeout(() => {
+      setMapVisible(true); // Show the map again after loading
+      setSearchText(''); // Clear the search text
+      setIsLoading(false); // Stop loading
+
+      // Automatically trigger the pickup logic
+      handlePickupClick(); // Reuse pickup logic here
+    }, 500); // Simulate loading time (500ms)
   };
 
   return (
@@ -113,7 +128,6 @@ function SRequest() {
             </div>
             <p className="shedloc">Location</p>
 
-            {/* If showAddressInput is true, show the address input instead of the pickup button */}
             {showAddressInput ? (
               <div className="shed-group">
                 <input
@@ -128,14 +142,14 @@ function SRequest() {
               <button className="pickup" onClick={handlePickupClick}>Pick up your location</button>
             )}
 
-            {/* Render the Submit button only if Done has been clicked */}
             {isDoneClicked && (
-              <button className="submitshed"><a href="">Submit</a></button>
+              <button className="submitshed"><a href="/signin">Submit</a></button>
             )}
           </>
         ) : (
           <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI" libraries={['places']}>
             <div className="map-container">
+              {isLoading && <div className="loading-indicator">Loading...</div>}
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={10}
