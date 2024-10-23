@@ -1,85 +1,55 @@
-/* Style for the parent container */
-.thankp {
-    background-color: #ffffff;
-    color: #041228;
-    display: flex;
-    justify-content: center; /* Centers items horizontally */
-    align-items: center;     /* Centers items vertically */
-    height: 100vh;           /* Full height of the viewport */
-    font-family: 'Poppins', sans-serif;
-    position: relative;      /* Ensures close button is positioned relative to the parent */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
 }
 
-/* Container to group the thank and link texts */
-.thank-container {
-    text-align: center;  /* Centers the text content */
+.search-box {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 1;
 }
 
-/* Close button styles */
-.close-btnn {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    color: #041228;
-    width: 50px;           /* Width of the close button */
-    height: 50px;          /* Height of the close button */
-    border-radius: 50%;    /* Makes it circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 60px;       /* Size of the '×' symbol */
-    font-weight: 500;
+.search-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  color: #041228;
 }
 
-/* Style for Thank You text */
-.thank {
-    font-size: 118px;      /* Large size for Thank You */
-    margin-bottom: 10px;  /* Space between Thank You and the link */
+.done-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 120px;
+  font-size: 1rem;
+  background-color: #041228;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 }
-.shed-group {
-    margin-bottom: 20px;
-    width: 100%;
-    position: relative;
-  }
-.shedloc-input::placeholder {
-    color: rgb(100, 100, 100);
-  }
-  
-  .shednum, .shedname, .shedem, .shedloc {
-    color: #041228;
-    font-size: 1rem;
-    margin-bottom: 5px;
-    margin-left: 100px;
-  }
-  .shedloc-input {
-    width: 150% !important;
-    padding: 8px !important;
-    font-size: 1rem;
-    border-radius: 25px !important;
-    border: none !important;
-    box-shadow: 0 0 0.5px 1px #041228;
-    outline: none;
-    background-color: #ffffff;
-    color: #041228;
-    box-sizing: border-box;
-  }
-  .pick-up-btn {
-    position: absolute;
-    right: -45%; /* Adjust as needed */
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 80%;
-    padding: 8px 20px;
-    background-color: #041228;
-    color: white;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    text-align: center; /* Center text horizontally */
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Center text vertically */
-    font-size: 0.9rem; /* Adjust text size if needed */
-  }
+
+.done-button:hover {
+  background-color: #020a18;
+}
+.go-map-button {
+  background-color: #4CAF50; /* Green background */
+  color: white;              /* White text */
+  border: none;              /* No border */
+  padding: 10px 20px;        /* Padding for top/bottom and left/right */
+  text-align: center;        /* Centered text */
+  text-decoration: none;      /* No underline */
+  display: inline-block;      /* Inline-block element */
+  font-size: 16px;           /* Font size */
+  margin: 10px 0;           /* Margin above and below */
+  cursor: pointer;           /* Pointer cursor on hover */
+  border-radius: 5px;       /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
