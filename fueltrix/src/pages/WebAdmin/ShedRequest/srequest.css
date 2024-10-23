@@ -60,7 +60,11 @@
   color: #041228;
   box-sizing: border-box;
 }
-
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
 .shedloc-input{
   width: 70% !important;
   padding: 8px !important;
@@ -135,5 +139,22 @@
 
 .done-button:hover {
   background-color: #020a18;
+}
+.search-box {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  color: #041228;
 }
 
