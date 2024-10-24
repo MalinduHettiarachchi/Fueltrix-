@@ -1,30 +1,160 @@
-.shrc{
-    display: flex;
-    height: 48.5vh; /* Full height of the viewport */
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .leftsr, .rightsr {
-    flex: 1; /* Both columns will take up equal space */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  
-  .leftsr {
-    background-color: #041228; /* Light background for left column */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .rightsr {
-    background-color: #ffffff; /* Dark background for right column */
-    color: #041228;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Align content to the left */
-  }
-  
+.shrc {
+  display: flex;
+  height: 85vh; 
+  font-family: 'Poppins', sans-serif;
+}
+
+.leftsr, .rightsr {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.leftsr {
+  background-color: #ffffff;
+}
+
+.leftsr p {
+  color: #041228;
+  font-size: 60px;
+  font-weight: 500;
+}
+
+.rightsr {
+  background-color: #ffffff;
+  color: #041228;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.shed-group {
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.shednum::placeholder, .shedname-input::placeholder, .shedem-input::placeholder, .shedloc-input::placeholder {
+  color: rgb(100, 100, 100);
+}
+
+.shednum, .shedname, .shedem, .shedloc {
+  color: #041228;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-left: 100px;
+}
+
+.shednum-input, .shedname-input, .shedem-input {
+  width: 70% !important;
+  padding: 8px !important;
+  font-size: 1rem;
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 0.5px 1px #041228;
+  outline: none;
+  background-color: #ffffff;
+  color: #041228;
+  box-sizing: border-box;
+}
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+.shedloc-input{
+  width: 70% !important;
+  padding: 8px !important;
+  font-size: 1rem;
+  border-radius: 25px !important;
+  border: none !important;
+  box-shadow: 0 0 0.5px 1px #041228;
+  outline: none;
+  background-color: #ffffff;
+  color: #041228;
+  box-sizing: border-box;
+}
+
+.pick-up-btn {
+  position: absolute;
+  right: 15.5%; /* Adjust as needed */
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 80%;
+  padding: 8px 20px;
+  background-color: #041228;
+  color: white;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  text-align: center; /* Center text horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center text vertically */
+  font-size: 0.9rem; /* Adjust text size if needed */
+}
+
+
+.pickup {
+  width: 70%;
+  padding: 8px;
+  font-size: 1rem;
+  background-color: #041228;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  margin-left: 100px;
+  margin-top: px;
+  cursor: pointer;
+}
+.submitshed {
+  width: 70%;
+  padding: 8px;
+  font-size: 1rem;
+  background-color: #041228;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  margin-left: 100px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.done-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 120px;
+  font-size: 1rem;
+  background-color: #041228;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.done-button:hover {
+  background-color: #020a18;
+}
+.search-box {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  color: #041228;
+}
+

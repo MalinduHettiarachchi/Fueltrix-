@@ -1,49 +1,55 @@
-/* Style for the parent container */
-.thankp {
-    background-color: #041228;
-    color: white;
-    display: flex;
-    justify-content: center; /* Centers items horizontally */
-    align-items: center;     /* Centers items vertically */
-    height: 100vh;           /* Full height of the viewport */
-    font-family: 'Poppins', sans-serif;
-    position: relative;      /* Ensures close button is positioned relative to the parent */
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
 }
 
-/* Container to group the thank and link texts */
-.thank-container {
-    text-align: center;  /* Centers the text content */
+.search-box {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  z-index: 1;
 }
 
-/* Close button styles */
-.close-btnn {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    color: #ffffff;
-    width: 50px;           /* Width of the close button */
-    height: 50px;          /* Height of the close button */
-    border-radius: 50%;    /* Makes it circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 60px;       /* Size of the '×' symbol */
-    font-weight: 500;
+.search-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  color: #041228;
 }
 
-/* Style for Thank You text */
-.thank {
-    font-size: 118px;      /* Large size for Thank You */
-    margin-bottom: 10px;  /* Space between Thank You and the link */
+.done-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 120px;
+  font-size: 1rem;
+  background-color: #041228;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-/* Style for the link (www.fueltrix.com) */
-.link {
-    font-size: 15px;         /* Slightly smaller size for the link */
-    color: #ffffff;          /* Color of the link */
-    position: absolute;      /* Positioned at the bottom of the page */
-    bottom: 30px;            /* 30px from the bottom of the viewport */
-    left: 50%;
-    transform: translateX(-50%); /* Horizontally centers the link */
+.done-button:hover {
+  background-color: #020a18;
+}
+.go-map-button {
+  background-color: #4CAF50; /* Green background */
+  color: white;              /* White text */
+  border: none;              /* No border */
+  padding: 10px 20px;        /* Padding for top/bottom and left/right */
+  text-align: center;        /* Centered text */
+  text-decoration: none;      /* No underline */
+  display: inline-block;      /* Inline-block element */
+  font-size: 16px;           /* Font size */
+  margin: 10px 0;           /* Margin above and below */
+  cursor: pointer;           /* Pointer cursor on hover */
+  border-radius: 5px;       /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
 }

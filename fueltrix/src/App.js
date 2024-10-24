@@ -31,7 +31,6 @@ import Buypp from './pages/WebAdmin/Card/basicpp'
 import Driver from './pages/ComManager/Driveregi/driveregi'
 import Vehicle from './pages/ComManager/Vehiregi/vehiregi'
 import Resetpw from './pages/WebAdmin/ResetPW/resetpw'
-import Thank from './pages/WebAdmin/Card/thank'
 import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu';
 
 
@@ -53,9 +52,8 @@ function App() {
           <Route path="/fueltrix" element={<Mainpage />} />
           <Route path="/drivers" element={<Driver />} /> 
           <Route path="/vehicle" element={<Vehicle />} /> 
-          <Route path="/review" element={<Thank />} /> 
           <Route path="/buy" element={<Buynow />} />  
-          <Route path="/card" element={<Resetpw />} />          
+          <Route path="/card" element={<Resetpw />} />        
           <Route path="/signin" element={<WelcomeFu />} />        
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ourteam" element={<Ourteam />} />
@@ -82,9 +80,6 @@ function App() {
           <Route path="/registrationReq" element={<RegistrationReq />} />
           <Route path="/webAdminLogin" element={<WebAdminLogin />} />
           <Route path="/webAdminDashboard" element={<WebAdminDashboard />} />
-
-
-          
         </Routes>
       </div>
     </Router>

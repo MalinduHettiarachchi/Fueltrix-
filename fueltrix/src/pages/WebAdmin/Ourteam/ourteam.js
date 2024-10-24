@@ -8,7 +8,6 @@ function ourteam() {
     <div style={{backgroundColor:'white'}}>
       <Navbar />
       <SRequest/>
-      <Partners />
     </div>
   );
 }
