@@ -1,5 +1,5 @@
 .mainpage {
-    height: 100vh; /* Full viewport height */
+    height: 270vh; /* Full viewport height */
     display: flex;
     flex-direction: column;
 }
@@ -34,3 +34,44 @@
     font-size: 80px;
     font-family: 'Poppins', sans-serif;
 }
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    background-color: #ffffff; /* Dark navy background to match header */
+    padding: 30px;
+  }
+  
+  .feature-card {
+    background-color: #041228; /* Darker navy background for the cards */
+    color: #ffffff; /* White text for the card content */
+    width: 500px; /* Width for each card */
+    height: 200px;
+    padding: 20px;
+    border-radius: 25px;
+    text-align: center;
+    transition: transform 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .feature-card:hover {
+    outline: 2px solid #071d3f; /* Highlight outline on hover (light blue color) */
+  }
+  
+  .feature-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #ffffff; /* White icon to match text */
+  }
+  
+  .feature-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #ffffff; /* White heading text */
+  }
+  
+  .feature-card p {
+    font-size: 14px;
+    color: #d1d5db; /* Slightly lighter gray for the card's description text */
+  }
+  

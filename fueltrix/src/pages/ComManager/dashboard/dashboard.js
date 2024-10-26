@@ -1,20 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from '../CMNav/navbar';
 import '../dashboard/dashboard.css';
-import Modal from 'react-modal';
 
 function Dashboard() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  // Automatically open the modal when the component loads
-  useEffect(() => {
-    setModalIsOpen(true); // Open the modal automatically on component mount
-  }, []);
-
-  const closeModal = () => {
-    setModalIsOpen(false); // Function to close the modal
-  };
-
   return (
     <div className="dashboard">
       <Navbar />
@@ -51,35 +39,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
-      {/* Modal Component */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Auto-loaded Popup"
-        className="custom-modal"
-        overlayClassName="custom-modal-overlay"
-        shouldCloseOnOverlayClick={false} // Prevent closing when clicking outside
-      >
-        <h2 className='topicpl'>Please reset your password</h2>
-        <p className="npw">New Password</p>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Your password"
-            className="npwi"
-          />
-        </div>
-        <p className="rpw">Re Enter Password</p>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Your password"
-            className="rpwi"
-          />
-        </div>
-        <button className="done" onClick={closeModal}>Done</button>
-      </Modal>
     </div>
   );
 }
