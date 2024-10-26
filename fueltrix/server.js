@@ -77,7 +77,7 @@ app.post('/WebAdminLogin', async (req, res) => {
 
   try {
       // Query Firestore to find the user
-      const userRef = db.collection('Admin').where('Email', '==', email);
+      const userRef = db.collection('Admin').where('email', '==', email);
       const snapshot = await userRef.get();
 
       if (snapshot.empty) {
@@ -90,7 +90,7 @@ app.post('/WebAdminLogin', async (req, res) => {
       });
 
       // Check password (assuming you have stored passwords in plain text)
-      if (user.Password === password) {
+      if (user.password === password) {
           res.status(200).json({ success: true, message: 'Login successful' });
       } else {
           res.status(401).json({ success: false, message: 'Invalid email or password' });
