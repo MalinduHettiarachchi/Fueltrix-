@@ -16,7 +16,7 @@ const Navbar = () => {
             <a href="/vehicle">Vehicle Registration</a>
           </div>
         </li>
-        <li><a href="/ambassadors">Ambassadors</a></li>
+        <li><a href="/amb">Ambassadors</a></li>
         <li><a href="/about">About</a></li>
         <li className='login'><a href="/login"><img src={loginImage} alt="Login" className="login-img" /></a></li>
       </ul>
