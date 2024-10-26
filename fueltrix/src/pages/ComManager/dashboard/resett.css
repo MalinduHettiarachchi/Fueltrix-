@@ -1,56 +1,77 @@
-.reset-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
-  }
-  
-  .reset-box {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .reset-box h2 {
-    font-size: 1.5rem;
-    color: #041228;
-    margin-bottom: 1rem;
-  }
-  
-  .input-group {
-    margin-bottom: 1rem;
-  }
-  
-  .input-group label {
-    display: block;
-    font-size: 0.9rem;
-    color: #041228;
-    margin-bottom: 0.3rem;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .reset-button {
-    width: 100%;
-    padding: 0.7rem;
-    background-color: #041228;
-    color: #ffffff;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
- 
-  
+.rare-reset-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+.rare-reset-box {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.rare-reset-box h2 {
+  font-size: 1.5rem;
+  color: #041228;
+  margin-bottom: 1rem;
+}
+
+.rare-input-group {
+  margin-bottom: 1rem;
+}
+
+.rare-input-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: #041228;
+  margin-bottom: 0.3rem;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.rare-modern-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.rare-reset-button {
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #041228;
+  color: #ffffff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.rare-error-message {
+  color: #ff4d4f;
+  margin-bottom: 1rem;
+}
+
+.rare-success-message {
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
