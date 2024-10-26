@@ -3,7 +3,7 @@
     color: #fff;
     text-align: center;
     padding: 40px 20px;
-    overflow: hidden; /* Hide the overflowing content */
+    overflow: hidden; 
   }
 
   .partners-container h2 {
