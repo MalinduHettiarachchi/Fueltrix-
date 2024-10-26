@@ -23,16 +23,16 @@ import WebAdminDashboard from './pages/WebAdmin/Dashboard/WebAdminDashboard';
 import Mainpage from './pages/WebAdmin/Mainpage/Mainpage';
 import Login from './pages/WebAdmin/Userlogin/login';
 import Dashboard from './pages/ComManager/dashboard/dashboard';
-import Buynow from './pages/WebAdmin/Buynow/buy'
-import Ourteam from './pages/WebAdmin/Ourteam/ourteam'
-import Buypb from './pages/WebAdmin/Card/basicpb'
-import Buyps from './pages/WebAdmin/Card/basicps'
-import Buypp from './pages/WebAdmin/Card/basicpp'
-import Driver from './pages/ComManager/Driveregi/driveregi'
-import Vehicle from './pages/ComManager/Vehiregi/vehiregi'
-import Resetpw from './pages/WebAdmin/ResetPW/resetpw'
-import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu'
-import Reset from './pages/ComManager/dashboard/resett'
+import Buynow from './pages/WebAdmin/Buynow/buy';
+import Ourteam from './pages/WebAdmin/Ourteam/ourteam';
+import Buypb from './pages/WebAdmin/Card/basicpb';
+import Buyps from './pages/WebAdmin/Card/basicps';
+import Buypp from './pages/WebAdmin/Card/basicpp';
+import Driver from './pages/ComManager/Driveregi/driveregi';
+import Vehicle from './pages/ComManager/Vehiregi/vehiregi';
+import Resetpw from './pages/WebAdmin/ResetPW/resetpw';
+import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu';
+import Reset from './pages/ComManager/dashboard/resett';
 
 
 
@@ -58,7 +58,7 @@ function App() {
           <Route path="/signin" element={<WelcomeFu />} />        
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ourteam" element={<Ourteam />} />
-          <Route path="/amb" element={<Reset />} />
+          <Route path="/reset" element={<Reset />} />
           <Route path="/buyb" element={<Buypb />} />
           <Route path="/buys" element={<Buyps />} />
           <Route path="/buyp" element={<Buypp />} />

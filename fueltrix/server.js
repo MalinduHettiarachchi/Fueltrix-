@@ -350,6 +350,71 @@ app.put('/api/registered-companies/:id', async (req, res) => {
 
 
 
+
+// Route for user login
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check Admin collection for email
+    const adminSnapshot = await admin.firestore().collection('Admin').where('email', '==', email).get();
+
+    if (!adminSnapshot.empty) {
+      const adminData = adminSnapshot.docs[0].data();
+      if (adminData.password === password) {
+        // Admin login successful
+        return res.status(200).json({ redirect: "/webAdmindashboard" });
+      }
+      return res.status(401).json({ message: "Invalid admin password" });
+    }
+
+    // Check Manager collection for email
+    const managerSnapshot = await admin.firestore().collection('Manager').where('email', '==', email).get();
+
+    if (!managerSnapshot.empty) {
+      const managerData = managerSnapshot.docs[0].data();
+      if (password === 'fueltrix1234') {
+        // Default password, redirect to reset page with email in query parameters
+        return res.status(200).json({ redirect: `/reset?email=${email}`, userDetails: managerData });
+      } else if (managerData.password === password) {
+        // Manager login successful with correct password
+        return res.status(200).json({ redirect: "/signin" });
+      }
+      return res.status(401).json({ message: "Invalid manager password" });
+    }
+
+    // If no matches found
+    return res.status(401).json({ message: "Invalid email or password" });
+  } catch (error) {
+    return res.status(500).json({ message: "Login failed: " + error.message });
+  }
+});
+
+
+// Route for resetting password
+app.post('/api/reset-password', async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const managerSnapshot = await admin.firestore().collection('Manager').where('email', '==', email).get();
+
+    if (!managerSnapshot.empty) {
+      const managerRef = managerSnapshot.docs[0].ref;
+      await managerRef.update({ password: newPassword });
+      return res.status(200).json({ message: "Password updated successfully" });
+    } else {
+      return res.status(404).json({ message: "Manager not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating password: " + error.message });
+  }
+});
+
+
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
