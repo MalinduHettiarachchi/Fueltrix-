@@ -31,7 +31,8 @@ import Buypp from './pages/WebAdmin/Card/basicpp'
 import Driver from './pages/ComManager/Driveregi/driveregi'
 import Vehicle from './pages/ComManager/Vehiregi/vehiregi'
 import Resetpw from './pages/WebAdmin/ResetPW/resetpw'
-import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu';
+import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu'
+import Reset from './pages/ComManager/dashboard/resett'
 
 
 
@@ -57,6 +58,7 @@ function App() {
           <Route path="/signin" element={<WelcomeFu />} />        
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/ourteam" element={<Ourteam />} />
+          <Route path="/amb" element={<Reset />} />
           <Route path="/buyb" element={<Buypb />} />
           <Route path="/buys" element={<Buyps />} />
           <Route path="/buyp" element={<Buypp />} />
