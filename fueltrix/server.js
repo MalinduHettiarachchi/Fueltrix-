@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const cors = require('cors');
+const session = require('express-session');
+
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require('D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
@@ -350,6 +352,13 @@ app.put('/api/registered-companies/:id', async (req, res) => {
 
 
 
+// Set up session middleware
+app.use(session({
+  secret: '123@123', // Change this to a strong secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 // Route for user login
 app.post('/api/login', async (req, res) => {
@@ -373,23 +382,27 @@ app.post('/api/login', async (req, res) => {
 
     if (!managerSnapshot.empty) {
       const managerData = managerSnapshot.docs[0].data();
+      
       if (password === 'fueltrix1234') {
         // Default password, redirect to reset page with email in query parameters
         return res.status(200).json({ redirect: `/reset?email=${email}`, userDetails: managerData });
       } else if (managerData.password === password) {
+        // Create session with manager details
+        req.session.manager = managerData; // Store manager data in session
         // Manager login successful with correct password
         return res.status(200).json({ redirect: "/signin" });
       }
+      
       return res.status(401).json({ message: "Invalid manager password" });
     }
 
     // If no matches found
     return res.status(401).json({ message: "Invalid email or password" });
   } catch (error) {
+    console.error("Login error:", error); // Log error for debugging
     return res.status(500).json({ message: "Login failed: " + error.message });
   }
 });
-
 
 // Route for resetting password
 app.post('/api/reset-password', async (req, res) => {
@@ -406,10 +419,21 @@ app.post('/api/reset-password', async (req, res) => {
       return res.status(404).json({ message: "Manager not found" });
     }
   } catch (error) {
+    console.error("Reset password error:", error); // Log error for debugging
     return res.status(500).json({ message: "Error updating password: " + error.message });
   }
 });
 
+// Route for getting manager details from the session
+app.get('/api/manager-details', (req, res) => {
+  if (req.session.manager) {
+    console.log("Returning manager details:", req.session.manager); // Log the session data for debugging
+    return res.status(200).json(req.session.manager); // Send the manager details
+  } else {
+    console.log("No manager session found.");
+    return res.status(404).json({ message: "No manager logged in" });
+  }
+});
 
 
 
