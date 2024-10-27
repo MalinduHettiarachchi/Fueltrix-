@@ -457,3 +457,32 @@ tr:nth-child(even) {
 }
 
 
+.webadmin-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #003366 0%, #006699 100%); /* Dark gradient from deep navy to teal blue */
+    padding: 10px 15px; /* Reduced padding for a sleeker look */
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    color: white; /* White text for contrast against the dark blue gradient */
+    font-family: 'San Francisco', 'Helvetica Neue', sans-serif; /* Apple-like font */
+    font-size: 0.9rem; /* Smaller, more refined font size */
+    font-weight: 500; /* Medium weight for subtle emphasis */
+    transition: box-shadow 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.webadmin-user-info i {
+    font-size: 1.2rem; /* Smaller icon size */
+    color: white; /* Icon color to match the text */
+    margin-right: 8px; /* Minimal space between icon and text */
+}
+
+.webadmin-user-info p {
+    margin: 0;
+}
+
+/* Hover effect for interactivity */
+.webadmin-user-info:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow on hover */
+}

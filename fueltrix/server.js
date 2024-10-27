@@ -369,7 +369,7 @@ app.post('/api/login', async (req, res) => {
     if (!adminSnapshot.empty) {
       const adminData = adminSnapshot.docs[0].data();
       if (adminData.password === password) {
-        return res.status(200).json({ redirect: "/webAdmindashboard" });
+        return res.status(200).json({ redirect: "/webAdmindashboard", userDetails: adminData });
       }
       return res.status(401).json({ message: "Invalid admin password" });
     }

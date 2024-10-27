@@ -10,18 +10,18 @@ import { motion } from 'framer-motion'; // Framer Motion for animations
 import styled from 'styled-components'; // styled-components for modern styling
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import { useLocation } from 'react-router-dom';
 
 
 const Sidebar = ({ onChangeView }) => {
-    const navigate = useNavigate(); // Get navigate function
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { userDetails } = location.state || {}; // Retrieve user details
 
     const handleLogout = () => {
-        // Clear user-related data (e.g., tokens)
         localStorage.removeItem('authToken'); // Assuming auth token is stored in localStorage
         sessionStorage.clear(); // Clear session storage if used
-        
-        // Redirect to login page
-        navigate('/login'); // Use navigate for redirection
+        navigate('/login'); // Redirect to login page
     };
 
     return (
@@ -29,6 +29,16 @@ const Sidebar = ({ onChangeView }) => {
             <div className="webadmin-sidebar-brand">
                 <i className="fas fa-cog"></i> Admin Dashboard
             </div>
+
+            {/* Display User Details */}
+            {userDetails && (
+                <div class="webadmin-user-info">
+                <i class="fas fa-user-circle"></i> 
+                <p>Welcome, {userDetails.name || "Admin"}</p>
+            </div>
+           
+            )}
+
             <ul className="webadmin-sidebar-menu">
                 <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyRequests')}><i className="fas fa-building"></i> Company Registration Requests</a></li>
@@ -45,7 +55,9 @@ const Sidebar = ({ onChangeView }) => {
 
 
 
+
 const Header = () => {
+    
     return (
         <header className="webadmin-dashboard-header">
             <div className="header-content">
@@ -627,6 +639,7 @@ const Dashboard = () => {
     };
 
     return (
+        
         <div className="webadmin-dashboard-container">
             <Sidebar onChangeView={setCurrentView} />
             <main className="webadmin-main-content">
@@ -639,6 +652,7 @@ const Dashboard = () => {
 };
 
 function App() {
+    
     return (
             <div className="webadmin-app">
                 <Dashboard />
