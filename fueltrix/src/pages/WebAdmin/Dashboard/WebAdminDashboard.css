@@ -133,8 +133,22 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
     text-align: center;
-    width: calc(33% - 20px); /* Default width */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: calc(33% - 20px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Added transition for background color */
+    animation: fadeInUp 0.5s ease forwards; /* Add entrance animation */
+    opacity: 0; /* Start hidden */
+}
+
+.webadmin-stat-card:nth-child(1) {
+    animation-delay: 0.1s; /* Staggered effect */
+}
+
+.webadmin-stat-card:nth-child(2) {
+    animation-delay: 0.2s; /* Staggered effect */
+}
+
+.webadmin-stat-card:nth-child(3) {
+    animation-delay: 0.3s; /* Staggered effect */
 }
 
 .webadmin-stat-card i {
@@ -156,8 +170,21 @@ body {
 }
 
 .webadmin-stat-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.02); /* Slightly scale up */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background-color: #e9f2fc; /* Change background on hover */
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Responsive Styles */
@@ -180,6 +207,7 @@ body {
         font-size: 18px; /* Smaller font size for mobile */
     }
 }
+
 
 
 /* Recent Activities */

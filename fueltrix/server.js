@@ -561,8 +561,8 @@ app.get('/api/stats', async (req, res) => {
           pendingCompanies
       ] = await Promise.all([
           db.collection('Shed').where('Approved_status', '==', false).get(),
-          db.collection('Manager').get(),
-          db.collection('Shed').get(),
+          db.collection('Manager').where('Approved_status', '==', true).get(),
+          db.collection('Shed').where('Approved_status', '==', true).get(),
           db.collection('Vehicle').get(),
           db.collection('Driver').get(),
           db.collection('PumpAssistant').get(),
