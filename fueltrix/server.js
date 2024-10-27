@@ -464,6 +464,50 @@ app.post('/api/driver/register', async (req, res) => {
 
 
 
+// API endpoint to save vehicle details
+app.post("/api/register-vehicle", async (req, res) => {
+  const { registrationNumber, vehicleType, fuelType, fuelVolume, vehicleCode, company } = req.body;
+
+  try {
+    // Check if a vehicle with the same registration number already exists
+    const existingVehicle = await db.collection("Vehicle")
+      .where("registrationNumber", "==", registrationNumber)
+      .get();
+
+    if (!existingVehicle.empty) {
+      return res.status(400).json({ message: "Vehicle with this registration number already exists." });
+    }
+
+    // Validate fuelVolume to ensure it's a number
+    const fuelVolumeNumber = Number(fuelVolume); // Convert fuelVolume to a number
+
+    // Check if fuelVolume is a valid number
+    if (isNaN(fuelVolumeNumber) || fuelVolumeNumber <= 0) {
+      return res.status(400).json({ message: "Fuel volume must be a positive number." });
+    }
+
+    // If not, proceed to save the new vehicle details
+    const vehicleRef = db.collection("Vehicle").doc(); // Auto-generated ID
+    await vehicleRef.set({
+      registrationNumber,
+      vehicleType,
+      fuelType,
+      fuelVolume: fuelVolumeNumber, // Save as a number
+      vehicleCode,
+      company,
+    });
+
+    res.status(201).json({ message: "Vehicle registered successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error registering vehicle." });
+  }
+});
+
+
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
