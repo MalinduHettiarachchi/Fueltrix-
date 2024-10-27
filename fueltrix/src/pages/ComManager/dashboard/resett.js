@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom'; // Use this hook to read query params
+import { useLocation,useNavigate } from 'react-router-dom'; // Use this hook to read query params
 import '../dashboard/resett.css';
 
 function Reset() {
@@ -10,6 +10,8 @@ function Reset() {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { userDetails } = location.state || {};
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve email from query parameters
@@ -45,7 +47,7 @@ function Reset() {
       if (response.ok) {
         setSuccessMessage('Password reset successfully! Redirecting to Dashboard...');
         setTimeout(() => {
-          window.location.href = '/signin';
+          navigate('/signin', { state: { userDetails, email } });
         }, 2000);
       } else {
         setErrorMessage(data.message || 'Failed to reset password.');

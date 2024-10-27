@@ -1,14 +1,16 @@
-// Login.js
 import React, { useState } from 'react';
-import './login.css';
-import img from './logo.png';
+import './login.css'; // Ensure your CSS file is linked
+import img from './logo.png'; // Ensure the logo image path is correct
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // State for email input
+  const [password, setPassword] = useState(''); // State for password input
+  const navigate = useNavigate(); // Hook to navigate between routes
 
+  // Function to handle login process
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
 
     try {
       const response = await fetch('http://localhost:5000/api/login', {
@@ -16,18 +18,18 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Send credentials
       });
-      const data = await response.json();
+      const data = await response.json(); // Parse response
 
       if (response.ok) {
-        // Redirect based on role
-        window.location.href = data.redirect;
+        // Redirect based on response data
+        navigate(data.redirect, { state: { userDetails: data.userDetails, email } });
       } else {
-        alert(data.message);
+        alert(data.message); // Display error message
       }
     } catch (error) {
-      console.error('Login failed:', error.message);
+      console.error('Login failed:', error.message); // Log any error that occurs
     }
   };
 
@@ -46,7 +48,7 @@ function Login() {
             placeholder="Your email address" 
             className="email-input" 
             value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+            onChange={(e) => setEmail(e.target.value)} // Update email state on change
           />
         </div>
         <p className="password-label">Password</p>
@@ -56,7 +58,7 @@ function Login() {
             placeholder="Your password" 
             className="password-input" 
             value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+            onChange={(e) => setPassword(e.target.value)} // Update password state on change
           />
         </div>
         <button className="sign-in" onClick={handleLogin}>SIGN IN</button>

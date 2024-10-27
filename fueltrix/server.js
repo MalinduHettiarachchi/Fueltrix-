@@ -360,49 +360,42 @@ app.use(session({
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-// Route for user login
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check Admin collection for email
+    // Admin login check
     const adminSnapshot = await admin.firestore().collection('Admin').where('email', '==', email).get();
-
     if (!adminSnapshot.empty) {
       const adminData = adminSnapshot.docs[0].data();
       if (adminData.password === password) {
-        // Admin login successful
         return res.status(200).json({ redirect: "/webAdmindashboard" });
       }
       return res.status(401).json({ message: "Invalid admin password" });
     }
 
-    // Check Manager collection for email
+    // Manager login check
     const managerSnapshot = await admin.firestore().collection('Manager').where('email', '==', email).get();
-
     if (!managerSnapshot.empty) {
       const managerData = managerSnapshot.docs[0].data();
-      
       if (password === 'fueltrix1234') {
-        // Default password, redirect to reset page with email in query parameters
         return res.status(200).json({ redirect: `/reset?email=${email}`, userDetails: managerData });
-      } else if (managerData.password === password) {
-        // Create session with manager details
-        req.session.manager = managerData; // Store manager data in session
-        // Manager login successful with correct password
-        return res.status(200).json({ redirect: "/signin" });
+    } else if (managerData.password === password) {
+        req.session.manager = managerData;
+        return res.status(200).json({ redirect: `/signin?email=${email}`, userDetails: managerData });
       }
-      
+    
       return res.status(401).json({ message: "Invalid manager password" });
     }
 
-    // If no matches found
     return res.status(401).json({ message: "Invalid email or password" });
   } catch (error) {
-    console.error("Login error:", error); // Log error for debugging
+    console.error("Login error:", error);
     return res.status(500).json({ message: "Login failed: " + error.message });
   }
 });
+
+
 
 // Route for resetting password
 app.post('/api/reset-password', async (req, res) => {
