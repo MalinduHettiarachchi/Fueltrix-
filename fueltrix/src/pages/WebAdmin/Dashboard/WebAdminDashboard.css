@@ -133,8 +133,14 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 30px;
     text-align: center;
-    width: calc(33% - 20px);
+    width: calc(33% - 20px); /* Default width */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.webadmin-stat-card i {
+    font-size: 2rem; /* Adjust icon size */
+    margin-right: 10px; /* Space between icon and text */
+    color: #007bff; /* Icon color */
 }
 
 .webadmin-stat-card h2 {
@@ -153,6 +159,28 @@ body {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .webadmin-stat-card {
+        width: calc(50% - 20px); /* Two cards per row on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .webadmin-stat-card {
+        width: 100%; /* One card per row on mobile */
+    }
+
+    .webadmin-stat-card p {
+        font-size: 20px; /* Smaller font size for mobile */
+    }
+
+    .webadmin-stat-card h2 {
+        font-size: 18px; /* Smaller font size for mobile */
+    }
+}
+
 
 /* Recent Activities */
 .webadmin-recent-activities {
@@ -551,4 +579,59 @@ h1 {
 .vehicles-table td:focus {
     outline: none;
     box-shadow: 0 0 0 2px #007aff; /* Blue outline for focus */
+}
+
+.driver-management-content {
+    max-width: 800px; /* Limit the width for a more focused view */
+    margin: 20px auto; /* Center the component */
+    padding: 20px; /* Add padding around the content */
+    background-color: #ffffff; /* White background for the content area */
+    border-radius: 12px; /* Rounded corners for a softer look */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+
+.loading-text, .error-text {
+    font-size: 1rem; /* Standard font size */
+    color: #999; /* Grey for loading/error messages */
+    text-align: center; /* Center the text */
+}
+
+.drivers-table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Remove space between cells */
+    margin-top: 20px; /* Space above the table */
+}
+
+.drivers-table th, .drivers-table td {
+    padding: 12px 15px; /* Adequate padding for cells */
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #e0e0e0; /* Light border for separation */
+}
+
+.drivers-table th {
+    background-color: #f0f0f5; /* Light grey background for headers */
+    color: #333; /* Dark text for headers */
+    font-weight: bold; /* Bold text for header */
+    border-top-left-radius: 12px; /* Rounded corners on top left */
+    border-top-right-radius: 12px; /* Rounded corners on top right */
+}
+
+.drivers-table tr:hover {
+    background-color: #f7f7f9; /* Highlight row on hover */
+}
+
+.drivers-table td {
+    background-color: #ffffff; /* White background for table cells */
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .drivers-table th, .drivers-table td {
+        padding: 10px; /* Smaller padding for mobile */
+    }
+
+    h1 {
+        font-size: 1.2rem; /* Smaller heading on mobile */
+    }
 }

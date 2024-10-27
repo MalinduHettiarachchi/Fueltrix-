@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const session = require('express-session');
-
+const router = express.Router();
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require('D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
@@ -544,6 +544,47 @@ app.get('/api/drivers', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch drivers' });
   }
 });
+
+
+
+
+// Route to get stats
+app.get('/api/stats', async (req, res) => {
+  try {
+      const [
+          shedRequests,
+          companies,
+          sheds,
+          vehicles,
+          drivers,
+          pumpAssistants,
+          pendingCompanies
+      ] = await Promise.all([
+          db.collection('Shed').where('Approved_status', '==', false).get(),
+          db.collection('Manager').get(),
+          db.collection('Shed').get(),
+          db.collection('Vehicle').get(),
+          db.collection('Driver').get(),
+          db.collection('PumpAssistant').get(),
+          db.collection('Manager').where('Approved_status', '==', false).get() // Fetch pending companies
+      ]);
+
+      // Constructing the response object
+      res.status(200).json({
+          pendingShedRequests: shedRequests.size,
+          totalRegisteredCompanies: companies.size,
+          totalPendingCompanies: pendingCompanies.size, // Add this for total pending companies
+          totalRegisteredSheds: sheds.size,
+          totalCompanyVehicles: vehicles.size,
+          totalDrivers: drivers.size,
+          totalPumpAssistants: pumpAssistants.size,
+      });
+  } catch (error) {
+      console.error('Error fetching stats:', error);
+      res.status(500).json({ error: 'Failed to fetch stats' });
+  }
+});
+
 
 // Start the server
 app.listen(PORT, () => {
