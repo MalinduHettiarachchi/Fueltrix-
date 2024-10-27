@@ -12,7 +12,43 @@ function Driveregi() {
   const [contact, setContact] = useState('');
   const [password, setPassword] = useState('');
 
+  const validateForm = () => {
+    // Basic validation
+    if (!name) {
+      alert("Name is required.");
+      return false;
+    }
+    if (!email) {
+      alert("Email is required.");
+      return false;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+    if (!contact) {
+      alert("Contact number is required.");
+      return false;
+    }
+    if (!/^\d{10}$/.test(contact)) {
+      alert("Contact number should be 10 digits.");
+      return false;
+    }
+    if (!password) {
+      alert("Password is required.");
+      return false;
+    }
+    if (password.length < 6) {
+      alert("Password should be at least 6 characters.");
+      return false;
+    }
+    return true;
+  };
+
   const handleRegister = async () => {
+    if (!validateForm()) return; // Stop if validation fails
+
     try {
       const response = await fetch('http://localhost:5000/api/driver/register', {
         method: 'POST',
