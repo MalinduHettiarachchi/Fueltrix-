@@ -584,9 +584,129 @@ const formatDateCompany = (dateString) => {
 
 
 
-// Add other components for different views if needed
-const CompanyVehicles = () => <div>Company Vehicles Content</div>;
-const DriverManagement = () => <div>Driver Management Content</div>;
+const CompanyVehicles = () => {
+    const [groupedVehicles, setGroupedVehicles] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchVehicles = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/api/vehicles'); // Adjust based on your server setup
+                setGroupedVehicles(response.data);
+            } catch (error) {
+                setError('Error fetching vehicle data');
+                console.error('Error fetching vehicle data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVehicles();
+    }, []);
+
+    return (<div><br/>            <h1>Company Vehicles Content</h1>
+
+        <div className="Vehicles-Content">
+            {loading && <p>Loading vehicles...</p>}
+            {error && <p>{error}</p>}
+            {!loading && !error && (
+                <VehiclesTable groupedVehicles={groupedVehicles} />
+            )}
+        </div></div>
+    );
+};
+
+// Separate component for the vehicles table
+const VehiclesTable = ({ groupedVehicles }) => {
+    return (
+        <table className="vehicles-table">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Number of Vehicles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {Object.entries(groupedVehicles).map(([company, data]) => (
+                    <tr key={company}>
+                        <td>{company}</td>
+                        <td>{data.count}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+
+const DriverManagement = () => {
+    const [groupedDrivers, setGroupedDrivers] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchDrivers = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/api/drivers'); // Adjust this endpoint as necessary
+                const drivers = response.data;
+
+                // Group drivers by company
+                const grouped = drivers.reduce((acc, driver) => {
+                    const company = driver.company || 'Unknown Company'; // Handle missing company field
+                    if (!acc[company]) {
+                        acc[company] = { count: 0, drivers: [] };
+                    }
+                    acc[company].count++;
+                    acc[company].drivers.push(driver);
+                    return acc;
+                }, {});
+
+                setGroupedDrivers(grouped);
+            } catch (error) {
+                setError('Error fetching driver data');
+                console.error('Error fetching driver data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDrivers();
+    }, []);
+
+    return (
+        <div className="Driver-Management-Content">
+            <h1>Driver Management Content</h1>
+            {loading && <p>Loading drivers...</p>}
+            {error && <p>{error}</p>}
+            {!loading && !error && (
+                <table className="drivers-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Number of Drivers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.entries(groupedDrivers).map(([company, data]) => (
+                            <tr key={company}>
+                                <td>{company}</td>
+                                <td>{data.count}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+};
+
+
+
+
+
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('dashboard'); // State to manage current view
 
