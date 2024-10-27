@@ -1,25 +1,26 @@
-import React from 'react';
+// Dashboard.js
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../CMNav/navbar';
+import { ManagerContext } from './ManagerContext'; // Import the context
 import '../dashboard/dashboard.css';
 
 function Dashboard() {
-  // Accessing manager data from the location state
   const location = useLocation();
   const { userDetails } = location.state || {}; // Destructure to retrieve managerData (userDetails)
-  
-  // Log manager details to verify data
-  console.log("Manager Details:", userDetails);
-  
+  const { setManagerDetails } = useContext(ManagerContext); // Access setManagerDetails
+
+  useEffect(() => {
+    if (userDetails) {
+      setManagerDetails(userDetails); // Set manager details in context
+    }
+  }, [userDetails, setManagerDetails]);
 
   return (
     <div className="dashboard">
       <Navbar />
       <div className="up">
         <div className="left1">
-          <h2>Welcome, {userDetails?.company}</h2> {/* Display company's name */}
-          <p>Email: {userDetails?.email}</p>       {/* Display manager's email */}
-          <p>Role: {userDetails?.role}</p>         {/* Display manager's role, if available */}
         </div>
         <div className="right1">
           <div className="left11">

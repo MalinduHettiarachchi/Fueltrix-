@@ -33,6 +33,7 @@ import Vehicle from './pages/ComManager/Vehiregi/vehiregi';
 import Resetpw from './pages/WebAdmin/ResetPW/resetpw';
 import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu';
 import Reset from './pages/ComManager/dashboard/resett';
+import { ManagerProvider } from '../src/pages/ComManager/dashboard/ManagerContext'; // Import the provider
 
 
 
@@ -45,6 +46,7 @@ import Reset from './pages/ComManager/dashboard/resett';
 
 function App() {
   return (
+    <ManagerProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -85,6 +87,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </ManagerProvider>
   );
 }
 

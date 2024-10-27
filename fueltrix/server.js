@@ -431,6 +431,38 @@ app.get('/api/manager-details', (req, res) => {
 
 
 
+// Route to register a driver
+app.post('/api/driver/register', async (req, res) => {
+  const { name, email, contact, password, company } = req.body;
+
+  try {
+    // Check if the email already exists
+    const existingUserSnapshot = await db.collection('Driver')
+      .where('email', '==', email)
+      .get();
+
+    if (!existingUserSnapshot.empty) {
+      return res.status(400).json({ message: 'Email already exists. Please use a different email.' });
+    }
+
+    // If email does not exist, proceed to register the user
+    const docRef = await db.collection('Driver').add({
+      name,
+      email,
+      contact,
+      password, // Note: Storing passwords in plain text is not recommended for production
+      company,
+    });
+
+    res.status(201).json({ id: docRef.id, message: 'Registration successful!' });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    res.status(500).json({ message: 'Registration failed. Please try again.' });
+  }
+});
+
+
+
 
 // Start the server
 app.listen(PORT, () => {

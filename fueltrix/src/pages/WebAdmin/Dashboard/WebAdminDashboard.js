@@ -21,7 +21,7 @@ const Sidebar = ({ onChangeView }) => {
         sessionStorage.clear(); // Clear session storage if used
         
         // Redirect to login page
-        navigate('/webAdminLogin'); // Use navigate for redirection
+        navigate('/login'); // Use navigate for redirection
     };
 
     return (

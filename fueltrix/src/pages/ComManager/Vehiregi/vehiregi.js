@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import "../Vehiregi/vehiregi.css";
+import { useLocation } from 'react-router-dom';
+
 
 function SRequest() {
   const [vehicleRegNo, setVehicleRegNo] = useState("");
@@ -37,6 +39,14 @@ function SRequest() {
     setFuelVolume("");
   };
 
+
+  const location = useLocation(); // Access location object
+  const queryParams = new URLSearchParams(location.search); // Parse query parameters
+
+  // Retrieve specific parameters
+  const company = queryParams.get('company'); // Get the company name
+
+  
   return (
     <div className="vehirg">
       <div className="leftvr">
@@ -55,6 +65,8 @@ function SRequest() {
           </div>
         ) : (
           <>
+                  <p>Welcome to the vehicle registration page for {company}!</p>
+
           <p className="topvehi">Vehicle Registration</p>
             <p className="email-label">Registration Number</p>
             <div className="form-group">
@@ -91,7 +103,6 @@ function SRequest() {
                 <option value="">Select Fuel Type</option>
                 <option value="petrol">Petrol</option>
                 <option value="diesel">Diesel</option>
-                <option value="electric">Electric</option>
               </select>
             </div>
             <p className="email-label">Fuel Volume Per Month</p>
