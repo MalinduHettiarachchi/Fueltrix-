@@ -506,7 +506,44 @@ app.post("/api/register-vehicle", async (req, res) => {
 
 
 
+// Endpoint to get vehicles grouped by company
+app.get('/api/vehicles', async (req, res) => {
+  try {
+      const vehiclesSnapshot = await db.collection('Vehicle').get(); // Adjust based on your DB
+      const vehicles = [];
+      vehiclesSnapshot.forEach(doc => {
+          vehicles.push({ id: doc.id, ...doc.data() });
+      });
 
+      const grouped = vehicles.reduce((acc, vehicle) => {
+          const company = vehicle.company; // Change 'company' to your actual field name
+          if (!acc[company]) {
+              acc[company] = { count: 0, vehicles: [] };
+          }
+          acc[company].count += 1;
+          acc[company].vehicles.push(vehicle);
+          return acc;
+      }, {});
+
+      res.status(200).json(grouped);
+  } catch (error) {
+      console.error('Error fetching vehicle data:', error);
+      res.status(500).json({ error: 'Failed to fetch vehicle data' });
+  }
+});
+
+
+// API endpoint to get drivers
+app.get('/api/drivers', async (req, res) => {
+  try {
+      const driversSnapshot = await admin.firestore().collection('Driver').get();
+      const drivers = driversSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      res.status(200).json(drivers);
+  } catch (error) {
+      console.error('Error fetching drivers:', error);
+      res.status(500).json({ error: 'Failed to fetch drivers' });
+  }
+});
 
 // Start the server
 app.listen(PORT, () => {
