@@ -650,12 +650,12 @@ const DriverManagement = () => {
         const fetchDrivers = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('http://localhost:5000/api/drivers'); // Adjust this endpoint as necessary
+                const response = await axios.get('http://localhost:5000/api/drivers');
                 const drivers = response.data;
 
                 // Group drivers by company
                 const grouped = drivers.reduce((acc, driver) => {
-                    const company = driver.company || 'Unknown Company'; // Handle missing company field
+                    const company = driver.company || 'Unknown Company';
                     if (!acc[company]) {
                         acc[company] = { count: 0, drivers: [] };
                     }
@@ -676,11 +676,12 @@ const DriverManagement = () => {
         fetchDrivers();
     }, []);
 
-    return (
-        <div className="Driver-Management-Content">
-            <h1>Driver Management Content</h1>
-            {loading && <p>Loading drivers...</p>}
-            {error && <p>{error}</p>}
+    return (<div><br/>
+                    <h1>Driver Management</h1>
+
+        <div className="driver-management-content">
+            {loading && <p className="loading-text">Loading drivers...</p>}
+            {error && <p className="error-text">{error}</p>}
             {!loading && !error && (
                 <table className="drivers-table">
                     <thead>
@@ -700,6 +701,7 @@ const DriverManagement = () => {
                 </table>
             )}
         </div>
+        </div>
     );
 };
 
@@ -708,7 +710,29 @@ const DriverManagement = () => {
 
 
 const Dashboard = () => {
-    const [currentView, setCurrentView] = useState('dashboard'); // State to manage current view
+    const [currentView, setCurrentView] = useState('dashboard');
+    const [stats, setStats] = useState({
+        pendingShedRequests: 0,
+        totalRegisteredCompanies: 0,
+        totalPendingCompanies: 0,
+        totalRegisteredSheds: 0,
+        totalCompanyVehicles: 0,
+        totalDrivers: 0,
+        totalPumpAssistants: 0,
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/stats');
+                setStats(response.data);
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const renderContent = () => {
         switch (currentView) {
@@ -730,28 +754,39 @@ const Dashboard = () => {
                 return (
                     <section className="webadmin-stats">
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-warehouse"></i> {/* Icon for pending shed requests */}
                             <h2>Pending Shed Requests</h2>
-                            <p>20 pending</p>
+                            <p>{stats.pendingShedRequests} pending</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-building"></i> {/* Icon for total pending companies */}
+                            <h2>Total Pending Companies</h2>
+                            <p>{stats.totalPendingCompanies} pending</p>
+                        </div>
+                        <div className="webadmin-stat-card">
+                            <i className="fas fa-industry"></i> {/* Icon for total registered companies */}
                             <h2>Total Registered Companies</h2>
-                            <p>45 companies</p>
+                            <p>{stats.totalRegisteredCompanies} companies</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-store-alt"></i> {/* Icon for total registered sheds */}
                             <h2>Total Registered Sheds</h2>
-                            <p>30 sheds</p>
+                            <p>{stats.totalRegisteredSheds} sheds</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-car"></i> {/* Icon for total company vehicles */}
                             <h2>Total Company Vehicles</h2>
-                            <p>150 vehicles</p>
+                            <p>{stats.totalCompanyVehicles} vehicles</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-user-tie"></i> {/* Icon for total drivers */}
                             <h2>Total Drivers</h2>
-                            <p>85 drivers</p>
+                            <p>{stats.totalDrivers} drivers</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-user-nurse"></i> {/* Icon for total pump assistants */}
                             <h2>Total Pump Assistants</h2>
-                            <p>50 assistants</p>
+                            <p>{stats.totalPumpAssistants} assistants</p>
                         </div>
                     </section>
                 );
@@ -759,13 +794,11 @@ const Dashboard = () => {
     };
 
     return (
-        
         <div className="webadmin-dashboard-container">
             <Sidebar onChangeView={setCurrentView} />
             <main className="webadmin-main-content">
                 <Header />
                 {renderContent()}
-               
             </main>
         </div>
     );
