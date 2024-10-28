@@ -10,18 +10,18 @@ import { motion } from 'framer-motion'; // Framer Motion for animations
 import styled from 'styled-components'; // styled-components for modern styling
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import { useLocation } from 'react-router-dom';
 
 
 const Sidebar = ({ onChangeView }) => {
-    const navigate = useNavigate(); // Get navigate function
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { userDetails } = location.state || {}; // Retrieve user details
 
     const handleLogout = () => {
-        // Clear user-related data (e.g., tokens)
         localStorage.removeItem('authToken'); // Assuming auth token is stored in localStorage
         sessionStorage.clear(); // Clear session storage if used
-        
-        // Redirect to login page
-        navigate('/webAdminLogin'); // Use navigate for redirection
+        navigate('/login'); // Redirect to login page
     };
 
     return (
@@ -29,6 +29,16 @@ const Sidebar = ({ onChangeView }) => {
             <div className="webadmin-sidebar-brand">
                 <i className="fas fa-cog"></i> Admin Dashboard
             </div>
+
+            {/* Display User Details */}
+            {userDetails && (
+                <div class="webadmin-user-info">
+                <i class="fas fa-user-circle"></i> 
+                <p>Welcome, {userDetails.name || "Admin"}</p>
+            </div>
+           
+            )}
+
             <ul className="webadmin-sidebar-menu">
                 <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyRequests')}><i className="fas fa-building"></i> Company Registration Requests</a></li>
@@ -45,7 +55,9 @@ const Sidebar = ({ onChangeView }) => {
 
 
 
+
 const Header = () => {
+    
     return (
         <header className="webadmin-dashboard-header">
             <div className="header-content">
@@ -572,11 +584,155 @@ const formatDateCompany = (dateString) => {
 
 
 
-// Add other components for different views if needed
-const CompanyVehicles = () => <div>Company Vehicles Content</div>;
-const DriverManagement = () => <div>Driver Management Content</div>;
+const CompanyVehicles = () => {
+    const [groupedVehicles, setGroupedVehicles] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchVehicles = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/api/vehicles'); // Adjust based on your server setup
+                setGroupedVehicles(response.data);
+            } catch (error) {
+                setError('Error fetching vehicle data');
+                console.error('Error fetching vehicle data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVehicles();
+    }, []);
+
+    return (<div><br/>            <h1>Company Vehicles Content</h1>
+
+        <div className="Vehicles-Content">
+            {loading && <p>Loading vehicles...</p>}
+            {error && <p>{error}</p>}
+            {!loading && !error && (
+                <VehiclesTable groupedVehicles={groupedVehicles} />
+            )}
+        </div></div>
+    );
+};
+
+// Separate component for the vehicles table
+const VehiclesTable = ({ groupedVehicles }) => {
+    return (
+        <table className="vehicles-table">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Number of Vehicles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {Object.entries(groupedVehicles).map(([company, data]) => (
+                    <tr key={company}>
+                        <td>{company}</td>
+                        <td>{data.count}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+
+const DriverManagement = () => {
+    const [groupedDrivers, setGroupedDrivers] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchDrivers = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/api/drivers');
+                const drivers = response.data;
+
+                // Group drivers by company
+                const grouped = drivers.reduce((acc, driver) => {
+                    const company = driver.company || 'Unknown Company';
+                    if (!acc[company]) {
+                        acc[company] = { count: 0, drivers: [] };
+                    }
+                    acc[company].count++;
+                    acc[company].drivers.push(driver);
+                    return acc;
+                }, {});
+
+                setGroupedDrivers(grouped);
+            } catch (error) {
+                setError('Error fetching driver data');
+                console.error('Error fetching driver data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDrivers();
+    }, []);
+
+    return (<div><br/>
+                    <h1>Driver Management</h1>
+
+        <div className="driver-management-content">
+            {loading && <p className="loading-text">Loading drivers...</p>}
+            {error && <p className="error-text">{error}</p>}
+            {!loading && !error && (
+                <table className="drivers-table">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Number of Drivers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.entries(groupedDrivers).map(([company, data]) => (
+                            <tr key={company}>
+                                <td>{company}</td>
+                                <td>{data.count}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+        </div>
+    );
+};
+
+
+
+
+
 const Dashboard = () => {
-    const [currentView, setCurrentView] = useState('dashboard'); // State to manage current view
+    const [currentView, setCurrentView] = useState('dashboard');
+    const [stats, setStats] = useState({
+        pendingShedRequests: 0,
+        totalRegisteredCompanies: 0,
+        totalPendingCompanies: 0,
+        totalRegisteredSheds: 0,
+        totalCompanyVehicles: 0,
+        totalDrivers: 0,
+        totalPumpAssistants: 0,
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/stats');
+                setStats(response.data);
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const renderContent = () => {
         switch (currentView) {
@@ -598,28 +754,39 @@ const Dashboard = () => {
                 return (
                     <section className="webadmin-stats">
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-warehouse"></i> {/* Icon for pending shed requests */}
                             <h2>Pending Shed Requests</h2>
-                            <p>20 pending</p>
+                            <p>{stats.pendingShedRequests} pending</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-building"></i> {/* Icon for total pending companies */}
+                            <h2>Total Pending Companies</h2>
+                            <p>{stats.totalPendingCompanies} pending</p>
+                        </div>
+                        <div className="webadmin-stat-card">
+                            <i className="fas fa-industry"></i> {/* Icon for total registered companies */}
                             <h2>Total Registered Companies</h2>
-                            <p>45 companies</p>
+                            <p>{stats.totalRegisteredCompanies} companies</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-store-alt"></i> {/* Icon for total registered sheds */}
                             <h2>Total Registered Sheds</h2>
-                            <p>30 sheds</p>
+                            <p>{stats.totalRegisteredSheds} sheds</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-car"></i> {/* Icon for total company vehicles */}
                             <h2>Total Company Vehicles</h2>
-                            <p>150 vehicles</p>
+                            <p>{stats.totalCompanyVehicles} vehicles</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-user-tie"></i> {/* Icon for total drivers */}
                             <h2>Total Drivers</h2>
-                            <p>85 drivers</p>
+                            <p>{stats.totalDrivers} drivers</p>
                         </div>
                         <div className="webadmin-stat-card">
+                            <i className="fas fa-user-nurse"></i> {/* Icon for total pump assistants */}
                             <h2>Total Pump Assistants</h2>
-                            <p>50 assistants</p>
+                            <p>{stats.totalPumpAssistants} assistants</p>
                         </div>
                     </section>
                 );
@@ -632,13 +799,13 @@ const Dashboard = () => {
             <main className="webadmin-main-content">
                 <Header />
                 {renderContent()}
-               
             </main>
         </div>
     );
 };
 
 function App() {
+    
     return (
             <div className="webadmin-app">
                 <Dashboard />

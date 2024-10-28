@@ -134,7 +134,27 @@ body {
     padding: 30px;
     text-align: center;
     width: calc(33% - 20px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Added transition for background color */
+    animation: fadeInUp 0.5s ease forwards; /* Add entrance animation */
+    opacity: 0; /* Start hidden */
+}
+
+.webadmin-stat-card:nth-child(1) {
+    animation-delay: 0.1s; /* Staggered effect */
+}
+
+.webadmin-stat-card:nth-child(2) {
+    animation-delay: 0.2s; /* Staggered effect */
+}
+
+.webadmin-stat-card:nth-child(3) {
+    animation-delay: 0.3s; /* Staggered effect */
+}
+
+.webadmin-stat-card i {
+    font-size: 2rem; /* Adjust icon size */
+    margin-right: 10px; /* Space between icon and text */
+    color: #007bff; /* Icon color */
 }
 
 .webadmin-stat-card h2 {
@@ -150,9 +170,45 @@ body {
 }
 
 .webadmin-stat-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(1.02); /* Slightly scale up */
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    background-color: #e9f2fc; /* Change background on hover */
 }
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .webadmin-stat-card {
+        width: calc(50% - 20px); /* Two cards per row on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .webadmin-stat-card {
+        width: 100%; /* One card per row on mobile */
+    }
+
+    .webadmin-stat-card p {
+        font-size: 20px; /* Smaller font size for mobile */
+    }
+
+    .webadmin-stat-card h2 {
+        font-size: 18px; /* Smaller font size for mobile */
+    }
+}
+
+
 
 /* Recent Activities */
 .webadmin-recent-activities {
@@ -457,3 +513,153 @@ tr:nth-child(even) {
 }
 
 
+.webadmin-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #003366 0%, #006699 100%); /* Dark gradient from deep navy to teal blue */
+    padding: 10px 15px; /* Reduced padding for a sleeker look */
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    color: white; /* White text for contrast against the dark blue gradient */
+    font-family: 'San Francisco', 'Helvetica Neue', sans-serif; /* Apple-like font */
+    font-size: 0.9rem; /* Smaller, more refined font size */
+    font-weight: 500; /* Medium weight for subtle emphasis */
+    transition: box-shadow 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.webadmin-user-info i {
+    font-size: 1.2rem; /* Smaller icon size */
+    color: white; /* Icon color to match the text */
+    margin-right: 8px; /* Minimal space between icon and text */
+}
+
+.webadmin-user-info p {
+    margin: 0;
+}
+
+/* Hover effect for interactivity */
+.webadmin-user-info:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow on hover */
+}
+
+
+/* CompanyVehicles.css */
+.Vehicles-Content {
+    padding: 30px; /* Standard padding */
+    background-color: rgba(255, 255, 255, 0.8); /* White with 80% opacity for a semi-transparent effect */
+    border-radius: 20px; /* Rounded corners for a softer appearance */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    max-width: 800px; /* Max width for content */
+    margin: auto; /* Center the content */
+    font-family: 'Helvetica Neue', sans-serif; /* Apple-like font */
+}
+
+h1 {
+    font-size: 26px; /* Heading size */
+    color: #333333; /* Dark gray for text */
+    margin-bottom: 24px; /* Space below the heading */
+    text-align: center; /* Centered heading */
+}
+
+.vehicles-table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 15px; /* Space above the table */
+    border-radius: 10px; /* Rounded corners for the table */
+    overflow: hidden; /* Hide overflow for rounded corners */
+}
+
+.vehicles-table th,
+.vehicles-table td {
+    border: none; /* No borders for a cleaner look */
+    padding: 12px 16px; /* Padding for cells */
+    text-align: left; /* Left align text */
+    font-size: 15px; /* Standard font size */
+    color: #555555; /* Darker gray for text */
+}
+
+.vehicles-table th {
+    background-color: rgba(248, 248, 248, 0.9); /* Light gray for header with slight transparency */
+    color: #444444; /* Darker gray for header text */
+    font-weight: 600; /* Bold text */
+    text-transform: uppercase; /* Uppercase for emphasis */
+}
+
+.vehicles-table tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.9); /* White for odd rows with slight transparency */
+}
+
+.vehicles-table tr:nth-child(even) {
+    background-color: rgba(244, 244, 244, 0.9); /* Very light gray for even rows with slight transparency */
+}
+
+.vehicles-table tr:hover {
+    background-color: rgba(224, 224, 224, 0.9); /* Subtle gray on hover with slight transparency */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.vehicles-table td {
+    border-bottom: 1px solid rgba(224, 224, 224, 0.5); /* Light gray bottom border with transparency */
+}
+
+/* Add focus style for accessibility */
+.vehicles-table td:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #007aff; /* Blue outline for focus */
+}
+
+.driver-management-content {
+    max-width: 800px; /* Limit the width for a more focused view */
+    margin: 20px auto; /* Center the component */
+    padding: 20px; /* Add padding around the content */
+    background-color: #ffffff; /* White background for the content area */
+    border-radius: 12px; /* Rounded corners for a softer look */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+
+.loading-text, .error-text {
+    font-size: 1rem; /* Standard font size */
+    color: #999; /* Grey for loading/error messages */
+    text-align: center; /* Center the text */
+}
+
+.drivers-table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Remove space between cells */
+    margin-top: 20px; /* Space above the table */
+}
+
+.drivers-table th, .drivers-table td {
+    padding: 12px 15px; /* Adequate padding for cells */
+    text-align: left; /* Align text to the left */
+    border-bottom: 1px solid #e0e0e0; /* Light border for separation */
+}
+
+.drivers-table th {
+    background-color: #f0f0f5; /* Light grey background for headers */
+    color: #333; /* Dark text for headers */
+    font-weight: bold; /* Bold text for header */
+    border-top-left-radius: 12px; /* Rounded corners on top left */
+    border-top-right-radius: 12px; /* Rounded corners on top right */
+}
+
+.drivers-table tr:hover {
+    background-color: #f7f7f9; /* Highlight row on hover */
+}
+
+.drivers-table td {
+    background-color: #ffffff; /* White background for table cells */
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .drivers-table th, .drivers-table td {
+        padding: 10px; /* Smaller padding for mobile */
+    }
+
+    h1 {
+        font-size: 1.2rem; /* Smaller heading on mobile */
+    }
+}

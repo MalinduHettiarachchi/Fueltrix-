@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const cors = require('cors');
+const session = require('express-session');
+const router = express.Router();
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require('D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
@@ -348,6 +350,240 @@ app.put('/api/registered-companies/:id', async (req, res) => {
 });
 
 
+
+
+// Set up session middleware
+app.use(session({
+  secret: '123@123', // Change this to a strong secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Admin login check
+    const adminSnapshot = await admin.firestore().collection('Admin').where('email', '==', email).get();
+    if (!adminSnapshot.empty) {
+      const adminData = adminSnapshot.docs[0].data();
+      if (adminData.password === password) {
+        return res.status(200).json({ redirect: "/webAdmindashboard", userDetails: adminData });
+      }
+      return res.status(401).json({ message: "Invalid admin password" });
+    }
+
+    // Manager login check
+    const managerSnapshot = await admin.firestore().collection('Manager').where('email', '==', email).get();
+    if (!managerSnapshot.empty) {
+      const managerData = managerSnapshot.docs[0].data();
+      if (password === 'fueltrix1234') {
+        return res.status(200).json({ redirect: `/reset?email=${email}`, userDetails: managerData });
+    } else if (managerData.password === password) {
+        req.session.manager = managerData;
+        return res.status(200).json({ redirect: `/signin?email=${email}`, userDetails: managerData });
+      }
+    
+      return res.status(401).json({ message: "Invalid manager password" });
+    }
+
+    return res.status(401).json({ message: "Invalid email or password" });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Login failed: " + error.message });
+  }
+});
+
+
+
+// Route for resetting password
+app.post('/api/reset-password', async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const managerSnapshot = await admin.firestore().collection('Manager').where('email', '==', email).get();
+
+    if (!managerSnapshot.empty) {
+      const managerRef = managerSnapshot.docs[0].ref;
+      await managerRef.update({ password: newPassword });
+      return res.status(200).json({ message: "Password updated successfully" });
+    } else {
+      return res.status(404).json({ message: "Manager not found" });
+    }
+  } catch (error) {
+    console.error("Reset password error:", error); // Log error for debugging
+    return res.status(500).json({ message: "Error updating password: " + error.message });
+  }
+});
+
+// Route for getting manager details from the session
+app.get('/api/manager-details', (req, res) => {
+  if (req.session.manager) {
+    console.log("Returning manager details:", req.session.manager); // Log the session data for debugging
+    return res.status(200).json(req.session.manager); // Send the manager details
+  } else {
+    console.log("No manager session found.");
+    return res.status(404).json({ message: "No manager logged in" });
+  }
+});
+
+
+
+
+// Route to register a driver
+app.post('/api/driver/register', async (req, res) => {
+  const { name, email, contact, password, company } = req.body;
+
+  try {
+    // Check if the email already exists
+    const existingUserSnapshot = await db.collection('Driver')
+      .where('email', '==', email)
+      .get();
+
+    if (!existingUserSnapshot.empty) {
+      return res.status(400).json({ message: 'Email already exists. Please use a different email.' });
+    }
+
+    // If email does not exist, proceed to register the user
+    const docRef = await db.collection('Driver').add({
+      name,
+      email,
+      contact,
+      password, // Note: Storing passwords in plain text is not recommended for production
+      company,
+    });
+
+    res.status(201).json({ id: docRef.id, message: 'Registration successful!' });
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    res.status(500).json({ message: 'Registration failed. Please try again.' });
+  }
+});
+
+
+
+
+// API endpoint to save vehicle details
+app.post("/api/register-vehicle", async (req, res) => {
+  const { registrationNumber, vehicleType, fuelType, fuelVolume, vehicleCode, company } = req.body;
+
+  try {
+    // Check if a vehicle with the same registration number already exists
+    const existingVehicle = await db.collection("Vehicle")
+      .where("registrationNumber", "==", registrationNumber)
+      .get();
+
+    if (!existingVehicle.empty) {
+      return res.status(400).json({ message: "Vehicle with this registration number already exists." });
+    }
+
+    // Validate fuelVolume to ensure it's a number
+    const fuelVolumeNumber = Number(fuelVolume); // Convert fuelVolume to a number
+
+    // Check if fuelVolume is a valid number
+    if (isNaN(fuelVolumeNumber) || fuelVolumeNumber <= 0) {
+      return res.status(400).json({ message: "Fuel volume must be a positive number." });
+    }
+
+    // If not, proceed to save the new vehicle details
+    const vehicleRef = db.collection("Vehicle").doc(); // Auto-generated ID
+    await vehicleRef.set({
+      registrationNumber,
+      vehicleType,
+      fuelType,
+      fuelVolume: fuelVolumeNumber, // Save as a number
+      vehicleCode,
+      company,
+    });
+
+    res.status(201).json({ message: "Vehicle registered successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error registering vehicle." });
+  }
+});
+
+
+
+// Endpoint to get vehicles grouped by company
+app.get('/api/vehicles', async (req, res) => {
+  try {
+      const vehiclesSnapshot = await db.collection('Vehicle').get(); // Adjust based on your DB
+      const vehicles = [];
+      vehiclesSnapshot.forEach(doc => {
+          vehicles.push({ id: doc.id, ...doc.data() });
+      });
+
+      const grouped = vehicles.reduce((acc, vehicle) => {
+          const company = vehicle.company; // Change 'company' to your actual field name
+          if (!acc[company]) {
+              acc[company] = { count: 0, vehicles: [] };
+          }
+          acc[company].count += 1;
+          acc[company].vehicles.push(vehicle);
+          return acc;
+      }, {});
+
+      res.status(200).json(grouped);
+  } catch (error) {
+      console.error('Error fetching vehicle data:', error);
+      res.status(500).json({ error: 'Failed to fetch vehicle data' });
+  }
+});
+
+
+// API endpoint to get drivers
+app.get('/api/drivers', async (req, res) => {
+  try {
+      const driversSnapshot = await admin.firestore().collection('Driver').get();
+      const drivers = driversSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      res.status(200).json(drivers);
+  } catch (error) {
+      console.error('Error fetching drivers:', error);
+      res.status(500).json({ error: 'Failed to fetch drivers' });
+  }
+});
+
+
+
+
+// Route to get stats
+app.get('/api/stats', async (req, res) => {
+  try {
+      const [
+          shedRequests,
+          companies,
+          sheds,
+          vehicles,
+          drivers,
+          pumpAssistants,
+          pendingCompanies
+      ] = await Promise.all([
+          db.collection('Shed').where('Approved_status', '==', false).get(),
+          db.collection('Manager').where('Approved_status', '==', true).get(),
+          db.collection('Shed').where('Approved_status', '==', true).get(),
+          db.collection('Vehicle').get(),
+          db.collection('Driver').get(),
+          db.collection('PumpAssistant').get(),
+          db.collection('Manager').where('Approved_status', '==', false).get() // Fetch pending companies
+      ]);
+
+      // Constructing the response object
+      res.status(200).json({
+          pendingShedRequests: shedRequests.size,
+          totalRegisteredCompanies: companies.size,
+          totalPendingCompanies: pendingCompanies.size, // Add this for total pending companies
+          totalRegisteredSheds: sheds.size,
+          totalCompanyVehicles: vehicles.size,
+          totalDrivers: drivers.size,
+          totalPumpAssistants: pumpAssistants.size,
+      });
+  } catch (error) {
+      console.error('Error fetching stats:', error);
+      res.status(500).json({ error: 'Failed to fetch stats' });
+  }
+});
 
 
 // Start the server

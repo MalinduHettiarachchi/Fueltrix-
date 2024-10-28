@@ -1,14 +1,26 @@
-import React from 'react';
+// Dashboard.js
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '../CMNav/navbar';
+import { ManagerContext } from './ManagerContext'; // Import the context
 import '../dashboard/dashboard.css';
 
 function Dashboard() {
+  const location = useLocation();
+  const { userDetails } = location.state || {}; // Destructure to retrieve managerData (userDetails)
+  const { setManagerDetails } = useContext(ManagerContext); // Access setManagerDetails
+
+  useEffect(() => {
+    if (userDetails) {
+      setManagerDetails(userDetails); // Set manager details in context
+    }
+  }, [userDetails, setManagerDetails]);
+
   return (
     <div className="dashboard">
       <Navbar />
       <div className="up">
         <div className="left1">
-          {/* Add content for the left part here */}
         </div>
         <div className="right1">
           <div className="left11">
