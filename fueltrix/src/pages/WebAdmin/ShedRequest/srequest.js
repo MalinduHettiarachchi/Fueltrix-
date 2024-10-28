@@ -9,8 +9,8 @@ const mapContainerStyle = {
 };
 
 const initialCenter = {
-  lat: 6.9271, // Default latitude
-  lng: 79.8612, // Default longitude
+  lat: 6.9271,
+  lng: 79.8612,
 };
 
 function SRequest() {
@@ -23,7 +23,7 @@ function SRequest() {
   const [searchText, setSearchText] = useState('');
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [isDoneClicked, setIsDoneClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [generatedKey, setGeneratedKey] = useState('');
 
   const handleMapClick = (event) => {
     const lat = event.latLng.lat();
@@ -59,8 +59,32 @@ function SRequest() {
     }
   };
 
+  const generateKey = (stationName, registerNumber) => {
+    const combined = `${stationName}-${registerNumber}`;
+    let key = '';
+    for (let i = 0; i < combined.length; i++) {
+      // Include only alphanumeric characters
+      if (/[a-zA-Z0-9]/.test(combined[i])) {
+        key += combined[i];
+      }
+    }
+    return key; // This will contain only letters and numbers
+  };
+
   const handlePickupClick = () => {
-    setStationName('');
+    console.log("Pickup clicked"); // Check if function is triggered
+    console.log(`Station Name: ${stationName}, Register Number: ${registerNumber}, Email: ${email}`); // Log inputs
+
+    if (!stationName || !registerNumber || !email) {
+      alert("Please fill in all fields before picking your location.");
+      return; // Prevent proceeding if any field is empty
+    }
+
+    const key = generateKey(stationName, registerNumber); // Generate the alphanumeric key
+    console.log('Generated Key:', key); // Display the key in the console
+    setGeneratedKey(key); // Save the key to state
+
+    setStationName(''); 
     setRegisterNumber('');
     setEmail('');
     setSearchText('');
@@ -71,21 +95,6 @@ function SRequest() {
     setMapVisible(false);
     setShowAddressInput(true);
     setIsDoneClicked(true);
-  };
-
-  const handleChangeLocation = () => {
-    setShowAddressInput(false); // Hide address input
-    setIsLoading(true); // Start loading
-
-    // Load map and pick up location
-    setTimeout(() => {
-      setMapVisible(true); // Show the map again after loading
-      setSearchText(''); // Clear the search text
-      setIsLoading(false); // Stop loading
-
-      // Automatically trigger the pickup logic
-      handlePickupClick(); // Reuse pickup logic here
-    }, 500); // Simulate loading time (500ms)
   };
 
   return (
@@ -149,7 +158,6 @@ function SRequest() {
         ) : (
           <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI" libraries={['places']}>
             <div className="map-container">
-              {isLoading && <div className="loading-indicator">Loading...</div>}
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={10}
