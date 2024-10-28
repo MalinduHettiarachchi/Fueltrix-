@@ -5,38 +5,24 @@
     padding: 20px 20px;
 }
 
-.footer-contact {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.footer-contact div {
-    text-align: left;
-    color: white;
-}
-
-.footer-contact i {
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-
-.footer-contact p {
-    margin: 5px 0 0;
-    font-size: 16px;
-}
-
 .footer-links {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 40px;
     text-align: left;
-    border-top: 1px solid #ffffff;
+    gap: 20px;
 }
-
+.column i{
+    font-size: 28px;
+    margin-bottom: 8px;
+    margin-top: 30px;
+}
+.column span{
+    font-size: 25px;
+}
 .column h4 {
     font-size: 18px;
+    margin-top: 40px;
     margin-bottom: 20px;
     border-bottom: 2px solid white;
     display: inline-block;
@@ -54,25 +40,30 @@
     font-size: 15px;
 }
 
-.social-icons {
+.social-icons  {
     display: flex;
-    gap: 20px;
+    gap: 10px;
 }
 
 .social-icons i {
     font-size: 24px;
     cursor: pointer;
+    margin-top: -40px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
 .footer-payment {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
 }
 
 .footer-payment img {
-    max-width: 100%;
+    max-width: 300px;
     height: auto;
+    border-radius: 15px;
 }
 
 .footer-bottom {
