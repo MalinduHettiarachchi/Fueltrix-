@@ -25,15 +25,6 @@ import Login from './pages/WebAdmin/Userlogin/login';
 import Dashboard from './pages/ComManager/dashboard/dashboard';
 
 
-
-
-/*<Route path="/" element={<Mainpage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/fueltrix" element={<Mainpage />} />
-          <Route path="/buy" element={<Buynow />} />
-          <Route path="/signin" element={<Dashboard />} />
-          <Route path="/sumbit" element={<Mainpage />} />*/ 
-
 function App() {
   return (
     <ManagerProvider>
