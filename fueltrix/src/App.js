@@ -35,15 +35,6 @@ import WelcomeFu from './pages/WebAdmin/Userlogin/welcomefu';
 import Reset from './pages/ComManager/dashboard/resett';
 import { ManagerProvider } from '../src/pages/ComManager/dashboard/ManagerContext'; // Import the provider
 
-
-
-/*<Route path="/" element={<Mainpage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/fueltrix" element={<Mainpage />} />
-          <Route path="/buy" element={<Buynow />} />
-          <Route path="/signin" element={<Dashboard />} />
-          <Route path="/sumbit" element={<Mainpage />} />*/ 
-
 function App() {
   return (
     <ManagerProvider>
