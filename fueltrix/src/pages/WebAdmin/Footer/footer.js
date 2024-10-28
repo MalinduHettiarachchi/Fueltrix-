@@ -1,72 +1,78 @@
-import React from 'react'
-import '../Footer/footer.css'
+import React from "react";
+import "../Footer/footer.css";
+import Payimg from '../Footer/pay.png'
 
 function footer() {
   return (
-    <div className='ft'>
-      <div className="footer-contact">
-        <div>
-          <i className="fab fa-whatsapp"></i>
-          <span>WhatsApp</span>
-          <p>+94 711691008</p>
-        </div>
-        <div>
-          <i className="fas fa-phone"></i>
-          <span>Call us</span>
-          <p>+94 711691008</p>
-        </div>
-        <div>
-          <i className="fas fa-envelope"></i>
-          <span>Mail us</span>
-          <p>info@luxncard.com</p>
-        </div>
-      </div>
-
-      <div className="footer-links">
+    <div className="ft">
+        <div className="footer-links">
         <div className="column">
-        <i className="fab fa-whatsapp"></i>
-          <span>WhatsApp</span>
-          <p>+94 711691008</p>
-          <h4>LUXN Card</h4>
+          <div>
+            <i className="fab fa-whatsapp"></i>
+            <span> WhatsApp</span>
+            <p>+94 770085670</p>
+          </div>
+          <h4>FUELTIX Card</h4>
           <ul>
-            <li>Buy Now</li>
-            <li>Custom Card</li>
-            <li>For Teams</li>
-            <li>LUXN Review</li>
-            <li>Blogs</li>
-            <li>Login</li>
+            <li><a href="/buy">Buy Now</a></li>
+            <li><a href="/ourteam">Our Team</a></li>
+            <li><a href="/card">Custom Card</a></li>
+            <li><a href="/review">Review</a></li>
           </ul>
         </div>
         <div className="column">
+          <div>
+            <i className="fas fa-phone"></i>
+            <span> Call us</span>
+            <p>+94 770085670</p>
+          </div>
           <h4>Help & Support</h4>
           <ul>
-            <li>FAQ</li>
-            <li>Contact Us</li>
-            <li>Terms Of Use</li>
-            <li>Privacy Policy</li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
           </ul>
         </div>
         <div className="column">
+          <div>
+            <i className="fas fa-envelope"></i>
+            <span> Mail us</span>
+            <p>fueltixsl@gmail.com</p>
+          </div>
           <h4>Social Media</h4>
           <ul className="social-icons">
-            <li><i className="fab fa-facebook"></i></li>
-            <li><i className="fab fa-instagram"></i></li>
-            <li><i className="fab fa-twitter"></i></li>
-            <li><i className="fab fa-linkedin"></i></li>
-            <li><i className="fab fa-tiktok"></i></li>
+          <li>
+    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+      <i className="fab fa-facebook"></i>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+      <i className="fab fa-instagram"></i>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+      <i className="fab fa-twitter"></i>
+    </a>
+  </li>
+  <li>
+    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+      <i className="fab fa-linkedin"></i>
+    </a>
+  </li>
           </ul>
         </div>
       </div>
 
       <div className="footer-payment">
-        <img src="path-to-your-payment-icons.png" alt="Payment Methods" />
+        <img src={Payimg} alt="Payment Methods" />
       </div>
 
       <div className="footer-bottom">
-        <p>© 2024 LUXN | Powered by LUXN IT</p>
+        <p>© 2024 FUELTIX | Powered by FUELTIX IT</p>
       </div>
     </div>
-  )
+  );
 }
 
-export default footer
+export default footer;
