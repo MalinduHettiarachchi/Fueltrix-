@@ -4,11 +4,23 @@ const admin = require('firebase-admin');
 const cors = require('cors');
 const session = require('express-session');
 const router = express.Router();
+const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require("D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
 //Malidu(Ubee Path Eka)--E:/Projects/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
 //Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
+
+
+// Configure the Nodemailer transporter with your email service credentials
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "fueltrixteam@gmail.com", // Your email address
+    pass: "eqnd bkeo iwqk egmh"   // Your email password or app-specific password if using Gmail
+  },
+});
+
 
 
 admin.initializeApp({
@@ -250,8 +262,7 @@ app.get('/api/pump-assistants', async (req, res) => {
   }
 });
 
-
-// reservation system manager part
+// reques system company manager
 app.post("/submit-reservation", async (req, res) => {
   const { company, email, packageType } = req.body;
 
@@ -266,12 +277,47 @@ app.post("/submit-reservation", async (req, res) => {
       createdAt: new Date(),
     });
 
-    res.status(200).send({ message: "Reservation added successfully" });
+    // Construct the personalized email content with a modern, professional look and company branding
+    const messageContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8; text-align: center;">Thank You for Choosing Fueltrix!</h2>
+        <p>Dear ${company} Team,</p>
+        <p>Thank you for selecting <strong>Fueltrix Fuel Tracking System</strong>. We're excited to have <strong>${company}</strong> on board!</p>
+        
+        <p>You have chosen our <strong style="color: #1a73e8;">${packageType}</strong> package. Our team is currently reviewing your details, and you will receive further information with login credentials shortly.</p>
+
+        <p>In the meantime, if you have any questions, feel free to contact us at <a href="mailto:fueltrixteam@gmail.com" style="color: #1a73e8;">fueltrixteam@gmail.com</a>.</p>
+        
+        <p>Best Regards,<br>
+        <strong>The Fueltrix Team</strong></p>
+        
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
+        <p style="font-size: 12px; color: #555; text-align: center;">
+          Fueltrix Fuel Tracking System | All rights reserved.<br>
+          <a href="https://fueltrix.com" style="color: #1a73e8;">Visit our website</a> | <a href="https://fueltrix.com/unsubscribe" style="color: #1a73e8;">Unsubscribe</a>
+        </p>
+      </div>
+    `;
+
+    // Send email using Nodemailer
+    const mailOptions = {
+      from: "fueltrixteam@gmail.com", // Sender's email address
+      to: email,                      // User's entered email address
+      subject: "Thank You for Choosing Fueltrix!",
+      html: messageContent            // Use HTML format for the email
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully");
+    res.status(200).send({ message: "Reservation added and email sent successfully" });
+
   } catch (error) {
-    console.error("Error adding reservation: ", error);
-    res.status(500).send({ message: "Failed to add reservation" });
+    console.error("Failed to send email:", error);
+    res.status(500).send({ message: "Reservation added, but email failed to send" });
   }
 });
+
+
 
 
 // Fetch company requests where 'Approved_status' is false
