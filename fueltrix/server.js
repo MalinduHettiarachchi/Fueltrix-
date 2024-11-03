@@ -342,28 +342,73 @@ app.get('/api/company-requests', async (req, res) => {
 
 
 
-// API endpoint to approve a request by updating the Approved_status
+
+// API endpoint to approve a request and send an email notification
 app.post('/api/approve-request/:requestId', async (req, res) => {
   const { requestId } = req.params;
 
   try {
-      const requestRef = db.collection('Manager').doc(requestId);
+    const requestRef = db.collection('Manager').doc(requestId);
 
-      // Check if the request exists
-      const doc = await requestRef.get();
-      if (!doc.exists) {
-          return res.status(404).json({ message: 'Manager request not found' });
-      }
+    // Check if the request exists
+    const doc = await requestRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Manager request not found' });
+    }
 
-      // Update the Approved_status to true
-      await requestRef.update({ Approved_status: true });
+    // Update the Approved_status to true
+    await requestRef.update({ Approved_status: true });
 
-      res.status(200).json({ message: 'Request approved successfully' });
+    // Get the company name and email from the document
+    const { company, email } = doc.data();
+
+    // Construct the email content
+    const messageContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8; text-align: center;">Request Approved - Welcome to Fueltrix!</h2>
+        <p>Dear ${company} Team,</p>
+        <p>Your request has been approved! You now have access to the <strong>Fueltrix Fuel Tracking System</strong>.</p>
+
+        <p>Here are your login credentials:</p>
+        <ul>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Temporary Password:</strong> fueltrix1234</li>
+        </ul>
+
+        <p>Please use these credentials to log in for the first time. You will be prompted to change your password upon initial login.</p>
+
+        <p>Thank you for joining us!</p>
+
+        <p>Best Regards,<br>
+        <strong>The Fueltrix Team</strong></p>
+
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
+        <p style="font-size: 12px; color: #555; text-align: center;">
+          Fueltrix Fuel Tracking System | All rights reserved.<br>
+          <a href="https://fueltrix.com" style="color: #1a73e8;">Visit our website</a> | <a href="https://fueltrix.com/unsubscribe" style="color: #1a73e8;">Unsubscribe</a>
+        </p>
+      </div>
+    `;
+
+    const mailOptions = {
+      from: 'fueltrixteam@gmail.com', // Sender's email address
+      to: email,                           // Recipient's email address
+      subject: 'Request Approved - Access to Fueltrix System',
+      html: messageContent,                // HTML format for the email
+    };
+
+
+    await requestRef.update({ Approved_status: true });
+    res.status(200).json({ message: 'Request approved successfully' });
+        // Send the email
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
   } catch (error) {
-      console.error('Error approving request:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    console.error('Error approving request or sending email:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
