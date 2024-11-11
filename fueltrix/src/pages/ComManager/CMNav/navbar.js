@@ -29,7 +29,6 @@ const Navbar = () => {
             <img src={logoImage} alt="Logo" className="logo-img" />
           </Link>
         </li>
-        <li><Link to="/card">Custom Card</Link></li>
         <li className="dropdown">
           <span className="dropbtn">Registration</span>
           <div className="dropdown-content">
@@ -41,14 +40,12 @@ const Navbar = () => {
             </Link>
           </div>
         </li>
-        <li><Link to="/amb">Ambassadors</Link></li>
-        <li><Link to="/about">About</Link></li>
+        {managerDetails && <li className="manager-email">{managerDetails.company}</li>}
         <li className='login'>
           <Link to="/login">
             <img src={loginImage} alt="Login" className="login-img" />
           </Link>
         </li>
-        {managerDetails && <li className="manager-email">{managerDetails.company}</li>}
       </ul>
     </nav>
   );
