@@ -1,9 +1,14 @@
 // Dashboard.js
-import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import Navbar from '../CMNav/navbar';
-import { ManagerContext } from './ManagerContext'; // Import the context
-import '../dashboard/dashboard.css';
+import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Navbar from "../CMNav/navbar";
+import { ManagerContext } from "./ManagerContext"; // Import the context
+import "../dashboard/dashboard.css";
+import Ihome from '../dashboard/home.png'
+import Idriver from '../dashboard/driver.png'
+import Irequest from '../dashboard/request.png'
+import Isetting from '../dashboard/setting.png'
+import Ivehicle from '../dashboard/vehicle.png'
 
 function Dashboard() {
   const location = useLocation();
@@ -17,39 +22,54 @@ function Dashboard() {
   }, [userDetails, setManagerDetails]);
 
   return (
-    <div className="dashboard">
+    <div>
       <Navbar />
-      <div className="up">
-        <div className="left1">
-        </div>
-        <div className="right1">
-          <div className="left11">
-            {/* Add content for the left part here */}
+      <div className="dashboard">
+        <div className="dshleft">
+          <div className="sideitems">
+            <p className="dhome">
+              <img
+                src={Ihome}
+                alt="Home Icon"
+                className="icon"
+              />
+              Home
+            </p>
+            <p className="dvehicle">
+              <img
+                src={Ivehicle}
+                alt="Vehicle Icon"
+                className="icon"
+              />
+              Vehicles
+            </p>
+            <p className="ddriver">
+              <img
+                src={Idriver}
+                alt="Driver Icon"
+                className="icon"
+              />
+              Drivers
+            </p>
+            <p className="drequest">
+              <img
+                src={Irequest}
+                alt="Request Icon"
+                className="icon"
+              />
+              Requests
+            </p>
+            <p className="dsetting">
+              <img
+                src={Isetting}
+                alt="Setting Icon"
+                className="icon"
+              />
+              Settings
+            </p>
           </div>
-          <div className="right11">
-            {/* Add content for the right part here */}
-          </div>
         </div>
-      </div>
-      <div className="down">
-        <div className="left2">
-          {/* Add content for the left part here */}
-        </div>
-        <div className="right2">
-          <div className="left21">
-            {/* Add content for the left part here */}
-          </div>
-          <div className="right21">
-            <div className="button-container">
-              <button className="request">
-                <a href="/request" className="request-link">Request</a>
-              </button>
-              <button className="vehicle">
-                <a href="/vehicle" className="vehicle-link">Vehicle</a>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div className="dshright"></div>
       </div>
     </div>
   );
