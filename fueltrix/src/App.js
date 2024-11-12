@@ -56,6 +56,7 @@ function App() {
           <Route path="/buyb" element={<Buypb />} />
           <Route path="/buys" element={<Buyps />} />
           <Route path="/buyp" element={<Buypp />} />
+          <Route path="/card" element={<Dashboard />} />
           <Route path="/close" element={<Buynow />} />
           <Route path="/sumbit" element={<Mainpage />} />
           <Route path="/" element={<Welcome />} />

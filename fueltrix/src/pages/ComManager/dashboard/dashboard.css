@@ -13,7 +13,7 @@
   
   .dshright {
     width: 82%;
-    background-color: #f4f6f8;
+    background-color: #ffffff;
     padding: 20px;
     color: #333333; 
   }
@@ -48,3 +48,168 @@
     width: 20px;  /* Adjust size as needed */
     height: 20px;
   }
+
+  .contentvehi{
+    display: flex;
+    width: 100%;
+    height: 85vh;
+
+  }
+  
+  .vehilesft {
+    width: 75%;
+    background-color: #ffffff;
+    padding: 20px;
+    color: #ffffff;
+  }
+  
+  .vehiright {
+    width: 25%;
+    background-color: #ffffff;
+    padding: 20px;
+    color: #041228;
+  }
+
+  .vehicle-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .vehicle-list th, .vehicle-list td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #041228;
+  }
+  
+  .vehicle-list th {
+    background-color: #041228;
+    color: #fff;
+  }
+  
+  .vehicle-list td {
+    background-color: #ffffff;
+    color: #041228;
+  }
+  
+  .vehicle-list tr:hover{
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #fff;
+  }
+  
+  .status.online {
+    background-color: #041228;
+  }
+  
+  .status.offline {
+    background-color: red;
+  }
+  .vremovebutton{
+    border-radius: 20px;
+    border: 1.5px solid #041228;
+    height: 35px;
+    width: 200px;
+    margin-top: 20px;
+    font-weight: 500;
+  }
+.vremovebutton:hover{
+  background-color: #041228;
+  color: #fff;
+}
+
+.contentdriv {
+  display: flex;
+  width: 100%;
+  height: 85vh;
+}
+
+.driverleft {
+  width: 75%;
+  background-color: #ffffff;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.driverright {
+  width: 25%;
+  background-color: #ffffff;
+  padding: 20px;
+  color: #041228;
+}
+
+/* Driver List Table */
+.driver-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.driver-list th, .driver-list td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #041228;
+}
+
+.driver-list th {
+  background-color: #041228;
+  color: #fff;
+}
+
+.driver-list td {
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.driver-list tr:hover {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.status.active {
+  background-color: #041228;
+}
+
+.status.inactive {
+  background-color: red;
+}
+
+/* Driver Details Section */
+.driver-details {
+  padding: 20px;
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.driver-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.driver-details p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.dremovebutton {
+  border-radius: 20px;
+  border: 1.5px solid #041228;
+  height: 35px;
+  width: 200px;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.dremovebutton:hover {
+  background-color: #041228;
+  color: #fff;
+}
