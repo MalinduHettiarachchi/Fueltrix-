@@ -4,9 +4,10 @@ const admin = require('firebase-admin');
 const cors = require('cors');
 const session = require('express-session');
 const router = express.Router();
+const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require('D:/Project/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -247,8 +248,7 @@ app.get('/api/pump-assistants', async (req, res) => {
   }
 });
 
-
-// reservation system manager part
+// reques system company manager
 app.post("/submit-reservation", async (req, res) => {
   const { company, email, packageType } = req.body;
 
@@ -263,12 +263,47 @@ app.post("/submit-reservation", async (req, res) => {
       createdAt: new Date(),
     });
 
-    res.status(200).send({ message: "Reservation added successfully" });
+    // Construct the personalized email content with a modern, professional look and company branding
+    const messageContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8; text-align: center;">Thank You for Choosing Fueltrix!</h2>
+        <p>Dear ${company} Team,</p>
+        <p>Thank you for selecting <strong>Fueltrix Fuel Tracking System</strong>. We're excited to have <strong>${company}</strong> on board!</p>
+        
+        <p>You have chosen our <strong style="color: #1a73e8;">${packageType}</strong> package. Our team is currently reviewing your details, and you will receive further information with login credentials shortly.</p>
+
+        <p>In the meantime, if you have any questions, feel free to contact us at <a href="mailto:fueltrixteam@gmail.com" style="color: #1a73e8;">fueltrixteam@gmail.com</a>.</p>
+        
+        <p>Best Regards,<br>
+        <strong>The Fueltrix Team</strong></p>
+        
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
+        <p style="font-size: 12px; color: #555; text-align: center;">
+          Fueltrix Fuel Tracking System | All rights reserved.<br>
+          <a href="https://fueltrix.com" style="color: #1a73e8;">Visit our website</a> | <a href="https://fueltrix.com/unsubscribe" style="color: #1a73e8;">Unsubscribe</a>
+        </p>
+      </div>
+    `;
+
+    // Send email using Nodemailer
+    const mailOptions = {
+      from: "fueltrixteam@gmail.com", // Sender's email address
+      to: email,                      // User's entered email address
+      subject: "Thank You for Choosing Fueltrix!",
+      html: messageContent            // Use HTML format for the email
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully");
+    res.status(200).send({ message: "Reservation added and email sent successfully" });
+
   } catch (error) {
-    console.error("Error adding reservation: ", error);
-    res.status(500).send({ message: "Failed to add reservation" });
+    console.error("Failed to send email:", error);
+    res.status(500).send({ message: "Reservation added, but email failed to send" });
   }
 });
+
+
 
 
 // Fetch company requests where 'Approved_status' is false
@@ -293,28 +328,73 @@ app.get('/api/company-requests', async (req, res) => {
 
 
 
-// API endpoint to approve a request by updating the Approved_status
+
+// API endpoint to approve a request and send an email notification
 app.post('/api/approve-request/:requestId', async (req, res) => {
   const { requestId } = req.params;
 
   try {
-      const requestRef = db.collection('Manager').doc(requestId);
+    const requestRef = db.collection('Manager').doc(requestId);
 
-      // Check if the request exists
-      const doc = await requestRef.get();
-      if (!doc.exists) {
-          return res.status(404).json({ message: 'Manager request not found' });
-      }
+    // Check if the request exists
+    const doc = await requestRef.get();
+    if (!doc.exists) {
+      return res.status(404).json({ message: 'Manager request not found' });
+    }
 
-      // Update the Approved_status to true
-      await requestRef.update({ Approved_status: true });
+    // Update the Approved_status to true
+    await requestRef.update({ Approved_status: true });
 
-      res.status(200).json({ message: 'Request approved successfully' });
+    // Get the company name and email from the document
+    const { company, email } = doc.data();
+
+    // Construct the email content
+    const messageContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8; text-align: center;">Request Approved - Welcome to Fueltrix!</h2>
+        <p>Dear ${company} Team,</p>
+        <p>Your request has been approved! You now have access to the <strong>Fueltrix Fuel Tracking System</strong>.</p>
+
+        <p>Here are your login credentials:</p>
+        <ul>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Temporary Password:</strong> fueltrix1234</li>
+        </ul>
+
+        <p>Please use these credentials to log in for the first time. You will be prompted to change your password upon initial login.</p>
+
+        <p>Thank you for joining us!</p>
+
+        <p>Best Regards,<br>
+        <strong>The Fueltrix Team</strong></p>
+
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
+        <p style="font-size: 12px; color: #555; text-align: center;">
+          Fueltrix Fuel Tracking System | All rights reserved.<br>
+          <a href="https://fueltrix.com" style="color: #1a73e8;">Visit our website</a> | <a href="https://fueltrix.com/unsubscribe" style="color: #1a73e8;">Unsubscribe</a>
+        </p>
+      </div>
+    `;
+
+    const mailOptions = {
+      from: 'fueltrixteam@gmail.com', // Sender's email address
+      to: email,                           // Recipient's email address
+      subject: 'Request Approved - Access to Fueltrix System',
+      html: messageContent,                // HTML format for the email
+    };
+
+
+    await requestRef.update({ Approved_status: true });
+    res.status(200).json({ message: 'Request approved successfully' });
+        // Send the email
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
   } catch (error) {
-      console.error('Error approving request:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    console.error('Error approving request or sending email:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 
