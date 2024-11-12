@@ -12,7 +12,6 @@ const Navbar = () => {
         <li><a href="/buy">Buy Now</a></li>
         <li><a href="/ourteam">Our Team</a></li>
         <li><a href="/card">Custom Card</a></li>
-        <li><a href="/review">Review</a></li>
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
         <li className='login'><a href="/login"><img src={loginImage} alt="Login" className="login-img" /></a></li>

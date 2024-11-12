@@ -6,7 +6,7 @@ const session = require('express-session');
 const router = express.Router();
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require('E:/Projects/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
+const serviceAccount = require('D:/Project/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
