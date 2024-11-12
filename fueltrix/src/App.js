@@ -2,10 +2,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Welcome from './pages/Welcome';
-import About from './pages/About';
+import About from './pages/WebAdmin/About/about';
 import Services from './pages/Services';
 import Products from './pages/Products';
-import Contact from './pages/Contact';
+import Contact from './pages/WebAdmin/Contact/contact'
 import './App.css';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';

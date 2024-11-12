@@ -7,20 +7,6 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require("D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
-//Malidu(Ubee Path Eka)--E:/Projects/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
-//Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
-
-
-// Configure the Nodemailer transporter with your email service credentials
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "fueltrixteam@gmail.com", // Your email address
-    pass: "eqnd bkeo iwqk egmh"   // Your email password or app-specific password if using Gmail
-  },
-});
-
 
 
 admin.initializeApp({
