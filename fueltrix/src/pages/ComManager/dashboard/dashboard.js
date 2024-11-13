@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom"; // Import useNaviga
 import Navbar from "../CMNav/navbar";
 import { ManagerContext } from "./ManagerContext";
 import "../dashboard/dashboard.css";
-import Ihome from '../dashboard/home.png';
-import Idriver from '../dashboard/driver.png';
-import Irequest from '../dashboard/request.png';
-import Isetting from '../dashboard/setting.png';
-import Ivehicle from '../dashboard/vehicle.png';
+import Ihome from "../dashboard/home.png";
+import Idriver from "../dashboard/driver.png";
+import Irequest from "../dashboard/request.png";
+import Isetting from "../dashboard/setting.png";
+import Ivehicle from "../dashboard/vehicle.png";
 
 function Dashboard() {
   const location = useLocation();
@@ -17,7 +17,7 @@ function Dashboard() {
   const [activeComponent, setActiveComponent] = useState("Home");
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedDriver, setSelectedDriver] = useState(null);
-
+  const [selectedRequest, setSelectedRequest] = useState(null);
 
   useEffect(() => {
     if (userDetails) {
@@ -29,11 +29,11 @@ function Dashboard() {
   const getQueryParams = () => {
     if (managerDetails) {
       const params = new URLSearchParams();
-      params.append('company', managerDetails.company);
+      params.append("company", managerDetails.company);
       // Add more fields if needed
       return params.toString();
     }
-    return '';
+    return "";
   };
 
   const handleAddVehicle = () => {
@@ -46,20 +46,101 @@ function Dashboard() {
     navigate(`/drivers?${queryParams}`);
   };
 
+  // Sample data for the request list
+  const requestData = [
+    {
+      id: 1,
+      type: "Fuel Request",
+      status: "Pending",
+      driver: "John Doe", fuelCount: 150, category: "Urgent",
+      date: "2024-11-12",
+    },
+    {
+      id: 2,
+      type: "Maintenance Request",
+      status: "Approved ",
+      driver: "Jane Smith",fuelCount: 0, category: "Routine",
+      date: "2024-11-10",
+    },
+    {
+      id: 3,
+      type: "Route Adjustment",
+      status: "Rejected",
+      driver: "Tom Brown", fuelCount: 300, category: "High",
+      date: "2024-11-11",
+    },
+  ];
+
   // Sample data for the vehicle list
   const vehicleData = [
-    { vehicle: "Homepage Overview", status: "Online", users: 212423, count: 8345, category: 18.5, avgTime: "2m 15s" },
-    { vehicle: "Product Details - Gadgets", status: "Online", users: 172240, count: 5653, category: 9.7, avgTime: "2m 30s" },
-    { vehicle: "Checkout Process - Step 1", status: "Offline", users: 58240, count: 3455, category: 15.2, avgTime: "2m 10s" },
-    { vehicle: "User Profile Dashboard", status: "Online", users: 96240, count: 112543, category: 4.5, avgTime: "2m 40s" },
-    { vehicle: "Article Listing - Tech News", status: "Online", users: 142240, count: 3653, category: 3.1, avgTime: "2m 55s" },
+    {
+      vehicle: "Homepage Overview",
+      status: "Online",
+      users: 212423,
+      count: 8345,
+      category: 18.5,
+      avgTime: "2m 15s",
+    },
+    {
+      vehicle: "Product Details - Gadgets",
+      status: "Online",
+      users: 172240,
+      count: 5653,
+      category: 9.7,
+      avgTime: "2m 30s",
+    },
+    {
+      vehicle: "Checkout Process - Step 1",
+      status: "Offline",
+      users: 58240,
+      count: 3455,
+      category: 15.2,
+      avgTime: "2m 10s",
+    },
+    {
+      vehicle: "User Profile Dashboard",
+      status: "Online",
+      users: 96240,
+      count: 112543,
+      category: 4.5,
+      avgTime: "2m 40s",
+    },
+    {
+      vehicle: "Article Listing - Tech News",
+      status: "Online",
+      users: 142240,
+      count: 3653,
+      category: 3.1,
+      avgTime: "2m 55s",
+    },
   ];
 
   // Sample data for the driver list
   const driverData = [
-    { name: "John Doe", status: "Active", vehicle: "Sedan - A123", trips: 152, rating: 4.8, avgTime: "4h 30m" },
-    { name: "Jane Smith", status: "Inactive", vehicle: "Truck - B456", trips: 98, rating: 4.5, avgTime: "5h 20m" },
-    { name: "Tom Brown", status: "Active", vehicle: "SUV - C789", trips: 200, rating: 4.9, avgTime: "3h 45m" },
+    {
+      name: "John Doe",
+      status: "Active",
+      vehicle: "Sedan - A123",
+      trips: 152,
+      rating: 4.8,
+      avgTime: "4h 30m",
+    },
+    {
+      name: "Jane Smith",
+      status: "Inactive",
+      vehicle: "Truck - B456",
+      trips: 98,
+      rating: 4.5,
+      avgTime: "5h 20m",
+    },
+    {
+      name: "Tom Brown",
+      status: "Active",
+      vehicle: "SUV - C789",
+      trips: 200,
+      rating: 4.9,
+      avgTime: "3h 45m",
+    },
   ];
 
   // Define the breadcrumb component
@@ -88,7 +169,9 @@ function Dashboard() {
             <tr key={index} onClick={() => setSelectedVehicle(vehicle)}>
               <td>{vehicle.vehicle}</td>
               <td>
-                <span className={`status ${vehicle.status.toLowerCase()}`}>{vehicle.status}</span>
+                <span className={`status ${vehicle.status.toLowerCase()}`}>
+                  {vehicle.status}
+                </span>
               </td>
               <td>{vehicle.category}</td>
               <td>{vehicle.count}</td>
@@ -106,13 +189,28 @@ function Dashboard() {
     <div className="vehicle-details">
       {selectedVehicle ? (
         <div>
-          <h3><strong>{selectedVehicle.vehicle}</strong></h3>
-          <p><strong>Status:</strong> {selectedVehicle.status}</p>
-          <p><strong>Category:</strong> {selectedVehicle.category}</p>
-          <p><strong>Fuel Count (L):</strong> {selectedVehicle.count}</p>
-          <p><strong>Views per User:</strong> {selectedVehicle.users}</p>
-          <p><strong>Average Time:</strong> {selectedVehicle.avgTime}</p>
-          <button onClick={() => setSelectedVehicle(null)} className="vremovebutton">
+          <h3>
+            <strong>{selectedVehicle.vehicle}</strong>
+          </h3>
+          <p>
+            <strong>Status:</strong> {selectedVehicle.status}
+          </p>
+          <p>
+            <strong>Category:</strong> {selectedVehicle.category}
+          </p>
+          <p>
+            <strong>Fuel Count (L):</strong> {selectedVehicle.count}
+          </p>
+          <p>
+            <strong>Views per User:</strong> {selectedVehicle.users}
+          </p>
+          <p>
+            <strong>Average Time:</strong> {selectedVehicle.avgTime}
+          </p>
+          <button
+            onClick={() => setSelectedVehicle(null)}
+            className="vremovebutton"
+          >
             Remove Vehicle
           </button>
         </div>
@@ -141,7 +239,9 @@ function Dashboard() {
             <tr key={index} onClick={() => setSelectedDriver(driver)}>
               <td>{driver.name}</td>
               <td>
-                <span className={`status ${driver.status.toLowerCase()}`}>{driver.status}</span>
+                <span className={`status ${driver.status.toLowerCase()}`}>
+                  {driver.status}
+                </span>
               </td>
               <td>{driver.vehicle}</td>
               <td>{driver.trips}</td>
@@ -159,13 +259,28 @@ function Dashboard() {
     <div className="driver-details">
       {selectedDriver ? (
         <div>
-          <h3><strong>{selectedDriver.name}</strong></h3>
-          <p><strong>Status:</strong> {selectedDriver.status}</p>
-          <p><strong>Assigned Vehicle:</strong> {selectedDriver.vehicle}</p>
-          <p><strong>Trips Completed:</strong> {selectedDriver.trips}</p>
-          <p><strong>Rating:</strong> {selectedDriver.rating}</p>
-          <p><strong>Average Time:</strong> {selectedDriver.avgTime}</p>
-          <button onClick={() => setSelectedDriver(null)} className="dremovebutton">
+          <h3>
+            <strong>{selectedDriver.name}</strong>
+          </h3>
+          <p>
+            <strong>Status:</strong> {selectedDriver.status}
+          </p>
+          <p>
+            <strong>Assigned Vehicle:</strong> {selectedDriver.vehicle}
+          </p>
+          <p>
+            <strong>Trips Completed:</strong> {selectedDriver.trips}
+          </p>
+          <p>
+            <strong>Rating:</strong> {selectedDriver.rating}
+          </p>
+          <p>
+            <strong>Average Time:</strong> {selectedDriver.avgTime}
+          </p>
+          <button
+            onClick={() => setSelectedDriver(null)}
+            className="dremovebutton"
+          >
             Remove Driver
           </button>
         </div>
@@ -175,6 +290,88 @@ function Dashboard() {
     </div>
   );
 
+  // Component to render the request list table
+  const RequestList = () => (
+    <div className="request-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Request Type</th>
+            <th>Status</th>
+            <th>Driver</th>
+            <th>Fuel Count (L)</th>
+            <th>Category</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {requestData.map((request) => (
+            <tr key={request.id} onClick={() => setSelectedRequest(request)}>
+              <td>{request.type}</td>
+              <td>
+                <span className={`status ${request.status.toLowerCase()}`}>
+                  {request.status}
+                </span>
+              </td>
+              <td>{request.driver}</td>
+              <td>{request.fuelCount}</td> 
+              <td>{request.category}</td>
+              <td>{request.date}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
+  // Component to render selected request details
+  const RequestDetails = () => (
+    <div className="request-details">
+      {selectedRequest ? (
+        <div>
+          <h3>
+            <strong>{selectedRequest.type}</strong>
+          </h3>
+          <p>
+            <strong>Fuel Count:</strong> {selectedRequest.fuelCount}
+          </p>
+          <p>
+            <strong>Category:</strong> {selectedRequest.category}
+          </p>
+          <p>
+            <strong>Driver:</strong> {selectedRequest.driver}
+          </p>
+          <div className="request-buttons">
+          <button 
+            className="approvebtn"
+            onClick={() => handleApproveRequest(selectedRequest)}
+          >
+            Approve
+          </button>
+          <button 
+            className="rejectbtn"
+            onClick={() => handleCancelRequest(selectedRequest)}
+          >
+            Reject
+          </button>
+        </div>
+        </div>
+      ) : (
+        <p>Select a request to Approve or Reject</p>
+      )}
+    </div>
+  );
+
+  // Handle Approve and Cancel actions
+const handleApproveRequest = (request) => {
+  // Implement the logic for approving the request
+  console.log(`Request ${request.type} approved`);
+};
+
+const handleCancelRequest = (request) => {
+  // Implement the logic for canceling the request
+  console.log(`Request ${request.type} canceled`);
+};
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
@@ -187,7 +384,9 @@ function Dashboard() {
               <VehicleList />
             </div>
             <div className="vehiright">
-            <button className="addvehi" onClick={handleAddVehicle}>Add Vehicle</button>
+              <button className="addvehi" onClick={handleAddVehicle}>
+                Add Vehicle
+              </button>
               <VehicleDetails />
             </div>
           </div>
@@ -199,13 +398,25 @@ function Dashboard() {
               <DriverList />
             </div>
             <div className="driverright">
-            <button className="adddri" onClick={handleAddDriver}>Add Driver</button>
+              <button className="adddri" onClick={handleAddDriver}>
+                Add Driver
+              </button>
               <DriverDetails />
             </div>
           </div>
         );
       case "Requests":
-        return <div className="content-container"></div>;
+        return (
+          <div className="contentreq">
+            <div className="requestleft">
+              <p className="reqtopic">Fuel Reqest</p>
+              <RequestList />
+            </div>
+            <div className="requestright">
+              <RequestDetails />
+            </div>
+          </div>
+        );
       case "Settings":
         return <div className="content-container"></div>;
       default:
@@ -223,26 +434,38 @@ function Dashboard() {
               <img src={Ihome} alt="Home Icon" className="icon" />
               Home
             </p>
-            <p className="dvehicle" onClick={() => setActiveComponent("Vehicles")}>
+            <p
+              className="dvehicle"
+              onClick={() => setActiveComponent("Vehicles")}
+            >
               <img src={Ivehicle} alt="Vehicle Icon" className="icon" />
               Vehicles
             </p>
-            <p className="ddriver" onClick={() => setActiveComponent("Drivers")}>
+            <p
+              className="ddriver"
+              onClick={() => setActiveComponent("Drivers")}
+            >
               <img src={Idriver} alt="Driver Icon" className="icon" />
               Drivers
             </p>
-            <p className="drequest" onClick={() => setActiveComponent("Requests")}>
+            <p
+              className="drequest"
+              onClick={() => setActiveComponent("Requests")}
+            >
               <img src={Irequest} alt="Request Icon" className="icon" />
               Requests
             </p>
-            <p className="dsetting" onClick={() => setActiveComponent("Settings")}>
+            <p
+              className="dsetting"
+              onClick={() => setActiveComponent("Settings")}
+            >
               <img src={Isetting} alt="Setting Icon" className="icon" />
               Settings
             </p>
           </div>
         </div>
         <div className="dshright">
-          <Breadcrumb /> 
+          <Breadcrumb />
           {renderComponent()}
         </div>
       </div>
