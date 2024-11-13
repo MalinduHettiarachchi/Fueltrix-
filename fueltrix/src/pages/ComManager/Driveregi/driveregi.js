@@ -83,9 +83,7 @@ function Driveregi() {
         <p className="fueltrix">Fueltrix</p>
       </div>
       <div className="rightdr">
-        <p>Welcome to the Driver registration page for {company}!</p>
-
-        <p className="topdrive">Driver Registration</p>
+        <p className="topdrive">Driver Registration - {company}</p>
         <p className="email-label">Name</p>
         <div className="form-group">
           <input

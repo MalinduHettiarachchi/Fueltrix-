@@ -232,6 +232,7 @@
 
 .breadcrumb{
   text-align: left;
+  font-weight: 600;
 }
 
 .addvehi,.adddri{
@@ -242,4 +243,139 @@
   font-size: 20px;
   border-radius: 20px;
   margin-bottom: 30px;
+}
+
+
+.contentreq {
+  display: flex;
+  width: 100%;
+  height: 80vh;
+}
+
+.requestleft {
+  width: 75%;
+  background-color: #ffffff;
+  padding: 20px;
+  color: #041228;
+}
+
+.requestright {
+  width: 25%;
+  background-color: #ffffff;
+  padding: 20px;
+  color: #041228;
+}
+
+/* Request List Table */
+.request-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.request-list th,
+.request-list td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #041228;
+}
+
+.request-list th {
+  background-color: #041228;
+  color: #fff;
+}
+
+.request-list td {
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.request-list tr:hover {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Status colors for requests */
+
+
+.status.pending {
+  color: #041228;
+}
+
+.status.approved {
+  color: #041228;
+}
+
+.status.rejected {
+  color: #041228;
+}
+
+/* Request Details Section */
+.request-details {
+  padding: 20px;
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.request-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.request-details p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.rremovebutton {
+  border-radius: 20px;
+  border: 1.5px solid #041228;
+  height: 35px;
+  width: 200px;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+.rremovebutton:hover {
+  background-color: #041228;
+  color: #fff;
+}
+
+/* Container for the buttons */
+.request-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Approve Button */
+.approvebtn,
+.rejectbtn {
+  background-color: #ffffff;
+  color: #041228;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 30px;
+  width: 110px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border: 1.5px solid #041228;
+}
+
+/* Hover effects for buttons */
+.approvebtn:hover {
+  background-color: #041228; /* Green for approve */
+  color: #fff;
+}
+
+.rejectbtn:hover {
+  background-color: rgb(250, 0, 0); /* Red for cancel */
+  border: 1.5px solid rgb(250, 0, 0);
+  color: #fff;
+}
+
+.reqtopic{
+  text-align: left;
+  font-size: 30px;
+  margin-bottom: 10px;
 }

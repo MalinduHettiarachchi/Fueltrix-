@@ -118,8 +118,7 @@ function SRequest() {
           </div>
         ) : (
           <>
-            <p>Welcome to the vehicle registration page for {company}!</p>
-            <p className="topvehi">Vehicle Registration</p>
+            <p className="topvehi">Vehicle Registration - {company}</p>
             <p className="email-label">Registration Number</p>
             <div className="form-group">
               <input
