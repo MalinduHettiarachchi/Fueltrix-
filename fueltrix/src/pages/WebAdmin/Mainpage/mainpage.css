@@ -1,5 +1,5 @@
 .mainpage {
-    height: 270vh; /* Full viewport height */
+    height: 310vh; /* Full viewport height */
     display: flex;
     flex-direction: column;
 }
@@ -28,11 +28,25 @@
     align-items: flex-start; /* Align content to the left */
 }
 
+.cfront{
+  width: 200px;
+  margin-top: 30px;
+  margin-left: 80px;
+}
+
+.cback{
+  width: 200px;
+  margin-left: 310px;
+  margin-top: -200px;
+  margin-bottom: 100px;
+}
+
 .leftmp p{
     color: #041228;
     font-weight: 500;
     font-size: 80px;
     font-family: 'Poppins', sans-serif;
+    margin-top: -80px;
 }
 .features-container {
     display: flex;
