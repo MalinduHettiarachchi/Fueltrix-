@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../CMNav/navbar";
 import { ManagerContext } from "./ManagerContext";
 import "../dashboard/dashboard.css";
@@ -11,11 +11,13 @@ import Ivehicle from '../dashboard/vehicle.png';
 
 function Dashboard() {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
   const { userDetails } = location.state || {};
-  const { setManagerDetails } = useContext(ManagerContext);
+  const { setManagerDetails, managerDetails } = useContext(ManagerContext);
   const [activeComponent, setActiveComponent] = useState("Home");
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [selectedDriver, setSelectedDriver] = useState(null); // Define selectedDriver state
+  const [selectedDriver, setSelectedDriver] = useState(null);
+
 
   useEffect(() => {
     if (userDetails) {
@@ -23,13 +25,34 @@ function Dashboard() {
     }
   }, [userDetails, setManagerDetails]);
 
+  // Function to create the query parameters for the manager details
+  const getQueryParams = () => {
+    if (managerDetails) {
+      const params = new URLSearchParams();
+      params.append('company', managerDetails.company);
+      // Add more fields if needed
+      return params.toString();
+    }
+    return '';
+  };
+
+  const handleAddVehicle = () => {
+    const queryParams = getQueryParams();
+    navigate(`/vehicle?${queryParams}`);
+  };
+
+  const handleAddDriver = () => {
+    const queryParams = getQueryParams();
+    navigate(`/drivers?${queryParams}`);
+  };
+
   // Sample data for the vehicle list
   const vehicleData = [
-    { vehicle: "Homepage Overview", status: "Online", users: 212423, count: 8345, category: 18.5, avgTime: "2m 15s"  },
-    { vehicle: "Product Details - Gadgets", status: "Online", users: 172240, count: 5653, category: 9.7, avgTime: "2m 30s"},
-    { vehicle: "Checkout Process - Step 1", status: "Offline", users: 58240, count: 3455, category: 15.2, avgTime: "2m 10s"},
-    { vehicle: "User Profile Dashboard", status: "Online", users: 96240, count: 112543, category: 4.5, avgTime: "2m 40s"},
-    { vehicle: "Article Listing - Tech News", status: "Online", users: 142240, count: 3653, category: 3.1, avgTime: "2m 55s"},
+    { vehicle: "Homepage Overview", status: "Online", users: 212423, count: 8345, category: 18.5, avgTime: "2m 15s" },
+    { vehicle: "Product Details - Gadgets", status: "Online", users: 172240, count: 5653, category: 9.7, avgTime: "2m 30s" },
+    { vehicle: "Checkout Process - Step 1", status: "Offline", users: 58240, count: 3455, category: 15.2, avgTime: "2m 10s" },
+    { vehicle: "User Profile Dashboard", status: "Online", users: 96240, count: 112543, category: 4.5, avgTime: "2m 40s" },
+    { vehicle: "Article Listing - Tech News", status: "Online", users: 142240, count: 3653, category: 3.1, avgTime: "2m 55s" },
   ];
 
   // Sample data for the driver list
@@ -38,6 +61,13 @@ function Dashboard() {
     { name: "Jane Smith", status: "Inactive", vehicle: "Truck - B456", trips: 98, rating: 4.5, avgTime: "5h 20m" },
     { name: "Tom Brown", status: "Active", vehicle: "SUV - C789", trips: 200, rating: 4.9, avgTime: "3h 45m" },
   ];
+
+  // Define the breadcrumb component
+  const Breadcrumb = () => (
+    <div className="breadcrumb">
+      <span>Dashboard</span> &gt; <span>{activeComponent}</span>
+    </div>
+  );
 
   // Component to render the vehicle list table
   const VehicleList = () => (
@@ -48,7 +78,7 @@ function Dashboard() {
             <th>Vehicles</th>
             <th>Status</th>
             <th>Category</th>
-            <th>Fuel Count(L)</th>
+            <th>Fuel Count (L)</th>
             <th>The Driver in Use</th>
             <th>Average Time</th>
           </tr>
@@ -149,7 +179,7 @@ function Dashboard() {
   const renderComponent = () => {
     switch (activeComponent) {
       case "Home":
-        return <div className="content-container">Welcome to the Home Page</div>;
+        return <div className="content-container"></div>;
       case "Vehicles":
         return (
           <div className="contentvehi">
@@ -157,6 +187,7 @@ function Dashboard() {
               <VehicleList />
             </div>
             <div className="vehiright">
+            <button className="addvehi" onClick={handleAddVehicle}>Add Vehicle</button>
               <VehicleDetails />
             </div>
           </div>
@@ -168,16 +199,17 @@ function Dashboard() {
               <DriverList />
             </div>
             <div className="driverright">
+            <button className="adddri" onClick={handleAddDriver}>Add Driver</button>
               <DriverDetails />
             </div>
           </div>
         );
       case "Requests":
-        return <div className="content-container">All pending Requests</div>;
+        return <div className="content-container"></div>;
       case "Settings":
-        return <div className="content-container">Manage your Settings here</div>;
+        return <div className="content-container"></div>;
       default:
-        return <div className="content-container">Welcome to the Home Page</div>;
+        return <div className="content-container"></div>;
     }
   };
 
@@ -210,6 +242,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="dshright">
+          <Breadcrumb /> 
           {renderComponent()}
         </div>
       </div>
