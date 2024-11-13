@@ -8,6 +8,7 @@ import Idriver from "../dashboard/driver.png";
 import Irequest from "../dashboard/request.png";
 import Isetting from "../dashboard/setting.png";
 import Ivehicle from "../dashboard/vehicle.png";
+import IPayment from "../dashboard/payment.png";
 
 function Dashboard() {
   const location = useLocation();
@@ -417,6 +418,8 @@ const handleCancelRequest = (request) => {
             </div>
           </div>
         );
+      case "Payment": 
+        return <div className="content-container">Payment Section</div>;
       case "Settings":
         return <div className="content-container"></div>;
       default:
@@ -454,6 +457,10 @@ const handleCancelRequest = (request) => {
             >
               <img src={Irequest} alt="Request Icon" className="icon" />
               Requests
+            </p>
+            <p className="dpayment" onClick={() => setActiveComponent("Payment")}>
+              <img src={IPayment} alt="Payment Icon" className="icon" />
+              Payment
             </p>
             <p
               className="dsetting"
