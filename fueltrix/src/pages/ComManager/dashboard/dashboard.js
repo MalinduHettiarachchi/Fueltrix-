@@ -21,6 +21,7 @@ function Dashboard() {
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
   
 
   useEffect(() => {
@@ -126,33 +127,48 @@ function Dashboard() {
     </div>
   );
 
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchVehicles = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
+          );
+          const companyVehicles = response.data[managerDetails.company]?.vehicles || [];
+          setVehicles(companyVehicles);
+        } catch (error) {
+          console.error("Error fetching vehicles:", error);
+        }
+      };
+
+      fetchVehicles();
+    }
+  }, [managerDetails]);
+
+
   // Component to render the vehicle list table
   const VehicleList = () => (
     <div className="vehicle-list">
       <table>
         <thead>
           <tr>
-            <th>Vehicles</th>
-            <th>Status</th>
-            <th>Category</th>
-            <th>Fuel Count (L)</th>
-            <th>The Driver in Use</th>
-            <th>Average Time</th>
+            <th>Registration Number</th>
+            <th>Vehicle Type</th>
+            <th>Fuel Type</th>
+            <th>Fuel Volume (L)</th>
+            <th>Pumped Volume (L)</th>
+            <th>Requested Volume (L)</th>
           </tr>
         </thead>
         <tbody>
-          {vehicleData.map((vehicle, index) => (
+          {vehicles.map((vehicle, index) => (
             <tr key={index} onClick={() => setSelectedVehicle(vehicle)}>
-              <td>{vehicle.vehicle}</td>
-              <td>
-                <span className={`status ${vehicle.status.toLowerCase()}`}>
-                  {vehicle.status}
-                </span>
-              </td>
-              <td>{vehicle.category}</td>
-              <td>{vehicle.count}</td>
-              <td>{vehicle.users}</td>
-              <td>{vehicle.avgTime}</td>
+              <td>{vehicle.registrationNumber}</td>
+              <td>{vehicle.vehicleType}</td>
+              <td>{vehicle.fuelType}</td>
+              <td>{vehicle.fuelVolume}</td>
+              <td>{vehicle.pumpedVolume}</td>
+              <td>{vehicle.requestedVolume}</td>
             </tr>
           ))}
         </tbody>
@@ -160,28 +176,28 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the selected vehicle details
+  // Component to render selected vehicle details
   const VehicleDetails = () => (
     <div className="vehicle-details">
       {selectedVehicle ? (
         <div>
           <h3>
-            <strong>{selectedVehicle.vehicle}</strong>
+            <strong>{selectedVehicle.registrationNumber}</strong>
           </h3>
           <p>
-            <strong>Status:</strong> {selectedVehicle.status}
+            <strong>Vehicle Type:</strong> {selectedVehicle.vehicleType}
           </p>
           <p>
-            <strong>Category:</strong> {selectedVehicle.category}
+            <strong>Fuel Type:</strong> {selectedVehicle.fuelType}
           </p>
           <p>
-            <strong>Fuel Count (L):</strong> {selectedVehicle.count}
+            <strong>Fuel Volume (L):</strong> {selectedVehicle.fuelVolume}
           </p>
           <p>
-            <strong>Views per User:</strong> {selectedVehicle.users}
+            <strong>Pumped Volume (L):</strong> {selectedVehicle.pumpedVolume}
           </p>
           <p>
-            <strong>Average Time:</strong> {selectedVehicle.avgTime}
+            <strong>Requested Volume (L):</strong> {selectedVehicle.requestedVolume}
           </p>
           <button
             onClick={() => setSelectedVehicle(null)}
