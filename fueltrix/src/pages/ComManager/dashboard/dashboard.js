@@ -9,6 +9,7 @@ import Irequest from "../dashboard/request.png";
 import Isetting from "../dashboard/setting.png";
 import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
+import axios from "axios";
 
 function Dashboard() {
   const location = useLocation();
@@ -19,6 +20,9 @@ function Dashboard() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  
 
   useEffect(() => {
     if (userDetails) {
@@ -71,8 +75,7 @@ function Dashboard() {
       date: "2024-11-11",
     },
   ];
-
-  // Sample data for the vehicle list
+  
   const vehicleData = [
     {
       vehicle: "Homepage Overview",
@@ -116,34 +119,7 @@ function Dashboard() {
     },
   ];
 
-  // Sample data for the driver list
-  const driverData = [
-    {
-      name: "John Doe",
-      status: "Active",
-      vehicle: "Sedan - A123",
-      trips: 152,
-      rating: 4.8,
-      avgTime: "4h 30m",
-    },
-    {
-      name: "Jane Smith",
-      status: "Inactive",
-      vehicle: "Truck - B456",
-      trips: 98,
-      rating: 4.5,
-      avgTime: "5h 20m",
-    },
-    {
-      name: "Tom Brown",
-      status: "Active",
-      vehicle: "SUV - C789",
-      trips: 200,
-      rating: 4.9,
-      avgTime: "3h 45m",
-    },
-  ];
-
+ 
   // Define the breadcrumb component
   const Breadcrumb = () => (
     <div className="breadcrumb">
@@ -151,33 +127,48 @@ function Dashboard() {
     </div>
   );
 
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchVehicles = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
+          );
+          const companyVehicles = response.data[managerDetails.company]?.vehicles || [];
+          setVehicles(companyVehicles);
+        } catch (error) {
+          console.error("Error fetching vehicles:", error);
+        }
+      };
+
+      fetchVehicles();
+    }
+  }, [managerDetails]);
+
+
   // Component to render the vehicle list table
   const VehicleList = () => (
     <div className="vehicle-list">
       <table>
         <thead>
           <tr>
-            <th>Vehicles</th>
-            <th>Status</th>
-            <th>Category</th>
-            <th>Fuel Count (L)</th>
-            <th>The Driver in Use</th>
-            <th>Average Time</th>
+            <th>Registration Number</th>
+            <th>Vehicle Type</th>
+            <th>Fuel Type</th>
+            <th>Fuel Volume (L)</th>
+            <th>Pumped Volume (L)</th>
+            <th>Requested Volume (L)</th>
           </tr>
         </thead>
         <tbody>
-          {vehicleData.map((vehicle, index) => (
+          {vehicles.map((vehicle, index) => (
             <tr key={index} onClick={() => setSelectedVehicle(vehicle)}>
-              <td>{vehicle.vehicle}</td>
-              <td>
-                <span className={`status ${vehicle.status.toLowerCase()}`}>
-                  {vehicle.status}
-                </span>
-              </td>
-              <td>{vehicle.category}</td>
-              <td>{vehicle.count}</td>
-              <td>{vehicle.users}</td>
-              <td>{vehicle.avgTime}</td>
+              <td>{vehicle.registrationNumber}</td>
+              <td>{vehicle.vehicleType}</td>
+              <td>{vehicle.fuelType}</td>
+              <td>{vehicle.fuelVolume}</td>
+              <td>{vehicle.pumpedVolume}</td>
+              <td>{vehicle.requestedVolume}</td>
             </tr>
           ))}
         </tbody>
@@ -185,28 +176,28 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the selected vehicle details
+  // Component to render selected vehicle details
   const VehicleDetails = () => (
     <div className="vehicle-details">
       {selectedVehicle ? (
         <div>
           <h3>
-            <strong>{selectedVehicle.vehicle}</strong>
+            <strong>{selectedVehicle.registrationNumber}</strong>
           </h3>
           <p>
-            <strong>Status:</strong> {selectedVehicle.status}
+            <strong>Vehicle Type:</strong> {selectedVehicle.vehicleType}
           </p>
           <p>
-            <strong>Category:</strong> {selectedVehicle.category}
+            <strong>Fuel Type:</strong> {selectedVehicle.fuelType}
           </p>
           <p>
-            <strong>Fuel Count (L):</strong> {selectedVehicle.count}
+            <strong>Fuel Volume (L):</strong> {selectedVehicle.fuelVolume}
           </p>
           <p>
-            <strong>Views per User:</strong> {selectedVehicle.users}
+            <strong>Pumped Volume (L):</strong> {selectedVehicle.pumpedVolume}
           </p>
           <p>
-            <strong>Average Time:</strong> {selectedVehicle.avgTime}
+            <strong>Requested Volume (L):</strong> {selectedVehicle.requestedVolume}
           </p>
           <button
             onClick={() => setSelectedVehicle(null)}
@@ -221,33 +212,48 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the driver list table
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchDrivers = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/drivers?company=${managerDetails.company}`
+          );
+          // Filter the drivers based on the logged-in company
+          const filteredDrivers = response.data.filter(
+            (driver) => driver.company === managerDetails.company
+          );
+          setDrivers(filteredDrivers);
+        } catch (error) {
+          console.error("Error fetching drivers:", error);
+        }
+      };
+
+      fetchDrivers();
+    }
+  }, [managerDetails]);
+
+
+  // Component to render driver list table
   const DriverList = () => (
     <div className="driver-list">
       <table>
         <thead>
           <tr>
             <th>Driver</th>
-            <th>Status</th>
-            <th>Assigned Vehicle</th>
-            <th>Trips Completed</th>
-            <th>Rating</th>
-            <th>Average Time</th>
+            <th>Email</th>
+            <th>Contact</th>
           </tr>
         </thead>
         <tbody>
-          {driverData.map((driver, index) => (
-            <tr key={index} onClick={() => setSelectedDriver(driver)}>
+          {drivers.map((driver) => (
+            <tr
+              key={driver.name}
+              onClick={() => setSelectedDriver(driver)}
+            >
               <td>{driver.name}</td>
-              <td>
-                <span className={`status ${driver.status.toLowerCase()}`}>
-                  {driver.status}
-                </span>
-              </td>
-              <td>{driver.vehicle}</td>
-              <td>{driver.trips}</td>
-              <td>{driver.rating}</td>
-              <td>{driver.avgTime}</td>
+              <td>{driver.email}</td>
+              <td>{driver.contact}</td>
             </tr>
           ))}
         </tbody>
@@ -255,29 +261,14 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the selected driver details
+  // Component to render selected driver details
   const DriverDetails = () => (
     <div className="driver-details">
       {selectedDriver ? (
         <div>
-          <h3>
-            <strong>{selectedDriver.name}</strong>
-          </h3>
-          <p>
-            <strong>Status:</strong> {selectedDriver.status}
-          </p>
-          <p>
-            <strong>Assigned Vehicle:</strong> {selectedDriver.vehicle}
-          </p>
-          <p>
-            <strong>Trips Completed:</strong> {selectedDriver.trips}
-          </p>
-          <p>
-            <strong>Rating:</strong> {selectedDriver.rating}
-          </p>
-          <p>
-            <strong>Average Time:</strong> {selectedDriver.avgTime}
-          </p>
+          <h3><strong>{selectedDriver.name}</strong></h3>
+          <p><strong></strong> {selectedDriver.email}</p>
+          <p><strong></strong> {selectedDriver.contact}</p>
           <button
             onClick={() => setSelectedDriver(null)}
             className="dremovebutton"
@@ -290,7 +281,6 @@ function Dashboard() {
       )}
     </div>
   );
-
   // Component to render the request list table
   const RequestList = () => (
     <div className="request-list">
