@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
 import '../ShedRequest/srequest.css';
+import axios from 'axios';
 
 const mapContainerStyle = {
   width: '100%',
@@ -13,6 +14,11 @@ const initialCenter = {
   lng: 79.8612,
 };
 
+
+
+
+
+
 function SRequest() {
   const [stationName, setStationName] = useState('');
   const [registerNumber, setRegisterNumber] = useState('');
@@ -24,6 +30,10 @@ function SRequest() {
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [isDoneClicked, setIsDoneClicked] = useState(false);
   const [generatedKey, setGeneratedKey] = useState('');
+  const [message, setMessage] = useState('');
+  const [shedType, setShedType] = useState('');
+
+
 
   const handleMapClick = (event) => {
     const lat = event.latLng.lat();
@@ -41,6 +51,46 @@ function SRequest() {
     });
   };
 
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(""); // Clear the message after 3 seconds
+      }, 3000); // Adjust the duration here (3000ms = 3 seconds)
+
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [message]);
+
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/submit-form', {
+        shedName: stationName,
+        shedRegisterNumber: registerNumber,
+        email,
+        Security_Key: generatedKey,
+        location: searchText,
+        shedType,
+      });
+      setMessage(response.data.message); // Success message
+      setStationName('');
+      setRegisterNumber('');
+      setEmail('');
+      setSearchText('');
+      setShedType('');
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setMessage(error.response.data.message); // Display specific error from server
+      } else {
+        setMessage('Failed to submit form. Please try again later.');
+      }
+    }
+  };
+  
+  
+
+  
   const onLoad = (autocomplete) => {
     setAutocomplete(autocomplete);
   };
@@ -63,31 +113,22 @@ function SRequest() {
     const combined = `${stationName}-${registerNumber}`;
     let key = '';
     for (let i = 0; i < combined.length; i++) {
-      // Include only alphanumeric characters
       if (/[a-zA-Z0-9]/.test(combined[i])) {
         key += combined[i];
       }
     }
-    return key; // This will contain only letters and numbers
+    return key;
   };
 
   const handlePickupClick = () => {
-    console.log("Pickup clicked"); // Check if function is triggered
-    console.log(`Station Name: ${stationName}, Register Number: ${registerNumber}, Email: ${email}`); // Log inputs
-
     if (!stationName || !registerNumber || !email) {
       alert("Please fill in all fields before picking your location.");
-      return; // Prevent proceeding if any field is empty
+      return;
     }
 
-    const key = generateKey(stationName, registerNumber); // Generate the alphanumeric key
-    console.log('Generated Key:', key); // Display the key in the console
-    setGeneratedKey(key); // Save the key to state
+    const key = generateKey(stationName, registerNumber);
+    setGeneratedKey(key);
 
-    setStationName(''); 
-    setRegisterNumber('');
-    setEmail('');
-    setSearchText('');
     setMapVisible(true);
   };
 
@@ -102,6 +143,7 @@ function SRequest() {
       <div className="leftsr">
         <p>Join With Us</p>
       </div>
+      
       <div className="rightsr">
         {!mapVisible ? (
           <>
@@ -135,15 +177,20 @@ function SRequest() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <p className="shedtype">Vehicle Type</p>
+            <p className="shedtype">Shed Type</p>
             <div className="shed-group">
-              <select className="shedem-input">
+            <select
+                className="shedem-input"
+                value={shedType}
+                onChange={(e) => setShedType(e.target.value)}
+              >
                 <option value="">Select Shed Type</option>
-                <option value="ceypetco">Ceypetco</option>
-                <option value="ioc">IOC</option>
-                <option value="epc">EPC Contractors</option>
-                <option value="petrochemical">Petrochemical</option>
+                <option value="Ceypetco">Ceypetco</option>
+                <option value="IOC">IOC</option>
+                <option value="EPC">EPC Contractors</option>
+                <option value="Petrochemical">Petrochemical</option>
               </select>
+
             </div>
             <p className="shedloc">Location</p>
 
@@ -161,9 +208,11 @@ function SRequest() {
               <button className="pickup" onClick={handlePickupClick}>Pick up your location</button>
             )}
 
-            {isDoneClicked && (
-              <button className="submitshed"><a href="/signin">Submit</a></button>
-            )}
+          {isDoneClicked && (
+              <button className="submitshed" onClick={handleSubmit}>Submit</button>
+
+          )}
+
           </>
         ) : (
           <LoadScript googleMapsApiKey="AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI" libraries={['places']}>
@@ -191,10 +240,27 @@ function SRequest() {
               <button className="done-button" onClick={handleDoneClick}>
                 Done
               </button>
+              
             </div>
           </LoadScript>
         )}
+
+
+        
+             
+             
+       <div className="message-container">
+        {message && (
+          <p className={`message ${message.includes("successfully") ? "success" : "error"}`}>
+            {message}
+          </p>
+        )}
       </div>
+
+
+
+      </div>
+      
     </div>
   );
 }

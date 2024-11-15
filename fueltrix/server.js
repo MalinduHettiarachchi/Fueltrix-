@@ -34,6 +34,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+
+// shed registration requet old one
 app.post('/register-shed', async (req, res) => {
   const { shedRegisterNumber, shedName, email, location, Approved_status, Security_Key } = req.body;
 
@@ -80,6 +82,75 @@ app.post('/register-shed', async (req, res) => {
 });
 
 
+// shed registration requet new one
+app.post('/submit-form', async (req, res) => {
+  const { shedName, shedRegisterNumber, email, Security_Key, location, shedType } = req.body;
+
+  try {
+    // Check if the email already exists in the database
+    const existingShed = await db.collection('Shed').where('email', '==', email).get();
+    if (!existingShed.empty) {
+      return res.status(400).json({ message: 'Email already exists. Please use a different email.' });
+    }
+
+    // Save form data to Firebase with Approved_status set to false by default
+    const newShed = await db.collection('Shed').add({
+      shedName,
+      shedRegisterNumber,
+      email,
+      Security_Key,
+      location,
+      shedType,
+      Approved_status: false, // Default status
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    // Construct the personalized email content
+    const messageContent = `
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+      <h2 style="color: #1a73e8; text-align: center;">Fuel Station Registration Request Submitted!</h2>
+      <p>Dear ${shedName} Team,</p>
+      <p>Your registration request for the fuel station <strong>${shedName}</strong> has been received successfully.</p>
+      
+      <p>We are currently reviewing your request. Once approved, you will be notified via email with further details.</p>
+  
+      <p>If you have any questions, feel free to contact us at <a href="mailto:fueltrixteam@gmail.com" style="color: #1a73e8;">fueltrixteam@gmail.com</a>.</p>
+      
+      <p>Best Regards,<br>
+      <strong>The Fueltrix Team</strong></p>
+      
+      <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
+      <p style="font-size: 12px; color: #555; text-align: center;">
+        Fueltrix Fuel Tracking System | All rights reserved.<br>
+        <a href="https://fueltrix.com" style="color: #1a73e8;">Visit our website</a> | <a href="https://fueltrix.com/unsubscribe" style="color: #1a73e8;">Unsubscribe</a>
+      </p>
+    </div>
+  `;
+    // Send email using Nodemailer
+    const mailOptions = {
+      from: "fueltrixteam@gmail.com", // Sender's email address
+      to: email,                      // User's entered email address
+      subject: "Shed Registration Request Received!",
+      html: messageContent            // Use HTML format for the email
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully");
+
+    res.status(200).send({ message: "Shed registration request sent and email sent successfully!" });
+  } catch (error) {
+    console.error('Error processing request:', error);
+    res.status(500).send({ message: 'Failed to process the registration request. Please try again later.' });
+  }
+});
+
+
+
+
+
+
+
+
 
 // New WebAdminLogin route
 app.post('/WebAdminLogin', async (req, res) => {
@@ -118,7 +189,6 @@ app.post('/WebAdminLogin', async (req, res) => {
 
 
 // Add this route to your existing Express server code
-
 app.get('/shed-requests', async (req, res) => {
   try {
     const shedRequestsRef = db.collection('Shed');
@@ -144,7 +214,8 @@ app.get('/shed-requests', async (req, res) => {
 });
 
 
-// Route to update the Approved_status to true
+
+// Route to update the Approved_status to true and send an email notification
 app.put('/shed-requests/:id/approve', async (req, res) => {
   const { id } = req.params;
 
@@ -157,15 +228,62 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
       return res.status(404).json({ message: 'Shed request not found' });
     }
 
+    // Get the shed request details from the document
+    const { email, shedName, Security_Key, shedRegisterNumber, location } = doc.data();
+
     // Update the Approved_status to true
     await shedRef.update({ Approved_status: true });
 
-    res.status(200).json({ message: 'Shed request approved successfully' });
+    // Construct the email content
+    const messageContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8; text-align: center;">Your Shed Request Has Been Approved</h2>
+        <p>Dear ${shedName} Team,</p>
+        <p>We are pleased to inform you that your shed request has been approved! You can now access the Fueltrix Fuel Tracking System using the credentials provided below.</p>
+
+        <p>Here are the details of your shed:</p>
+        <ul>
+          <li><strong>Shed Name:</strong> ${shedName}</li>
+          <li><strong>Shed Register Number:</strong> ${shedRegisterNumber}</li>
+          <li><strong>Location:</strong> ${location}</li>
+        </ul>
+
+        <p>Here are your login credentials:</p>
+        <ul>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Security Key (Fuel Station Pin):</strong> ${Security_Key}</li>
+        </ul>
+
+        <p>Thank you for choosing Fueltrix!</p>
+
+        <p>Best Regards,<br>
+        The Fueltrix Team</p>
+      </div>
+    `;
+
+    // Email options (sender, recipient, subject, and content)
+    const mailOptions = {
+      from: 'your-email@gmail.com', // Sender's email address
+      to: email,                    // Recipient's email address from the database
+      subject: 'Fuel Station Request Approved - Access to Fueltrix System', // Email subject
+      html: messageContent,         // HTML formatted message content
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    console.log('Approval email sent successfully to fuel station');
+
+    // Send a response back to the client
+    res.status(200).json({ message: 'Shed request approved successfully and email sent' });
+
   } catch (error) {
-    console.error('Error updating shed request:', error);
+    console.error('Error approving shed request or sending email:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
 
 
 

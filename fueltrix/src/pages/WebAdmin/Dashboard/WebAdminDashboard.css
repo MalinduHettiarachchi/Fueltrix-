@@ -335,22 +335,39 @@ tr:nth-child(even) {
 }
 
 
+/* Base styling for all message types */
 .LoadingMessage, .ErrorMessage, .SuccessMessage {
-    font-size: 18px;
+    font-size: 14px;  /* Smaller font size */
     text-align: center;
-    margin-top: 30px;
-    padding: 15px;
-    border-radius: 12px;
-}
-
-.LoadingMessage {
-    color: #555;
-}
-
-.ErrorMessage {
-    background-color: #e74c3c;
-    color: white;
-}
+    margin-top: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    width: auto;
+    max-width: 300px;  /* Limit width for compact look */
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Light shadow for depth */
+    transition: opacity 0.3s ease-in-out;  /* Smooth fade effect */
+  }
+  
+  /* Loading Message */
+  .LoadingMessage {
+    color: #3498db;  /* Light blue */
+    background-color: #f0f9ff;  /* Soft background */
+  }
+  
+  /* Success Message */
+  .SuccessMessage {
+    color: #fff;
+    background-color: #2980b9;  /* Blue background */
+  }
+  
+  /* Error Message */
+  .ErrorMessage {
+    color: #fff;
+    background-color: #e74c3c;  /* Red background */
+  }
+  
 
 .SuccessMessage {
     background-color: #2ecc71;
