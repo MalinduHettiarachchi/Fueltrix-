@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../CMNav/navbar";
 import { ManagerContext } from "./ManagerContext";
 import "../dashboard/dashboard.css";
@@ -22,7 +22,6 @@ function Dashboard() {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
-  
 
   useEffect(() => {
     if (userDetails) {
@@ -57,69 +56,31 @@ function Dashboard() {
       id: 1,
       type: "Fuel Request",
       status: "Pending",
-      driver: "John Doe", fuelCount: 150, category: "Urgent",
+      driver: "John Doe",
+      fuelCount: 150,
+      category: "Urgent",
       date: "2024-11-12",
     },
     {
       id: 2,
       type: "Maintenance Request",
       status: "Approved ",
-      driver: "Jane Smith",fuelCount: 0, category: "Routine",
+      driver: "Jane Smith",
+      fuelCount: 0,
+      category: "Routine",
       date: "2024-11-10",
     },
     {
       id: 3,
       type: "Route Adjustment",
       status: "Rejected",
-      driver: "Tom Brown", fuelCount: 300, category: "High",
+      driver: "Tom Brown",
+      fuelCount: 300,
+      category: "High",
       date: "2024-11-11",
     },
   ];
-  
-  const vehicleData = [
-    {
-      vehicle: "Homepage Overview",
-      status: "Online",
-      users: 212423,
-      count: 8345,
-      category: 18.5,
-      avgTime: "2m 15s",
-    },
-    {
-      vehicle: "Product Details - Gadgets",
-      status: "Online",
-      users: 172240,
-      count: 5653,
-      category: 9.7,
-      avgTime: "2m 30s",
-    },
-    {
-      vehicle: "Checkout Process - Step 1",
-      status: "Offline",
-      users: 58240,
-      count: 3455,
-      category: 15.2,
-      avgTime: "2m 10s",
-    },
-    {
-      vehicle: "User Profile Dashboard",
-      status: "Online",
-      users: 96240,
-      count: 112543,
-      category: 4.5,
-      avgTime: "2m 40s",
-    },
-    {
-      vehicle: "Article Listing - Tech News",
-      status: "Online",
-      users: 142240,
-      count: 3653,
-      category: 3.1,
-      avgTime: "2m 55s",
-    },
-  ];
 
- 
   // Define the breadcrumb component
   const Breadcrumb = () => (
     <div className="breadcrumb">
@@ -134,7 +95,8 @@ function Dashboard() {
           const response = await axios.get(
             `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
           );
-          const companyVehicles = response.data[managerDetails.company]?.vehicles || [];
+          const companyVehicles =
+            response.data[managerDetails.company]?.vehicles || [];
           setVehicles(companyVehicles);
         } catch (error) {
           console.error("Error fetching vehicles:", error);
@@ -144,7 +106,6 @@ function Dashboard() {
       fetchVehicles();
     }
   }, [managerDetails]);
-
 
   // Component to render the vehicle list table
   const VehicleList = () => (
@@ -197,7 +158,8 @@ function Dashboard() {
             <strong>Pumped Volume (L):</strong> {selectedVehicle.pumpedVolume}
           </p>
           <p>
-            <strong>Requested Volume (L):</strong> {selectedVehicle.requestedVolume}
+            <strong>Requested Volume (L):</strong>{" "}
+            {selectedVehicle.requestedVolume}
           </p>
           <button
             onClick={() => setSelectedVehicle(null)}
@@ -233,7 +195,6 @@ function Dashboard() {
     }
   }, [managerDetails]);
 
-
   // Component to render driver list table
   const DriverList = () => (
     <div className="driver-list">
@@ -247,10 +208,7 @@ function Dashboard() {
         </thead>
         <tbody>
           {drivers.map((driver) => (
-            <tr
-              key={driver.name}
-              onClick={() => setSelectedDriver(driver)}
-            >
+            <tr key={driver.name} onClick={() => setSelectedDriver(driver)}>
               <td>{driver.name}</td>
               <td>{driver.email}</td>
               <td>{driver.contact}</td>
@@ -266,9 +224,15 @@ function Dashboard() {
     <div className="driver-details">
       {selectedDriver ? (
         <div>
-          <h3><strong>{selectedDriver.name}</strong></h3>
-          <p><strong></strong> {selectedDriver.email}</p>
-          <p><strong></strong> {selectedDriver.contact}</p>
+          <h3>
+            <strong>{selectedDriver.name}</strong>
+          </h3>
+          <p>
+            <strong></strong> {selectedDriver.email}
+          </p>
+          <p>
+            <strong></strong> {selectedDriver.contact}
+          </p>
           <button
             onClick={() => setSelectedDriver(null)}
             className="dremovebutton"
@@ -305,7 +269,7 @@ function Dashboard() {
                 </span>
               </td>
               <td>{request.driver}</td>
-              <td>{request.fuelCount}</td> 
+              <td>{request.fuelCount}</td>
               <td>{request.category}</td>
               <td>{request.date}</td>
             </tr>
@@ -333,19 +297,19 @@ function Dashboard() {
             <strong>Driver:</strong> {selectedRequest.driver}
           </p>
           <div className="request-buttons">
-          <button 
-            className="approvebtn"
-            onClick={() => handleApproveRequest(selectedRequest)}
-          >
-            Approve
-          </button>
-          <button 
-            className="rejectbtn"
-            onClick={() => handleCancelRequest(selectedRequest)}
-          >
-            Reject
-          </button>
-        </div>
+            <button
+              className="approvebtn"
+              onClick={() => handleApproveRequest(selectedRequest)}
+            >
+              Approve
+            </button>
+            <button
+              className="rejectbtn"
+              onClick={() => handleCancelRequest(selectedRequest)}
+            >
+              Reject
+            </button>
+          </div>
         </div>
       ) : (
         <p>Select a request to Approve or Reject</p>
@@ -354,15 +318,15 @@ function Dashboard() {
   );
 
   // Handle Approve and Cancel actions
-const handleApproveRequest = (request) => {
-  // Implement the logic for approving the request
-  console.log(`Request ${request.type} approved`);
-};
+  const handleApproveRequest = (request) => {
+    // Implement the logic for approving the request
+    console.log(`Request ${request.type} approved`);
+  };
 
-const handleCancelRequest = (request) => {
-  // Implement the logic for canceling the request
-  console.log(`Request ${request.type} canceled`);
-};
+  const handleCancelRequest = (request) => {
+    // Implement the logic for canceling the request
+    console.log(`Request ${request.type} canceled`);
+  };
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
@@ -408,10 +372,37 @@ const handleCancelRequest = (request) => {
             </div>
           </div>
         );
-      case "Payment": 
+      case "Payment":
         return <div className="content-container">Payment Section</div>;
       case "Settings":
-        return <div className="content-container"></div>;
+        return (
+          <div className="contentset">
+            <h2>Update Your Account</h2>
+            <div className="account">
+            <p className="setname">Company Name</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setname-input"
+              />
+            </div>
+            <p className="setemail">Email</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setemail-input"
+              />
+            </div>
+            <p className="setpack">Your Package</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setpack-input"
+              />
+            </div>
+            </div>
+          </div>
+        );
       default:
         return <div className="content-container"></div>;
     }
@@ -448,7 +439,10 @@ const handleCancelRequest = (request) => {
               <img src={Irequest} alt="Request Icon" className="icon" />
               Requests
             </p>
-            <p className="dpayment" onClick={() => setActiveComponent("Payment")}>
+            <p
+              className="dpayment"
+              onClick={() => setActiveComponent("Payment")}
+            >
               <img src={IPayment} alt="Payment Icon" className="icon" />
               Payment
             </p>

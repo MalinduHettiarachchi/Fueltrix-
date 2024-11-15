@@ -25,22 +25,12 @@ const Navbar = () => {
     <nav className="navbar">
       <ul className="row">
         <li className="log">
-          <Link to="/fueltrix">
+          <Link to="/dashboard">
             <img src={logoImage} alt="Logo" className="logo-img" />
           </Link>
         </li>
-        <li className="dropdown">
-          <span className="dropbtn">Registration</span>
-          <div className="dropdown-content">
-            <Link to={`/drivers?${queryParams}`}>
-              Drivers Registration
-            </Link>
-            <Link to={`/vehicle?${queryParams}`}>
-              Vehicle Registration
-            </Link>
-          </div>
-        </li>
-        {managerDetails && <li className="manager-email">{managerDetails.company}</li>}
+         
+        {managerDetails && <li className="manager-name">{managerDetails.company}</li>}
         <li className='login'>
           <Link to="/login">
             <img src={loginImage} alt="Login" className="login-img" />
