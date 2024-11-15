@@ -41,7 +41,7 @@
   color: rgb(100, 100, 100);
 }
 
-.shednum, .shedname, .shedem, .shedloc {
+.shednum, .shedname, .shedem, .shedloc, .shedtype{
   color: #041228;
   font-size: 1rem;
   margin-bottom: 5px;
