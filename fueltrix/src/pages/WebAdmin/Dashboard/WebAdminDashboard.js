@@ -98,6 +98,9 @@ const ShedRequests = () => {
             await axios.put(`http://localhost:5000/shed-requests/${id}/approve`);
             setShedRequests(prevRequests => prevRequests.filter(request => request.id !== id));
             setSuccess('Shed request approved successfully!');
+            setTimeout(() => {
+                setSuccess('');
+              }, 3000);
         } catch (error) {
             console.error('Error approving shed request:', error);
             setError('Failed to approve shed request.');
@@ -124,6 +127,7 @@ const ShedRequests = () => {
                             <th>Shed Name</th>
                             <th>Email</th>
                             <th>Location</th>
+                            <th>Shed Type</th>
                             <th>Security Key</th>
                             <th>Created At</th>
                             <th>Action</th>
@@ -136,6 +140,7 @@ const ShedRequests = () => {
                                 <td>{request.shedName}</td>
                                 <td>{request.email}</td>
                                 <td>{request.location}</td>
+                                <td>{request.shedType}</td>
                                 <td>{request.Security_Key}</td>
                                 <td>
                                     {request.createdAt ? (
@@ -238,6 +243,7 @@ const RegisteredSheds = () => {
                             <th>Register Number</th>
                             <th>Email</th>
                             <th>Location</th>
+                            <th>Shed Type</th>
                             <th>Security Key</th>
                             <th>Approved Status</th>
                             <th>Created At</th>
@@ -251,6 +257,7 @@ const RegisteredSheds = () => {
                                 <td>{shed.shedRegisterNumber}</td>
                                 <td>{shed.email}</td>
                                 <td>{shed.location}</td>
+                                <td>{shed.shedType}</td>
                                 <td>{shed.Security_Key}</td>
                                 <td>{shed.Approved_status ? 'Approved' : 'Not Approved'}</td>
                                 <td>{shed.createdAt && new Date(shed.createdAt).toLocaleString()}</td>

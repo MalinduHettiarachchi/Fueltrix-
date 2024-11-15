@@ -158,3 +158,29 @@
   color: #041228;
 }
 
+
+
+
+.message-container {
+  margin: 20px auto; /* Center horizontally */
+  width: fit-content; /* Adjust width to fit the content */
+  text-align: center; /* Center the text inside */
+}
+
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.message.success {
+  color: #0c5460; /* Dark blue text */
+  background-color: #d1ecf1; /* Light blue background */
+  border: 1px solid #bee5eb; /* Border matching the theme */
+}
+
+.message.error {
+  color: #721c24; /* Dark red text */
+  background-color: #f8d7da; /* Light red background */
+  border: 1px solid #f5c6cb; /* Border matching error theme */
+}
