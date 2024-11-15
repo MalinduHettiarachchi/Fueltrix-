@@ -135,6 +135,16 @@ function SRequest() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            <p className="shedtype">Vehicle Type</p>
+            <div className="shed-group">
+              <select className="shedem-input">
+                <option value="">Select Shed Type</option>
+                <option value="ceypetco">Ceypetco</option>
+                <option value="ioc">IOC</option>
+                <option value="epc">EPC Contractors</option>
+                <option value="petrochemical">Petrochemical</option>
+              </select>
+            </div>
             <p className="shedloc">Location</p>
 
             {showAddressInput ? (
