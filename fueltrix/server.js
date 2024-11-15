@@ -7,8 +7,19 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require('D:/Project/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json'); // Use forward slashes or properly escape
+const serviceAccount = require("D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
+//Malidu(Ubee Path Eka)--E:/Projects/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
+//Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
 
+
+// Configure the Nodemailer transporter with your email service credentials
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "fueltrixteam@gmail.com", // Your email address
+    pass: "eqnd bkeo iwqk egmh"   // Your email password or app-specific password if using Gmail
+  },
+});
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -545,7 +556,6 @@ app.post('/api/driver/register', async (req, res) => {
 
 
 
-// API endpoint to save vehicle details
 app.post("/api/register-vehicle", async (req, res) => {
   const { registrationNumber, vehicleType, fuelType, fuelVolume, vehicleCode, company } = req.body;
 
@@ -567,7 +577,7 @@ app.post("/api/register-vehicle", async (req, res) => {
       return res.status(400).json({ message: "Fuel volume must be a positive number." });
     }
 
-    // If not, proceed to save the new vehicle details
+    // If validation passes, save the new vehicle details with additional fields
     const vehicleRef = db.collection("Vehicle").doc(); // Auto-generated ID
     await vehicleRef.set({
       registrationNumber,
@@ -576,6 +586,8 @@ app.post("/api/register-vehicle", async (req, res) => {
       fuelVolume: fuelVolumeNumber, // Save as a number
       vehicleCode,
       company,
+      pumpedVolume: 0, // Default integer value
+      requestedVolume: 0, // Default integer value
     });
 
     res.status(201).json({ message: "Vehicle registered successfully!" });
@@ -584,6 +596,7 @@ app.post("/api/register-vehicle", async (req, res) => {
     res.status(500).json({ message: "Error registering vehicle." });
   }
 });
+
 
 
 
@@ -665,6 +678,12 @@ app.get('/api/stats', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch stats' });
   }
 });
+
+
+
+
+
+
 
 
 // Start the server
