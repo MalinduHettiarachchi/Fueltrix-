@@ -9,8 +9,8 @@ function About() {
       <Navbar />
       <div className="about-container">
         <div className="about-text">
-          <h2>About COVENTRY</h2>
-          <h1>COVENTRY is a pioneering NFC-based solution provider</h1>
+          <h2>About FUELTRIX</h2>
+          <h1>FUELTRIX is a pioneering NFC-based solution provider</h1>
           <p>
             revolutionizing industries through innovative NFC solutions. With
             our inception on October 23rd, 2021, we have become a prominent
@@ -32,7 +32,7 @@ function About() {
         </div>
         <div className="about-image">
           <img src={Uni} alt="LUXN Office" />
-          <p className="image-caption">COVENTRY (PVT) LTD</p>
+          <p className="image-caption">FUELTRIX (PVT) LTD</p>
         </div>
       </div>
     </div>
