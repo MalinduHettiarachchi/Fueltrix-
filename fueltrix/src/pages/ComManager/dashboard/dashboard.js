@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../CMNav/navbar";
 import { ManagerContext } from "./ManagerContext";
 import "../dashboard/dashboard.css";
@@ -9,6 +9,7 @@ import Irequest from "../dashboard/request.png";
 import Isetting from "../dashboard/setting.png";
 import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
+import axios from "axios";
 
 function Dashboard() {
   const location = useLocation();
@@ -19,6 +20,8 @@ function Dashboard() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
+  const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
     if (userDetails) {
@@ -53,94 +56,28 @@ function Dashboard() {
       id: 1,
       type: "Fuel Request",
       status: "Pending",
-      driver: "John Doe", fuelCount: 150, category: "Urgent",
+      driver: "John Doe",
+      fuelCount: 150,
+      category: "Urgent",
       date: "2024-11-12",
     },
     {
       id: 2,
       type: "Maintenance Request",
       status: "Approved ",
-      driver: "Jane Smith",fuelCount: 0, category: "Routine",
+      driver: "Jane Smith",
+      fuelCount: 0,
+      category: "Routine",
       date: "2024-11-10",
     },
     {
       id: 3,
       type: "Route Adjustment",
       status: "Rejected",
-      driver: "Tom Brown", fuelCount: 300, category: "High",
+      driver: "Tom Brown",
+      fuelCount: 300,
+      category: "High",
       date: "2024-11-11",
-    },
-  ];
-
-  // Sample data for the vehicle list
-  const vehicleData = [
-    {
-      vehicle: "Homepage Overview",
-      status: "Online",
-      users: 212423,
-      count: 8345,
-      category: 18.5,
-      avgTime: "2m 15s",
-    },
-    {
-      vehicle: "Product Details - Gadgets",
-      status: "Online",
-      users: 172240,
-      count: 5653,
-      category: 9.7,
-      avgTime: "2m 30s",
-    },
-    {
-      vehicle: "Checkout Process - Step 1",
-      status: "Offline",
-      users: 58240,
-      count: 3455,
-      category: 15.2,
-      avgTime: "2m 10s",
-    },
-    {
-      vehicle: "User Profile Dashboard",
-      status: "Online",
-      users: 96240,
-      count: 112543,
-      category: 4.5,
-      avgTime: "2m 40s",
-    },
-    {
-      vehicle: "Article Listing - Tech News",
-      status: "Online",
-      users: 142240,
-      count: 3653,
-      category: 3.1,
-      avgTime: "2m 55s",
-    },
-  ];
-
-  // Sample data for the driver list
-  const driverData = [
-    {
-      name: "John Doe",
-      status: "Active",
-      vehicle: "Sedan - A123",
-      trips: 152,
-      rating: 4.8,
-      avgTime: "4h 30m",
-    },
-    {
-      name: "Jane Smith",
-      status: "Inactive",
-      vehicle: "Truck - B456",
-      trips: 98,
-      rating: 4.5,
-      avgTime: "5h 20m",
-    },
-    {
-      name: "Tom Brown",
-      status: "Active",
-      vehicle: "SUV - C789",
-      trips: 200,
-      rating: 4.9,
-      avgTime: "3h 45m",
     },
   ];
 
@@ -151,33 +88,48 @@ function Dashboard() {
     </div>
   );
 
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchVehicles = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
+          );
+          const companyVehicles =
+            response.data[managerDetails.company]?.vehicles || [];
+          setVehicles(companyVehicles);
+        } catch (error) {
+          console.error("Error fetching vehicles:", error);
+        }
+      };
+
+      fetchVehicles();
+    }
+  }, [managerDetails]);
+
   // Component to render the vehicle list table
   const VehicleList = () => (
     <div className="vehicle-list">
       <table>
         <thead>
           <tr>
-            <th>Vehicles</th>
-            <th>Status</th>
-            <th>Category</th>
-            <th>Fuel Count (L)</th>
-            <th>The Driver in Use</th>
-            <th>Average Time</th>
+            <th>Registration Number</th>
+            <th>Vehicle Type</th>
+            <th>Fuel Type</th>
+            <th>Fuel Volume (L)</th>
+            <th>Pumped Volume (L)</th>
+            <th>Requested Volume (L)</th>
           </tr>
         </thead>
         <tbody>
-          {vehicleData.map((vehicle, index) => (
+          {vehicles.map((vehicle, index) => (
             <tr key={index} onClick={() => setSelectedVehicle(vehicle)}>
-              <td>{vehicle.vehicle}</td>
-              <td>
-                <span className={`status ${vehicle.status.toLowerCase()}`}>
-                  {vehicle.status}
-                </span>
-              </td>
-              <td>{vehicle.category}</td>
-              <td>{vehicle.count}</td>
-              <td>{vehicle.users}</td>
-              <td>{vehicle.avgTime}</td>
+              <td>{vehicle.registrationNumber}</td>
+              <td>{vehicle.vehicleType}</td>
+              <td>{vehicle.fuelType}</td>
+              <td>{vehicle.fuelVolume}</td>
+              <td>{vehicle.pumpedVolume}</td>
+              <td>{vehicle.requestedVolume}</td>
             </tr>
           ))}
         </tbody>
@@ -185,28 +137,29 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the selected vehicle details
+  // Component to render selected vehicle details
   const VehicleDetails = () => (
     <div className="vehicle-details">
       {selectedVehicle ? (
         <div>
           <h3>
-            <strong>{selectedVehicle.vehicle}</strong>
+            <strong>{selectedVehicle.registrationNumber}</strong>
           </h3>
           <p>
-            <strong>Status:</strong> {selectedVehicle.status}
+            <strong>Vehicle Type:</strong> {selectedVehicle.vehicleType}
           </p>
           <p>
-            <strong>Category:</strong> {selectedVehicle.category}
+            <strong>Fuel Type:</strong> {selectedVehicle.fuelType}
           </p>
           <p>
-            <strong>Fuel Count (L):</strong> {selectedVehicle.count}
+            <strong>Fuel Volume (L):</strong> {selectedVehicle.fuelVolume}
           </p>
           <p>
-            <strong>Views per User:</strong> {selectedVehicle.users}
+            <strong>Pumped Volume (L):</strong> {selectedVehicle.pumpedVolume}
           </p>
           <p>
-            <strong>Average Time:</strong> {selectedVehicle.avgTime}
+            <strong>Requested Volume (L):</strong>{" "}
+            {selectedVehicle.requestedVolume}
           </p>
           <button
             onClick={() => setSelectedVehicle(null)}
@@ -221,33 +174,44 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the driver list table
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchDrivers = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/drivers?company=${managerDetails.company}`
+          );
+          // Filter the drivers based on the logged-in company
+          const filteredDrivers = response.data.filter(
+            (driver) => driver.company === managerDetails.company
+          );
+          setDrivers(filteredDrivers);
+        } catch (error) {
+          console.error("Error fetching drivers:", error);
+        }
+      };
+
+      fetchDrivers();
+    }
+  }, [managerDetails]);
+
+  // Component to render driver list table
   const DriverList = () => (
     <div className="driver-list">
       <table>
         <thead>
           <tr>
             <th>Driver</th>
-            <th>Status</th>
-            <th>Assigned Vehicle</th>
-            <th>Trips Completed</th>
-            <th>Rating</th>
-            <th>Average Time</th>
+            <th>Email</th>
+            <th>Contact</th>
           </tr>
         </thead>
         <tbody>
-          {driverData.map((driver, index) => (
-            <tr key={index} onClick={() => setSelectedDriver(driver)}>
+          {drivers.map((driver) => (
+            <tr key={driver.name} onClick={() => setSelectedDriver(driver)}>
               <td>{driver.name}</td>
-              <td>
-                <span className={`status ${driver.status.toLowerCase()}`}>
-                  {driver.status}
-                </span>
-              </td>
-              <td>{driver.vehicle}</td>
-              <td>{driver.trips}</td>
-              <td>{driver.rating}</td>
-              <td>{driver.avgTime}</td>
+              <td>{driver.email}</td>
+              <td>{driver.contact}</td>
             </tr>
           ))}
         </tbody>
@@ -255,7 +219,7 @@ function Dashboard() {
     </div>
   );
 
-  // Component to render the selected driver details
+  // Component to render selected driver details
   const DriverDetails = () => (
     <div className="driver-details">
       {selectedDriver ? (
@@ -264,19 +228,10 @@ function Dashboard() {
             <strong>{selectedDriver.name}</strong>
           </h3>
           <p>
-            <strong>Status:</strong> {selectedDriver.status}
+            <strong></strong> {selectedDriver.email}
           </p>
           <p>
-            <strong>Assigned Vehicle:</strong> {selectedDriver.vehicle}
-          </p>
-          <p>
-            <strong>Trips Completed:</strong> {selectedDriver.trips}
-          </p>
-          <p>
-            <strong>Rating:</strong> {selectedDriver.rating}
-          </p>
-          <p>
-            <strong>Average Time:</strong> {selectedDriver.avgTime}
+            <strong></strong> {selectedDriver.contact}
           </p>
           <button
             onClick={() => setSelectedDriver(null)}
@@ -290,7 +245,6 @@ function Dashboard() {
       )}
     </div>
   );
-
   // Component to render the request list table
   const RequestList = () => (
     <div className="request-list">
@@ -315,7 +269,7 @@ function Dashboard() {
                 </span>
               </td>
               <td>{request.driver}</td>
-              <td>{request.fuelCount}</td> 
+              <td>{request.fuelCount}</td>
               <td>{request.category}</td>
               <td>{request.date}</td>
             </tr>
@@ -343,19 +297,19 @@ function Dashboard() {
             <strong>Driver:</strong> {selectedRequest.driver}
           </p>
           <div className="request-buttons">
-          <button 
-            className="approvebtn"
-            onClick={() => handleApproveRequest(selectedRequest)}
-          >
-            Approve
-          </button>
-          <button 
-            className="rejectbtn"
-            onClick={() => handleCancelRequest(selectedRequest)}
-          >
-            Reject
-          </button>
-        </div>
+            <button
+              className="approvebtn"
+              onClick={() => handleApproveRequest(selectedRequest)}
+            >
+              Approve
+            </button>
+            <button
+              className="rejectbtn"
+              onClick={() => handleCancelRequest(selectedRequest)}
+            >
+              Reject
+            </button>
+          </div>
         </div>
       ) : (
         <p>Select a request to Approve or Reject</p>
@@ -364,15 +318,15 @@ function Dashboard() {
   );
 
   // Handle Approve and Cancel actions
-const handleApproveRequest = (request) => {
-  // Implement the logic for approving the request
-  console.log(`Request ${request.type} approved`);
-};
+  const handleApproveRequest = (request) => {
+    // Implement the logic for approving the request
+    console.log(`Request ${request.type} approved`);
+  };
 
-const handleCancelRequest = (request) => {
-  // Implement the logic for canceling the request
-  console.log(`Request ${request.type} canceled`);
-};
+  const handleCancelRequest = (request) => {
+    // Implement the logic for canceling the request
+    console.log(`Request ${request.type} canceled`);
+  };
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
@@ -418,10 +372,37 @@ const handleCancelRequest = (request) => {
             </div>
           </div>
         );
-      case "Payment": 
+      case "Payment":
         return <div className="content-container">Payment Section</div>;
       case "Settings":
-        return <div className="content-container"></div>;
+        return (
+          <div className="contentset">
+            <h2>Update Your Account</h2>
+            <div className="account">
+            <p className="setname">Company Name</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setname-input"
+              />
+            </div>
+            <p className="setemail">Email</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setemail-input"
+              />
+            </div>
+            <p className="setpack">Your Package</p>
+            <div className="set-group">
+              <input
+                type="text"
+                className="setpack-input"
+              />
+            </div>
+            </div>
+          </div>
+        );
       default:
         return <div className="content-container"></div>;
     }
@@ -458,7 +439,10 @@ const handleCancelRequest = (request) => {
               <img src={Irequest} alt="Request Icon" className="icon" />
               Requests
             </p>
-            <p className="dpayment" onClick={() => setActiveComponent("Payment")}>
+            <p
+              className="dpayment"
+              onClick={() => setActiveComponent("Payment")}
+            >
               <img src={IPayment} alt="Payment Icon" className="icon" />
               Payment
             </p>
