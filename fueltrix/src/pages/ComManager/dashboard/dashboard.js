@@ -22,9 +22,11 @@ function Dashboard() {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [fuelRequests, setFuelRequests] = useState([]);
 
   useEffect(() => {
     if (userDetails) {
+      console.log("Setting manager details:", userDetails);
       setManagerDetails(userDetails);
     }
   }, [userDetails, setManagerDetails]);
@@ -245,39 +247,53 @@ function Dashboard() {
       )}
     </div>
   );
+
+  // API endpoint to get pending fuel requests
+  useEffect(() => {
+    if (managerDetails?.company) {
+      const fetchFuelRequests = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/fuel-requests?company=${managerDetails.company}`
+          );
+          setFuelRequests(response.data);
+        } catch (error) {
+          console.error("Error fetching fuel requests:", error);
+        }
+      };
+  
+      fetchFuelRequests();
+    }
+  }, [managerDetails]);
+
   // Component to render the request list table
   const RequestList = () => (
     <div className="request-list">
       <table>
         <thead>
           <tr>
-            <th>Request Type</th>
+            <th>Registration Number</th>
+            <th>Request Volume (L)</th>
+            <th>Email</th>
+            <th>Reason</th>
             <th>Status</th>
-            <th>Driver</th>
-            <th>Fuel Count (L)</th>
-            <th>Category</th>
-            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          {requestData.map((request) => (
+          {fuelRequests.map((request) => (
             <tr key={request.id} onClick={() => setSelectedRequest(request)}>
-              <td>{request.type}</td>
-              <td>
-                <span className={`status ${request.status.toLowerCase()}`}>
-                  {request.status}
-                </span>
-              </td>
-              <td>{request.driver}</td>
-              <td>{request.fuelCount}</td>
-              <td>{request.category}</td>
-              <td>{request.date}</td>
+              <td>{request.registrationNumber}</td>
+              <td>{request.requestVolume}</td>
+              <td>{request.email}</td>
+              <td>{request.reason}</td>
+              <td>{request.approvedStatus}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
+  
 
   // Component to render selected request details
   const RequestDetails = () => (
@@ -285,16 +301,22 @@ function Dashboard() {
       {selectedRequest ? (
         <div>
           <h3>
-            <strong>{selectedRequest.type}</strong>
+            <strong>Fuel Request Details</strong>
           </h3>
           <p>
-            <strong>Fuel Count:</strong> {selectedRequest.fuelCount}
+            <strong>Request Volume (L):</strong> {selectedRequest.requestVolume}
           </p>
           <p>
-            <strong>Category:</strong> {selectedRequest.category}
+            <strong>Registration Number:</strong> {selectedRequest.registrationNumber}
           </p>
           <p>
-            <strong>Driver:</strong> {selectedRequest.driver}
+            <strong>Email:</strong> {selectedRequest.email}
+          </p>
+          <p>
+            <strong>Reason:</strong> {selectedRequest.reason}
+          </p>
+          <p>
+            <strong>Requested At:</strong> {new Date(selectedRequest.requestedAt).toLocaleString()}
           </p>
           <div className="request-buttons">
             <button
@@ -316,6 +338,7 @@ function Dashboard() {
       )}
     </div>
   );
+  
 
   // Handle Approve and Cancel actions
   const handleApproveRequest = (request) => {

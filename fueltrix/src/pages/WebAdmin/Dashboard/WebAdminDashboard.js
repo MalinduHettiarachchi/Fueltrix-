@@ -732,140 +732,208 @@ const DriverManagement = () => {
 };
 
 
-
-
 const FuelPriceManagement = () => {
-    const [shedType, setShedType] = useState("IOC");
-    const [fuelType, setFuelType] = useState("Petrol");
-    const [price, setPrice] = useState("");
+    const [shedType, setShedType] = useState('');
+    const [fuelType, setFuelType] = useState('');
+    const [price, setPrice] = useState('');
     const [prices, setPrices] = useState([]);
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-  
-      if (price.trim() === "") {
-        alert("Please enter a price.");
-        return;
-      }
-  
-      const newPriceEntry = {
-        shedType,
-        fuelType,
-        price: parseFloat(price),
-      };
-  
-      setPrices([...prices, newPriceEntry]);
-      setPrice(""); // Clear the input field after submission
-      alert("Fuel price updated successfully!");
+    const [editIndex, setEditIndex] = useState(null);
+    const [editPrice, setEditPrice] = useState('');
+
+    useEffect(() => {
+        const fetchPrices = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/fuel-prices');
+                setPrices(response.data);
+            } catch (error) {
+                console.error('Error fetching fuel prices:', error);
+            }
+        };
+        fetchPrices();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (price.trim() === '') {
+            alert('Please enter a price.');
+            return;
+        }
+
+        const newPriceEntry = {
+            shedType,
+            fuelType,
+            price: parseFloat(price),
+        };
+
+        try {
+            await axios.post('http://localhost:5000/api/fuel-price', newPriceEntry);
+            setPrices([...prices, newPriceEntry]);
+            setPrice('');
+            alert('Fuel price updated successfully!');
+        } catch (error) {
+            console.error('Error saving fuel price:', error);
+            alert('Failed to update price');
+        }
     };
-  
+
+    const handleEdit = (index) => {
+        setEditIndex(index);
+        setEditPrice(prices[index].price);
+    };
+
+    const handleUpdate = async (index) => {
+        if (editPrice.trim() === '') {
+            alert('Please enter a valid price.');
+            return;
+        }
+
+        const updatedPriceEntry = { ...prices[index], price: parseFloat(editPrice) };
+
+        try {
+            await axios.put(`http://localhost:5000/api/fuel-price/${prices[index].id}`, updatedPriceEntry);
+            const updatedPrices = [...prices];
+            updatedPrices[index] = updatedPriceEntry;
+            setPrices(updatedPrices);
+            setEditIndex(null);
+            setEditPrice('');
+            alert('Fuel price updated successfully!');
+        } catch (error) {
+            console.error('Error updating fuel price:', error);
+            alert('Failed to update price');
+        }
+    };
+
     return (
-      <div className="fuel-price-container">
-        <h2 className="title">Fuel Price Management</h2>
-        <form className="fuel-price-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="shedType">Shed Type</label>
-            <select
-              id="shedType"
-              value={shedType}
-              onChange={(e) => setShedType(e.target.value)}
-            >
-              <option value="IOC">IOC</option>
-              <option value="EPC">EPC Contractors</option>
-              <option value="Petrochemical">Petrochemical</option>
-              <option value="Sinopec">Sinopec</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="fuelType">Fuel Type</label>
-            <select
-              id="fuelType"
-              value={fuelType}
-              onChange={(e) => setFuelType(e.target.value)}
-            >
-              <option value="Petrol">Petrol</option>
-              <option value="Diesel">Diesel</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="price">Price (LKR)</label>
-            <input
-              type="number"
-              id="price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              placeholder="Enter price per liter"
-            />
-          </div>
-          <button type="submit" className="btn">Update Price</button>
-        </form>
-        <h3 className="subtitle">Current Prices</h3>
-        {prices.length > 0 ? (
-          <table className="price-table">
-            <thead>
-              <tr>
-                <th>Shed Type</th>
-                <th>Fuel Type</th>
-                <th>Price (LKR)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {prices.map((entry, index) => (
-                <tr key={index}>
-                  <td>{entry.shedType}</td>
-                  <td>{entry.fuelType}</td>
-                  <td>{entry.price}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="no-data">No fuel prices updated yet.</p>
-        )}
-      </div>
+        <div className="fuel-price-container">
+            <h2 className="title">Fuel Price Management</h2>
+            <form className="fuel-price-form" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="shedType">Shed Type</label>
+                    <select id="shedType" value={shedType} onChange={(e) => setShedType(e.target.value)}>
+                        <option value="">Select Shed Type</option>
+                        <option value="Ceypetco">Ceypetco</option>
+                        <option value="IOC">IOC</option>
+                        <option value="EPC">EPC Contractors</option>
+                        <option value="Petrochemical">Petrochemical</option>
+                        <option value="Sinopec">Sinopec</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="fuelType">Fuel Type</label>
+                    <select id="fuelType" value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
+                        <option value="">Select Fuel Type</option>
+                        <option value="petrol">Petrol</option>
+                        <option value="diesel">Diesel</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="price">Price (LKR)</label>
+                    <input
+                        type="number"
+                        id="price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        placeholder="Enter price per liter"
+                    />
+                </div>
+                <button type="submit" className="btn">Update Price</button>
+            </form>
+
+            <h3 className="subtitle">Current Prices</h3>
+            {prices.length > 0 ? (
+                <table className="price-table">
+                    <thead>
+                        <tr>
+                            <th>Shed Type</th>
+                            <th>Fuel Type</th>
+                            <th>Price (LKR)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {prices.map((entry, index) => (
+                            <tr key={entry.id}>
+                                <td>{entry.shedType}</td>
+                                <td>{entry.fuelType}</td>
+                                <td>
+                                    {editIndex === index ? (
+                                        <input
+                                            type="number"
+                                            value={editPrice}
+                                            onChange={(e) => setEditPrice(e.target.value)}
+                                            placeholder="Update price"
+                                        />
+                                    ) : (
+                                        entry.price
+                                    )}
+                                </td>
+                                <td>
+                                    {editIndex === index ? (
+                                        <button onClick={() => handleUpdate(index)} className="btn">Save</button>
+                                    ) : (
+                                        <button onClick={() => handleEdit(index)} className="btn">Edit</button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p className="no-data">No fuel prices available</p>
+            )}
+        </div>
     );
-  };
+};
+
+
+
+  
   
 
 
 
 
-
-  const ContactUsFormManagement = () => {
-    // Example: Fetching and displaying form data
+const ContactUsFormManagement = () => {
     const [formSubmissions, setFormSubmissions] = useState([]);
+    const [loading, setLoading] = useState(true); // To show loading state
   
     useEffect(() => {
-      // Simulate fetching form submissions from an API or database
-      const fetchSubmissions = async () => {
-        const dummyData = [
-          { id: 1, name: 'John Doe', email: 'john@example.com', message: 'Hello!' },
-          { id: 2, name: 'Jane Smith', email: 'jane@example.com', message: 'Need support!' },
-        ];
-        setFormSubmissions(dummyData);
-      };
-      fetchSubmissions();
-    }, []);
-  
+        const fetchSubmissions = async () => {
+          try {
+            const response = await axios.get('http://localhost:5000/api/contact');
+            console.log('Fetched submissions:', response.data); // Check the response
+            setFormSubmissions(response.data);
+          } catch (error) {
+            console.error('Error fetching submissions:', error);
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchSubmissions();
+      }, []);
+      
     return (
       <div>
-        <h2>Contact Us Form Management</h2>
-        {formSubmissions.length > 0 ? (
+        <br/>
+        <h1>Contact Us Form Management</h1>
+        {loading ? (
+          <p>Loading submissions...</p>
+        ) : formSubmissions.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Mobile No</th>
                 <th>Message</th>
               </tr>
             </thead>
             <tbody>
               {formSubmissions.map((submission) => (
                 <tr key={submission.id}>
-                  <td>{submission.id}</td>
                   <td>{submission.name}</td>
                   <td>{submission.email}</td>
+                  <td>{submission.mobile}</td>
                   <td>{submission.message}</td>
                 </tr>
               ))}
@@ -877,7 +945,6 @@ const FuelPriceManagement = () => {
       </div>
     );
   };
-  
 
 
 const Dashboard = () => {
