@@ -11,6 +11,23 @@ import styled from 'styled-components'; // styled-components for modern styling
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
+import {
+    Box,
+    Typography,
+    TextField,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+  } from "@mui/material";
 
 
 const Sidebar = ({ onChangeView }) => {
@@ -47,6 +64,8 @@ const Sidebar = ({ onChangeView }) => {
                 <li><a href="#" onClick={() => onChangeView('companyVehicles')}><i className="fas fa-truck"></i> Company Vehicles</a></li>
                 <li><a href="#" onClick={() => onChangeView('driverManagement')}><i className="fas fa-user-tie"></i> Driver Management</a></li>
                 <li><a href="#" onClick={() => onChangeView('pumpAssistantManagement')}><i className="fas fa-gas-pump"></i> Pump Assistant Management</a></li>
+                <li><a href="#" onClick={() => onChangeView('fuelPriceManage')}><i className="fas fa-dollar-sign"></i> Fuel Price Management</a></li>
+                <li><a href="#" onClick={() => onChangeView('contactUsFormManage')}><i className="fas fa-envelope"></i> Contact Us Form Management</a></li>
                 <li><a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
@@ -715,6 +734,151 @@ const DriverManagement = () => {
 
 
 
+const FuelPriceManagement = () => {
+    const [shedType, setShedType] = useState("IOC");
+    const [fuelType, setFuelType] = useState("Petrol");
+    const [price, setPrice] = useState("");
+    const [prices, setPrices] = useState([]);
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+  
+      if (price.trim() === "") {
+        alert("Please enter a price.");
+        return;
+      }
+  
+      const newPriceEntry = {
+        shedType,
+        fuelType,
+        price: parseFloat(price),
+      };
+  
+      setPrices([...prices, newPriceEntry]);
+      setPrice(""); // Clear the input field after submission
+      alert("Fuel price updated successfully!");
+    };
+  
+    return (
+      <div className="fuel-price-container">
+        <h2 className="title">Fuel Price Management</h2>
+        <form className="fuel-price-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="shedType">Shed Type</label>
+            <select
+              id="shedType"
+              value={shedType}
+              onChange={(e) => setShedType(e.target.value)}
+            >
+              <option value="IOC">IOC</option>
+              <option value="EPC">EPC Contractors</option>
+              <option value="Petrochemical">Petrochemical</option>
+              <option value="Sinopec">Sinopec</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="fuelType">Fuel Type</label>
+            <select
+              id="fuelType"
+              value={fuelType}
+              onChange={(e) => setFuelType(e.target.value)}
+            >
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="price">Price (LKR)</label>
+            <input
+              type="number"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Enter price per liter"
+            />
+          </div>
+          <button type="submit" className="btn">Update Price</button>
+        </form>
+        <h3 className="subtitle">Current Prices</h3>
+        {prices.length > 0 ? (
+          <table className="price-table">
+            <thead>
+              <tr>
+                <th>Shed Type</th>
+                <th>Fuel Type</th>
+                <th>Price (LKR)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {prices.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.shedType}</td>
+                  <td>{entry.fuelType}</td>
+                  <td>{entry.price}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="no-data">No fuel prices updated yet.</p>
+        )}
+      </div>
+    );
+  };
+  
+
+
+
+
+
+  const ContactUsFormManagement = () => {
+    // Example: Fetching and displaying form data
+    const [formSubmissions, setFormSubmissions] = useState([]);
+  
+    useEffect(() => {
+      // Simulate fetching form submissions from an API or database
+      const fetchSubmissions = async () => {
+        const dummyData = [
+          { id: 1, name: 'John Doe', email: 'john@example.com', message: 'Hello!' },
+          { id: 2, name: 'Jane Smith', email: 'jane@example.com', message: 'Need support!' },
+        ];
+        setFormSubmissions(dummyData);
+      };
+      fetchSubmissions();
+    }, []);
+  
+    return (
+      <div>
+        <h2>Contact Us Form Management</h2>
+        {formSubmissions.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              {formSubmissions.map((submission) => (
+                <tr key={submission.id}>
+                  <td>{submission.id}</td>
+                  <td>{submission.name}</td>
+                  <td>{submission.email}</td>
+                  <td>{submission.message}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No submissions found.</p>
+        )}
+      </div>
+    );
+  };
+  
+
 
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('dashboard');
@@ -757,6 +921,10 @@ const Dashboard = () => {
                 return <DriverManagement />;
             case 'pumpAssistantManagement':
                 return <PumpAssistantManagement />;
+            case 'fuelPriceManage': // Add this case
+                return <FuelPriceManagement />;
+            case 'contactUsFormManage': // New case
+                return <ContactUsFormManagement />;
             default:
                 return (
                     <section className="webadmin-stats">
