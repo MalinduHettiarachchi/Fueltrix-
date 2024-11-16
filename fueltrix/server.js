@@ -8,11 +8,6 @@ const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
 
-const serviceAccount = require("./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
-//Malidu(Ubee Path Eka)--E:/Projects/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
-
-//Malidu(Ubee Path Eka)--"D:/Project/Fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json"
-
 //Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
 
 
@@ -801,6 +796,28 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
+
+
+// API endpoint to get pending fuel requests
+app.get('/api/fuel-requests', async (req, res) => {
+  try {
+      const { company } = req.query; // Retrieve the company name from query parameters
+
+      // Query the Firestore collection for pending fuel requests related to the specified company
+      let query = db.collection('FuelRequests').where('approvedStatus', '==', 'pending');
+      if (company) {
+          query = query.where('company', '==', company);
+      }
+
+      const snapshot = await query.get();
+      const requests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      res.status(200).json(requests);
+  } catch (error) {
+      console.error('Error fetching fuel requests:', error);
+      res.status(500).json({ error: 'Failed to fetch fuel requests' });
+  }
+});
 
 
 
