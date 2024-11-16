@@ -680,3 +680,101 @@ h1 {
         font-size: 1.2rem; /* Smaller heading on mobile */
     }
 }
+
+
+
+/* General Layout */
+.fuel-price-container {
+    max-width: 450px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Titles */
+  .title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 15px;
+  }
+  
+  .subtitle {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #444;
+    text-align: center;
+  }
+  
+  /* Form Styles */
+  .fuel-price-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .fuel-price-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .fuel-price-form select,
+  .fuel-price-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .fuel-price-form .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fuel-price-form .btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Table Styles */
+  .price-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  
+  .price-table th,
+  .price-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+  }
+  
+  .price-table th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .price-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+  }
+  
+  /* No Data */
+  .no-data {
+    text-align: center;
+    color: #666;
+    margin-top: 15px;
+    font-size: 0.9rem;
+  }
+  

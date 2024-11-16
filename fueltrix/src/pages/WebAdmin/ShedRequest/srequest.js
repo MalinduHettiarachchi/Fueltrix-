@@ -189,6 +189,8 @@ function SRequest() {
                 <option value="IOC">IOC</option>
                 <option value="EPC">EPC Contractors</option>
                 <option value="Petrochemical">Petrochemical</option>
+                <option value="Sinopec">Sinopec</option>
+
               </select>
 
             </div>

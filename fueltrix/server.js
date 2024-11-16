@@ -7,8 +7,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 // Initialize Firestore with Firebase Admin SDK
-const serviceAccount = require("./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
-//Malidu(Ubee Path Eka)--"D:/Project/Fueltrix/fueltrix/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json"
+
 //Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
 
 
@@ -117,7 +116,7 @@ app.post('/submit-form', async (req, res) => {
       <p>If you have any questions, feel free to contact us at <a href="mailto:fueltrixteam@gmail.com" style="color: #1a73e8;">fueltrixteam@gmail.com</a>.</p>
       
       <p>Best Regards,<br>
-      <strong>The Fueltrix Team</strong></p>
+      <strong>Fueltrix Team</strong></p>
       
       <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
       <p style="font-size: 12px; color: #555; text-align: center;">
@@ -257,13 +256,13 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
         <p>Thank you for choosing Fueltrix!</p>
 
         <p>Best Regards,<br>
-        The Fueltrix Team</p>
+        Fueltrix Team</p>
       </div>
     `;
 
     // Email options (sender, recipient, subject, and content)
     const mailOptions = {
-      from: 'your-email@gmail.com', // Sender's email address
+      from: 'fueltrixteam@gmail.com', // Sender's email address
       to: email,                    // Recipient's email address from the database
       subject: 'Fuel Station Request Approved - Access to Fueltrix System', // Email subject
       html: messageContent,         // HTML formatted message content
@@ -405,7 +404,7 @@ app.post("/submit-reservation", async (req, res) => {
         <p>In the meantime, if you have any questions, feel free to contact us at <a href="mailto:fueltrixteam@gmail.com" style="color: #1a73e8;">fueltrixteam@gmail.com</a>.</p>
         
         <p>Best Regards,<br>
-        <strong>The Fueltrix Team</strong></p>
+        <strong>Fueltrix Team</strong></p>
         
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
         <p style="font-size: 12px; color: #555; text-align: center;">
@@ -496,7 +495,7 @@ app.post('/api/approve-request/:requestId', async (req, res) => {
         <p>Thank you for joining us!</p>
 
         <p>Best Regards,<br>
-        <strong>The Fueltrix Team</strong></p>
+        <strong>Fueltrix Team</strong></p>
 
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 20px;">
         <p style="font-size: 12px; color: #555; text-align: center;">
