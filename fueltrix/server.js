@@ -804,6 +804,143 @@ app.get('/api/stats', async (req, res) => {
 
 
 
+// Express.js API route to handle fetching fuel prices
+app.get('/api/fuel-prices', async (req, res) => {
+  try {
+    const snapshot = await db.collection('fuelPrices').get();
+    const fuelPrices = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    res.status(200).json(fuelPrices);
+  } catch (error) {
+    console.error('Error fetching fuel prices:', error);
+    res.status(500).send({ message: 'Failed to fetch fuel prices' });
+  }
+});
+
+
+// Add fuel price
+app.post('/api/fuel-price', async (req, res) => {
+  const { shedType, fuelType, price } = req.body;
+
+  if (!shedType || !fuelType || !price) {
+    return res.status(400).send({ message: 'Missing required fields' });
+  }
+
+  try {
+    // Store fuel price data in Firestore
+    const newPriceRef = db.collection('fuelPrices').doc();
+    await newPriceRef.set({
+      shedType,
+      fuelType,
+      price,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    res.status(200).send({ message: 'Fuel price updated successfully!' });
+  } catch (error) {
+    console.error('Error saving fuel price:', error);
+    res.status(500).send({ message: 'Failed to update fuel price' });
+  }
+});
+
+// Update fuel price
+app.put('/api/fuel-price/:id', async (req, res) => {
+  const { id } = req.params;
+  const { shedType, fuelType, price } = req.body;
+
+  try {
+    const priceRef = db.collection('fuelPrices').doc(id);
+    await priceRef.update({
+      shedType,
+      fuelType,
+      price,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    });
+    res.status(200).send({ message: 'Fuel price updated successfully!' });
+  } catch (error) {
+    console.error('Error updating fuel price:', error);
+    res.status(500).send({ message: 'Failed to update fuel price' });
+  }
+});
+
+
+
+
+
+
+
+app.post('/api/contact', (req, res) => {
+  const { name, email, mobile, subject, message } = req.body;
+
+  // Save the message to Firestore
+  admin.firestore().collection('messages').add({
+    name,
+    email,
+    mobile,
+    subject,
+    message,
+    timestamp: admin.firestore.FieldValue.serverTimestamp(),
+  })
+  .then(() => {
+    // Construct the email content for the user
+    const userEmailContent = `
+      <div style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+        <h2 style="color: #1a73e8;">Thank you for reaching out, ${name}!</h2>
+        <p>We have received your message regarding "<strong>${subject}</strong>". Our team will review your message and get back to you shortly via email or phone.</p>
+        <p>If you have any urgent questions, feel free to reach us at <strong>support@fueltrix.com</strong>.</p>
+        <p>Thank you for your patience!</p>
+        <p>Best Regards,<br>
+        <strong>Fueltrix Team</strong></p>
+      </div>
+    `;
+
+    // Set up email options to send to the user
+    const userMailOptions = {
+      from: 'fueltrixteam@gmail.com', // Sender's email address
+      to: email,                    // Recipient's email address (the user's email)
+      subject: 'Thank You for Reaching Out!',
+      html: userEmailContent,       // HTML content for the email
+    };
+
+    // Send the email to the user
+    transporter.sendMail(userMailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email to user:', error);
+        return res.status(500).json({ error: 'Error sending email to user' });
+      }
+
+      console.log('Email sent to user: ' + info.response);
+      res.status(200).json({ message: 'Message saved successfully!' });
+    });
+  })
+  .catch((error) => {
+    console.error('Error saving message: ', error);
+    res.status(500).json({ error: 'Error saving message' });
+  });
+});
+
+
+
+
+app.get('/api/contact', async (req, res) => {
+  try {
+    const submissionsSnapshot = await admin.firestore().collection('messages').get();
+    const submissions = submissionsSnapshot.docs.map(doc => ({
+      id: doc.id,
+      name: doc.data().name,
+      email: doc.data().email,
+      mobile: doc.data().mobile,
+      message: doc.data().message,
+    }));
+    console.log(submissions); // Add logging to check the data
+    res.status(200).json(submissions);
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({ error: 'Error fetching submissions' });
+  }
+});
 
 
 
