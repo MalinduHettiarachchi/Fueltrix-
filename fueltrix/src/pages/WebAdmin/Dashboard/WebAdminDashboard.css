@@ -681,100 +681,133 @@ h1 {
     }
 }
 
-
-
 /* General Layout */
 .fuel-price-container {
-    max-width: 450px;
-    margin: 20px auto;
-    padding: 15px;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Titles */
-  .title {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #222;
-    margin-bottom: 15px;
-  }
-  
-  .subtitle {
-    margin-top: 20px;
-    font-size: 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
     color: #444;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title {
     text-align: center;
-  }
-  
-  /* Form Styles */
-  .fuel-price-form .form-group {
-    margin-bottom: 10px;
-  }
-  
-  .fuel-price-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
+    font-size: 1.6rem;
+    font-weight: 500;
     color: #333;
-  }
-  
-  .fuel-price-form select,
-  .fuel-price-form input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  
-  .fuel-price-form .btn {
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Form Styles */
+.fuel-price-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fuel-price-form .form-group {
+    margin-bottom: 10px;
+}
+
+.fuel-price-form label {
+    font-size: 1rem;
+    color: #333;
+}
+
+.fuel-price-form select,
+.fuel-price-form input {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.fuel-price-form select:focus,
+.fuel-price-form input:focus {
+    outline: none;
+    border: 2px solid #007BFF;
+    background-color: #fff;
+}
+
+/* Button Styles */
+.fuel-price-form .btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
     color: #fff;
     border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    border-radius: 6px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .fuel-price-form .btn:hover {
+    transition: all 0.3s ease;
+}
+
+.fuel-price-form .btn:hover {
     background-color: #0056b3;
-  }
-  
-  /* Table Styles */
-  .price-table {
+}
+
+/* Table Styles */
+.price-table {
     width: 100%;
-    margin-top: 10px;
     border-collapse: collapse;
-  }
-  
-  .price-table th,
-  .price-table td {
-    padding: 8px;
+    font-size: 1rem;
+}
+
+.price-table th,
+.price-table td {
+    padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
-    font-size: 0.9rem;
-  }
-  
-  .price-table th {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .price-table tr:nth-child(even) {
-    background-color: #f8f8f8;
-  }
-  
-  /* No Data */
-  .no-data {
+    color: #333;
+}
+
+.price-table th {
+    background-color: #f4f4f4;
+}
+
+.price-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.price-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+/* No Data */
+.no-data {
     text-align: center;
-    color: #666;
-    margin-top: 15px;
-    font-size: 0.9rem;
-  }
-  
+    color: #aaa;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fuel-price-container {
+        padding: 20px;
+    }
+
+    .fuel-price-form,
+    .price-table {
+        width: 100%;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+}
