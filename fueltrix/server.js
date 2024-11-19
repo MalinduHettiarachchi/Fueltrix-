@@ -960,57 +960,6 @@ app.get('/api/contact', async (req, res) => {
 });
 
 
-app.put('/api/fuel-requests/:id', async (req, res) => {
-  try {
-    const { id } = req.params; // Request ID from the URL parameter
-    const { approvedStatus } = req.body; // New status from the request body
-
-    // Reference the specific document in the FuelRequests collection
-    const requestRef = db.collection('FuelRequests').doc(id);
-
-    // Check if the document exists
-    const requestDoc = await requestRef.get();
-    if (!requestDoc.exists) {
-      return res.status(404).json({ message: 'Fuel request not found' });
-    }
-
-    // Update the approvedStatus field
-    await requestRef.update({ approvedStatus });
-
-    // Send the updated document as a response
-    const updatedDoc = await requestRef.get();
-    res.status(200).json({ id: updatedDoc.id, ...updatedDoc.data() });
-  } catch (error) {
-    console.error('Error updating fuel request:', error);
-    res.status(500).json({ error: 'Failed to update fuel request' });
-  }
-});
-app.put('/api/fuel-requests/:id/reject', async (req, res) => {
-  try {
-    const { id } = req.params; // Extract the request ID from the URL parameter
-
-    // Reference the specific document in the FuelRequests collection
-    const requestRef = db.collection('FuelRequests').doc(id);
-
-    // Check if the document exists
-    const requestDoc = await requestRef.get();
-    if (!requestDoc.exists) {
-      return res.status(404).json({ message: 'Fuel request not found' });
-    }
-
-    // Update the approvedStatus field to "Rejected"
-    await requestRef.update({ approvedStatus: 'Rejected' });
-
-    // Send the updated document as a response
-    const updatedDoc = await requestRef.get();
-    res.status(200).json({ id: updatedDoc.id, ...updatedDoc.data() });
-  } catch (error) {
-    console.error('Error rejecting fuel request:', error);
-    res.status(500).json({ error: 'Failed to reject fuel request' });
-  }
-});
-
-
 
 
 // Start the server
