@@ -52,36 +52,6 @@ function Dashboard() {
     navigate(`/drivers?${queryParams}`);
   };
 
-  // Sample data for the request list
-  const requestData = [
-    {
-      id: 1,
-      type: "Fuel Request",
-      status: "Pending",
-      driver: "John Doe",
-      fuelCount: 150,
-      category: "Urgent",
-      date: "2024-11-12",
-    },
-    {
-      id: 2,
-      type: "Maintenance Request",
-      status: "Approved ",
-      driver: "Jane Smith",
-      fuelCount: 0,
-      category: "Routine",
-      date: "2024-11-10",
-    },
-    {
-      id: 3,
-      type: "Route Adjustment",
-      status: "Rejected",
-      driver: "Tom Brown",
-      fuelCount: 300,
-      category: "High",
-      date: "2024-11-11",
-    },
-  ];
 
   // Define the breadcrumb component
   const Breadcrumb = () => (
