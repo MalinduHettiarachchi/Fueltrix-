@@ -803,21 +803,22 @@ app.get('/api/fuel-requests', async (req, res) => {
   try {
       const { company } = req.query; // Retrieve the company name from query parameters
 
-      // Query the Firestore collection for pending fuel requests related to the specified company
-      let query = db.collection('FuelRequests').where('approvedStatus', '==', 'pending');
+      // Query the Firestore collection for fuel requests related to the specified company
+      let query = db.collection('FuelRequests');
       if (company) {
-          query = query.where('company', '==', company);
+          query = query.where('company', '==', company); // Filter by company if provided
       }
 
       const snapshot = await query.get();
       const requests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-      res.status(200).json(requests);
+      res.status(200).json(requests); // Send the fetched requests as a response
   } catch (error) {
       console.error('Error fetching fuel requests:', error);
       res.status(500).json({ error: 'Failed to fetch fuel requests' });
   }
 });
+
 
 
 
@@ -938,9 +939,6 @@ app.post('/api/contact', (req, res) => {
   });
 });
 
-
-
-
 app.get('/api/contact', async (req, res) => {
   try {
     const submissionsSnapshot = await admin.firestore().collection('messages').get();
@@ -956,6 +954,30 @@ app.get('/api/contact', async (req, res) => {
   } catch (error) {
     console.error('Error fetching submissions:', error);
     res.status(500).json({ error: 'Error fetching submissions' });
+  }
+});
+
+
+app.post('/api/fuel-requests/update-status', async (req, res) => {
+  try {
+    const { id, status, company } = req.body;
+
+    if (!id || !status || !company) {
+      return res.status(400).json({ error: 'Request ID, status, and company are required' });
+    }
+
+    // Update the request's approvedStatus
+    const requestRef = db.collection('FuelRequests').doc(id);
+    await requestRef.update({ approvedStatus: status });
+
+    // Fetch the updated list of requests for the company
+    const snapshot = await db.collection('FuelRequests').where('company', '==', company).get();
+    const updatedRequests = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    res.status(200).json(updatedRequests); // Return the updated list of requests
+  } catch (error) {
+    console.error('Error updating request status:', error);
+    res.status(500).json({ error: 'Failed to update request status' });
   }
 });
 

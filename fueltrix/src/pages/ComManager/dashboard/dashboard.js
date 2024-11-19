@@ -52,7 +52,6 @@ function Dashboard() {
     navigate(`/drivers?${queryParams}`);
   };
 
-
   // Define the breadcrumb component
   const Breadcrumb = () => (
     <div className="breadcrumb">
@@ -231,7 +230,7 @@ function Dashboard() {
           console.error("Error fetching fuel requests:", error);
         }
       };
-  
+
       fetchFuelRequests();
     }
   }, [managerDetails]);
@@ -242,7 +241,7 @@ function Dashboard() {
       <table>
         <thead>
           <tr>
-            <th>Registration Number</th>
+            <th>Vehicle Number</th>
             <th>Request Volume (L)</th>
             <th>Email</th>
             <th>Reason</th>
@@ -263,7 +262,6 @@ function Dashboard() {
       </table>
     </div>
   );
-  
 
   // Component to render selected request details
   const RequestDetails = () => (
@@ -277,7 +275,8 @@ function Dashboard() {
             <strong>Request Volume (L):</strong> {selectedRequest.requestVolume}
           </p>
           <p>
-            <strong>Registration Number:</strong> {selectedRequest.registrationNumber}
+            <strong>Vehicle Number:</strong>{" "}
+            {selectedRequest.registrationNumber}
           </p>
           <p>
             <strong>Email:</strong> {selectedRequest.email}
@@ -286,7 +285,8 @@ function Dashboard() {
             <strong>Reason:</strong> {selectedRequest.reason}
           </p>
           <p>
-            <strong>Requested At:</strong> {new Date(selectedRequest.requestedAt).toLocaleString()}
+            <strong>Requested At:</strong>{" "}
+            {new Date(selectedRequest.requestedAt).toLocaleString()}
           </p>
           <div className="request-buttons">
             <button
@@ -308,18 +308,49 @@ function Dashboard() {
       )}
     </div>
   );
+
+  const handleApproveRequest = async (request) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/fuel-requests/update-status', {
+        id: request.id,
+        status: 'approved',
+        company: managerDetails.company,
+      });
+      alert('Request approved successfully!');
+      setFuelRequests(response.data); // Update requests list
+    } catch (error) {
+      console.error('Error approving request:', error);
+      alert('Failed to approve request.');
+    }
+  };
   
-
-  // Handle Approve and Cancel actions
-  const handleApproveRequest = (request) => {
-    // Implement the logic for approving the request
-    console.log(`Request ${request.type} approved`);
+  const handleCancelRequest = async (request) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/fuel-requests/update-status', {
+        id: request.id,
+        status: 'rejected',
+        company: managerDetails.company,
+      });
+      alert('Request rejected successfully!');
+      setFuelRequests(response.data); // Update requests list
+    } catch (error) {
+      console.error('Error rejecting request:', error);
+      alert('Failed to reject request.');
+    }
+  };
+  
+  
+  const fetchFuelRequests = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/fuel-requests?company=${managerDetails.company}`
+      );
+      setFuelRequests(response.data);
+    } catch (error) {
+      console.error("Error fetching fuel requests:", error);
+    }
   };
 
-  const handleCancelRequest = (request) => {
-    // Implement the logic for canceling the request
-    console.log(`Request ${request.type} canceled`);
-  };
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
@@ -372,27 +403,18 @@ function Dashboard() {
           <div className="contentset">
             <h2>Update Your Account</h2>
             <div className="account">
-            <p className="setname">Company Name</p>
-            <div className="set-group">
-              <input
-                type="text"
-                className="setname-input"
-              />
-            </div>
-            <p className="setemail">Email</p>
-            <div className="set-group">
-              <input
-                type="text"
-                className="setemail-input"
-              />
-            </div>
-            <p className="setpack">Your Package</p>
-            <div className="set-group">
-              <input
-                type="text"
-                className="setpack-input"
-              />
-            </div>
+              <p className="setname">Company Name</p>
+              <div className="set-group">
+                <input type="text" className="setname-input" />
+              </div>
+              <p className="setemail">Email</p>
+              <div className="set-group">
+                <input type="text" className="setemail-input" />
+              </div>
+              <p className="setpack">Your Package</p>
+              <div className="set-group">
+                <input type="text" className="setpack-input" />
+              </div>
             </div>
           </div>
         );
