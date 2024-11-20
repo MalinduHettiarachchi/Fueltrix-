@@ -1,0 +1,13 @@
+/* PumpFuelChart.css */
+.pump-fuel-chart {
+    width: 50%;
+    background-color: #041228;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .pump-fuel-chart h3 {
+    color: white;
+    margin-bottom: 20px;
+  }
+  

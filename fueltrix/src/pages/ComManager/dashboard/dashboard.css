@@ -411,3 +411,14 @@
   color: #041228;
   box-sizing: border-box;
 }
+
+.contenthome {
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center;    /* Center the content vertically */
+  margin: 20px;           /* Add some space around the container */
+  gap: 20px;
+  width: 85%;
+}
+
+

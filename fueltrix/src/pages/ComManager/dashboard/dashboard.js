@@ -10,6 +10,9 @@ import Isetting from "../dashboard/setting.png";
 import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
 import axios from "axios";
+import PumpFuelChart from "./PumpFuelChart";
+import SessionChartp from "./SessionChartpetrol";
+import SessionChartd from "./SessionChartdiesel";
 
 function Dashboard() {
   const location = useLocation();
@@ -51,7 +54,6 @@ function Dashboard() {
     const queryParams = getQueryParams();
     navigate(`/drivers?${queryParams}`);
   };
-
 
   // Define the breadcrumb component
   const Breadcrumb = () => (
@@ -315,11 +317,11 @@ function Dashboard() {
       alert("Please select a request to approve.");
       return;
     }
-  
+
     try {
-      // Update the requested volume
-      const dynamicRequestedVolume = request.requestVolume;
-  
+      // Add the requested volume to the vehicle's existing value
+      const dynamicRequestedVolume = parseFloat(request.requestVolume);
+
       const volumeResponse = await axios.post(
         "http://localhost:5000/api/update-vehicle-requested-volume",
         {
@@ -328,14 +330,14 @@ function Dashboard() {
           company: managerDetails.company,
         }
       );
-  
+
       if (volumeResponse.status === 200) {
         console.log("Requested volume updated successfully!");
       } else {
         console.warn("Requested volume update failed.");
       }
-  
-      // Approve the request
+
+      // Approve the request in the database
       const approveResponse = await axios.post(
         "http://localhost:5000/api/fuel-requests/update-status",
         {
@@ -344,39 +346,40 @@ function Dashboard() {
           company: managerDetails.company,
         }
       );
-  
+
       if (approveResponse.status === 200) {
         alert("Request approved successfully!");
-        setFuelRequests(approveResponse.data); // Update the requests list
+        setFuelRequests(approveResponse.data); // Update the list of requests
       } else {
         alert("Failed to approve request.");
       }
-  
-      // Optionally, refetch the data to ensure UI reflects changes
+
+      // Optionally, refetch data to update the UI
       fetchFuelRequests();
     } catch (error) {
       console.error("Error during approve request process:", error);
       alert("Failed to process the approval.");
     }
   };
-  
-  
+
   const handleCancelRequest = async (request) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/fuel-requests/update-status', {
-        id: request.id,
-        status: 'rejected',
-        company: managerDetails.company,
-      });
-      alert('Request rejected successfully!');
+      const response = await axios.post(
+        "http://localhost:5000/api/fuel-requests/update-status",
+        {
+          id: request.id,
+          status: "rejected",
+          company: managerDetails.company,
+        }
+      );
+      alert("Request rejected successfully!");
       setFuelRequests(response.data); // Update requests list
     } catch (error) {
-      console.error('Error rejecting request:', error);
-      alert('Failed to reject request.');
+      console.error("Error rejecting request:", error);
+      alert("Failed to reject request.");
     }
   };
-  
-  
+
   const fetchFuelRequests = async () => {
     try {
       const response = await axios.get(
@@ -388,11 +391,47 @@ function Dashboard() {
     }
   };
 
+  // Grouping Petrol Vehicles
+  const groupedPetrolData = vehicles.reduce((acc, vehicle) => {
+    if (vehicle.fuelType === "petrol") {
+      const vehicleType = vehicle.vehicleType;
+      const pumpedVolume = parseFloat(vehicle.pumpedVolume);
+
+      if (!acc[vehicleType]) {
+        acc[vehicleType] = 0;
+      }
+
+      acc[vehicleType] += pumpedVolume; // Sum the pumped volume by vehicle type
+    }
+    return acc;
+  }, {});
+
+  // Grouping Diesel Vehicles
+  const groupedDieselData = vehicles.reduce((acc, vehicle) => {
+    if (vehicle.fuelType === "diesel") {
+      const vehicleType = vehicle.vehicleType;
+      const pumpedVolume = parseFloat(vehicle.pumpedVolume);
+
+      if (!acc[vehicleType]) {
+        acc[vehicleType] = 0;
+      }
+
+      acc[vehicleType] += pumpedVolume; // Sum the pumped volume by vehicle type
+    }
+    return acc;
+  }, {});
+
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
       case "Home":
-        return <div className="content-container"></div>;
+        return (
+          <div className="contenthome">
+            <SessionChartp groupedFuelData={groupedPetrolData} />
+            <SessionChartd groupedFuelData={groupedDieselData} />
+          </div>
+        );
+
       case "Vehicles":
         return (
           <div className="contentvehi">
