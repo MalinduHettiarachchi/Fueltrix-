@@ -1,0 +1,36 @@
+/* SessionChart.css */
+.session-chart {
+    width: 50%;
+    background-color: #041228;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+  }
+  
+  .session-info {
+    margin-bottom: 20px;
+  }
+  
+  .session-info h3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .session-info p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  
+  .session-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .session-growth {
+    font-size: 1rem;
+    color: #4caf50; /* Green color for growth percentage */
+    font-weight: bold;
+  }
+  
