@@ -982,6 +982,31 @@ app.post('/api/fuel-requests/update-status', async (req, res) => {
 });
 
 
+app.post("/api/update-vehicle-requested-volume", async (req, res) => {
+  const { registrationNumber, requestedVolume, company } = req.body;
+
+  try {
+    // Check if the vehicle exists
+    const vehicleSnapshot = await db
+      .collection("Vehicle")
+      .where("registrationNumber", "==", registrationNumber)
+      .where("company", "==", company)
+      .get();
+
+    if (vehicleSnapshot.empty) {
+      return res.status(404).json({ message: "Vehicle not found." });
+    }
+
+    // Update the `requestedVolume` field
+    const vehicleDoc = vehicleSnapshot.docs[0];
+    await vehicleDoc.ref.update({ requestedVolume });
+
+    res.status(200).json({ message: "Requested volume updated successfully!" });
+  } catch (error) {
+    console.error("Error updating requested volume:", error);
+    res.status(500).json({ message: "Error updating requested volume." });
+  }
+});
 
 
 // Start the server

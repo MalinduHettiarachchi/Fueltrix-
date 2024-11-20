@@ -311,19 +311,55 @@ function Dashboard() {
   );
 
   const handleApproveRequest = async (request) => {
+    if (!request) {
+      alert("Please select a request to approve.");
+      return;
+    }
+  
     try {
-      const response = await axios.post('http://localhost:5000/api/fuel-requests/update-status', {
-        id: request.id,
-        status: 'approved',
-        company: managerDetails.company,
-      });
-      alert('Request approved successfully!');
-      setFuelRequests(response.data); // Update requests list
+      // Update the requested volume
+      const dynamicRequestedVolume = request.requestVolume;
+  
+      const volumeResponse = await axios.post(
+        "http://localhost:5000/api/update-vehicle-requested-volume",
+        {
+          registrationNumber: request.registrationNumber,
+          requestedVolume: dynamicRequestedVolume,
+          company: managerDetails.company,
+        }
+      );
+  
+      if (volumeResponse.status === 200) {
+        console.log("Requested volume updated successfully!");
+      } else {
+        console.warn("Requested volume update failed.");
+      }
+  
+      // Approve the request
+      const approveResponse = await axios.post(
+        "http://localhost:5000/api/fuel-requests/update-status",
+        {
+          id: request.id,
+          status: "approved",
+          company: managerDetails.company,
+        }
+      );
+  
+      if (approveResponse.status === 200) {
+        alert("Request approved successfully!");
+        setFuelRequests(approveResponse.data); // Update the requests list
+      } else {
+        alert("Failed to approve request.");
+      }
+  
+      // Optionally, refetch the data to ensure UI reflects changes
+      fetchFuelRequests();
     } catch (error) {
-      console.error('Error approving request:', error);
-      alert('Failed to approve request.');
+      console.error("Error during approve request process:", error);
+      alert("Failed to process the approval.");
     }
   };
+  
   
   const handleCancelRequest = async (request) => {
     try {
