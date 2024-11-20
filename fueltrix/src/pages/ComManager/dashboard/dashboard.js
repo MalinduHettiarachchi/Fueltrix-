@@ -317,8 +317,8 @@ function Dashboard() {
     }
   
     try {
-      // Update the requested volume
-      const dynamicRequestedVolume = request.requestVolume;
+      // Add the requested volume to the vehicle's existing value
+      const dynamicRequestedVolume = parseFloat(request.requestVolume);
   
       const volumeResponse = await axios.post(
         "http://localhost:5000/api/update-vehicle-requested-volume",
@@ -335,7 +335,7 @@ function Dashboard() {
         console.warn("Requested volume update failed.");
       }
   
-      // Approve the request
+      // Approve the request in the database
       const approveResponse = await axios.post(
         "http://localhost:5000/api/fuel-requests/update-status",
         {
@@ -347,12 +347,12 @@ function Dashboard() {
   
       if (approveResponse.status === 200) {
         alert("Request approved successfully!");
-        setFuelRequests(approveResponse.data); // Update the requests list
+        setFuelRequests(approveResponse.data); // Update the list of requests
       } else {
         alert("Failed to approve request.");
       }
   
-      // Optionally, refetch the data to ensure UI reflects changes
+      // Optionally, refetch data to update the UI
       fetchFuelRequests();
     } catch (error) {
       console.error("Error during approve request process:", error);
