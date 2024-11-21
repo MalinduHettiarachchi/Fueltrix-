@@ -418,7 +418,22 @@
   align-items: center;    /* Center the content vertically */
   margin: 20px;           /* Add some space around the container */
   gap: 20px;
-  width: 85%;
+  width: 80%;
 }
+
+.home-stats {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #041228;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.home-stats h3 {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #fff;
+}
+
 
 

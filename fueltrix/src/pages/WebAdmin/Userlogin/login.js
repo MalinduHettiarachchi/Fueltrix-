@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './login.css'; // Ensure your CSS file is linked
 import img from './logo.png'; // Ensure the logo image path is correct
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import Imgback from "../Userlogin/back.png";
 
 function Login() {
   const [email, setEmail] = useState(''); // State for email input
   const [password, setPassword] = useState(''); // State for password input
   const navigate = useNavigate(); // Hook to navigate between routes
+  
 
   // Function to handle login process
   const handleLogin = async (e) => {
@@ -36,6 +38,17 @@ function Login() {
   return (
     <div className="two-column-container">
       <div className="leftc">
+      <button
+          className="lback-button"
+          onClick={() => navigate('/fueltrix')} // Navigate back to the previous page
+        >
+          <img
+            src={Imgback} // Replace with your image path
+            alt="Back Icon"
+            className="lback-image"
+          />
+          <span>Previous</span>
+        </button>
         <img src={img} alt="Fuletrix" className="left-image" />
       </div>
       <div className="rightc">
