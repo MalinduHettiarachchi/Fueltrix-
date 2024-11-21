@@ -133,3 +133,24 @@
 .buyn span:hover{
   text-decoration: underline;
 }
+
+.lback-button {
+  position: absolute;
+  display: flex;
+  top: 10px;
+  left: 10px;
+  border: none;
+  border-radius: 5px;
+  padding: 25px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #041228;
+}
+.lback-image {
+  width: 24px;
+  height: auto;
+}
+
+.lback-button:hover {
+  font-weight: 600;
+}

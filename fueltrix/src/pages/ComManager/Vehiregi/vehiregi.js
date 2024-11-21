@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import "../Vehiregi/vehiregi.css"; // Your CSS file for styling
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
+import Imgback from "../Driveregi/back.png";
 
 // Simple hash function to generate a shorter unique identifier
 const simpleHash = (input) => {
@@ -20,6 +21,7 @@ function SRequest() {
   const [fuelVolume, setFuelVolume] = useState("");
   const [qrCode, setQrCode] = useState(null);
   const qrRef = useRef(); // For downloading the QR code
+  const navigate = useNavigate();
 
   const location = useLocation(); // Access location object
   const queryParams = new URLSearchParams(location.search); // Parse query parameters
@@ -103,6 +105,17 @@ function SRequest() {
   return (
     <div className="vehirg">
       <div className="leftvr">
+      <button
+          className="back-button"
+          onClick={() => navigate(-1)} // Navigate back to the previous page
+        >
+          <img
+            src={Imgback} // Replace with your image path
+            alt="Back Icon"
+            className="back-image"
+          />
+          <span>Previous</span>
+        </button>
         <p className="vehifuel">Fueltrix</p>
       </div>
       <div className="rightvr">

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "../Driveregi/driveregi.css";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
+import Imgback from "../Driveregi/back.png";
 
 function Driveregi() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const company = queryParams.get('company');
+  const company = queryParams.get("company");
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [contact, setContact] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [password, setPassword] = useState("");
 
   const validateForm = () => {
     // Basic validation
@@ -50,19 +52,22 @@ function Driveregi() {
     if (!validateForm()) return; // Stop if validation fails
 
     try {
-      const response = await fetch('http://localhost:5000/api/driver/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          contact,
-          password,
-          company,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/driver/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            contact,
+            password,
+            company,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (response.ok) {
@@ -73,13 +78,24 @@ function Driveregi() {
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      alert('Registration failed. Please try again.');
+      alert("Registration failed. Please try again.");
     }
   };
 
   return (
     <div className="drivrg">
       <div className="leftdr">
+        <button
+          className="back-button"
+          onClick={() => navigate(-1)} // Navigate back to the previous page
+        >
+          <img
+            src={Imgback} // Replace with your image path
+            alt="Back Icon"
+            className="back-image"
+          />
+          <span>Previous</span>
+        </button>
         <p className="fueltrix">Fueltrix</p>
       </div>
       <div className="rightdr">

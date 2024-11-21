@@ -26,6 +26,20 @@ function Dashboard() {
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [fuelRequests, setFuelRequests] = useState([]);
+  const [vehicleCount, setVehicleCount] = useState(0); // For vehicle count
+  const [driverCount, setDriverCount] = useState(0); // For driver count
+
+  useEffect(() => {
+    if (vehicles.length > 0) {
+      setVehicleCount(vehicles.length); // Set vehicle count from vehicles state
+    }
+  }, [vehicles]);
+
+  useEffect(() => {
+    if (drivers.length > 0) {
+      setDriverCount(drivers.length); // Set driver count from drivers state
+    }
+  }, [drivers]);
 
   useEffect(() => {
     if (userDetails) {
@@ -429,6 +443,11 @@ function Dashboard() {
           <div className="contenthome">
             <SessionChartp groupedFuelData={groupedPetrolData} />
             <SessionChartd groupedFuelData={groupedDieselData} />
+            {/* Display total vehicle and driver count */}
+            <div className="home-stats">
+              <h3>Total Registered Vehicles: {vehicleCount}</h3>
+              <h3>Total Registered Drivers: {driverCount}</h3>
+            </div>
           </div>
         );
 

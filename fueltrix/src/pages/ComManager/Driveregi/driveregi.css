@@ -39,3 +39,24 @@
     margin-left: 100px;
     font-weight: 500;
   }
+
+  .back-button {
+    position: absolute;
+    display: flex;
+    top: 10px;
+    left: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 25px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .back-image {
+    width: 24px;
+    height: auto;
+  }
+  
+  .back-button:hover {
+    font-weight: 600;
+  }
+  
