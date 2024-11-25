@@ -443,10 +443,17 @@ function Dashboard() {
           <div className="contenthome">
             <SessionChartp groupedFuelData={groupedPetrolData} />
             <SessionChartd groupedFuelData={groupedDieselData} />
-            {/* Display total vehicle and driver count */}
-            <div className="home-stats">
-              <h3>Total Registered Vehicles: {vehicleCount}</h3>
-              <h3>Total Registered Drivers: {driverCount}</h3>
+            <div className="info-boxes">
+              <div className="info-box">
+                <h3>Vehicle</h3>
+                <h1>Total Registered Vehicles</h1>
+                <p>{vehicleCount}</p>
+              </div>
+              <div className="info-box">
+                <h3>Driver</h3>
+                <h1>Total Registered Drivers</h1>
+                <p>{driverCount}</p>
+              </div>
             </div>
           </div>
         );

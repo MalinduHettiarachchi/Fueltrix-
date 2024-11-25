@@ -418,22 +418,41 @@
   align-items: center;    /* Center the content vertically */
   margin: 20px;           /* Add some space around the container */
   gap: 20px;
-  width: 80%;
+  width: 95%;
 }
 
-.home-stats {
-  margin-top: 20px;
-  padding: 10px;
+.info-boxes {
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+
+.info-box {
   background-color: #041228;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 165px;
+}
+
+.info-box h3 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
   color: #fff;
 }
 
-.home-stats h3 {
-  margin: 5px 0;
-  font-size: 16px;
-  color: #fff;
+.info-box h1 {
+  margin-bottom: 10px;
+  font-size: 0.75rem;
+  color: #bbb;
+  font-family: 'Poppins', sans-serif;
 }
 
-
-
+.info-box p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+}
