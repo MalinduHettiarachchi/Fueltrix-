@@ -6,11 +6,18 @@ import Footer from "../Footer/footer";
 import img1 from "../Mainpage/cfront.png"; // Adjust the path if needed
 import img2 from "../Mainpage/cback.png";
 import { motion } from "framer-motion";
+import HomePage_1 from "./Mainpage_1";
+import HomePage_2 from "./Mainpage_2";
+
 
 function Mainpage() {
   return (
+    <div>
+            <Navbar />
+            <HomePage_1/>
+            <HomePage_2/>
     <div className="mainpage">
-      <Navbar />
+
       <div className="twoclomn">
         <div className="leftmp">
         <motion.div
@@ -88,6 +95,7 @@ function Mainpage() {
       </div>
       <Partners />
       <Footer />
+    </div>
     </div>
   );
 }
