@@ -4,8 +4,14 @@ import { faUsers, faRocket, faArrowRight } from '@fortawesome/free-solid-svg-ico
 import { faAppStore } from '@fortawesome/free-brands-svg-icons';
 import { motion } from "framer-motion";
 import "./Mainpage_1.css";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
+    const handleContactClick = () => {
+      navigate("/contact"); // Navigate to the '/contacts' route
+    };
   return (
     <div>
       <div className="homepage-container">
@@ -81,10 +87,10 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <button className="contact-button-btn">
-                Contact Fueltrix
-                <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
-              </button>
+        <button className="contact-button-btn" onClick={handleContactClick}>
+          Contact Fueltrix
+          <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
+        </button>
             </motion.div>
           </motion.div>
 

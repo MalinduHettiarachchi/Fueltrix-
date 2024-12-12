@@ -1,5 +1,9 @@
-/* Container for the entire section */
-.app-development-section {
+/* Base styles for both PC and mobile */
+.app-development-section-bg {
+    background-color: #e6ecf4;
+  }
+  
+  .app-development-section {
     background-color: #e6ecf4;
     padding: 2rem 1rem;
     max-width: 92rem;
@@ -18,7 +22,7 @@
     margin-bottom: 2rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #388E3C;
+    color: #041228;
   }
   
   .header-title {
@@ -88,9 +92,6 @@
     font-size: 0.75rem;
   }
   
-
-  
-
   /* Awards Section */
   .awards-section {
     text-align: center;
@@ -98,7 +99,7 @@
   
   .awards-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr); /* Display all items in one row */
     gap: 1rem;
     margin-bottom: 6rem;
   }
@@ -108,11 +109,6 @@
     background-color: transparent;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .award-item-large {
-    grid-column: span 2;
-    text-align: center;
   }
   
   .award-img {
@@ -136,5 +132,117 @@
     margin-top: 0.5rem;
     font-size: 0.75rem;
     color: #6B6B6B;
+  }
+  
+  /* Media Queries for Mobile */
+  @media (max-width: 768px) {
+    /* Header Section */
+    .header-subtitle {
+      font-size: 0.65rem;
+    }
+  
+    .header-title {
+      font-size: 1.2rem;
+    }
+  
+    .header-description {
+      font-size: 0.75rem;
+    }
+  
+    .header-content {
+      font-size: 0.75rem;
+    }
+  
+    /* Awards Section */
+    .awards-grid {
+      grid-template-columns: repeat(2, 1fr); /* Display 2 items per row on mobile */
+      margin-bottom: 3rem;
+    }
+  
+    .award-item {
+      padding: 0.5rem;
+    }
+  
+    .award-img-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+  
+    .award-title {
+      font-size: 1rem;
+    }
+  
+    .award-description {
+      font-size: 0.6rem;
+    }
+  
+    /* Stats Section */
+    .stats-section {
+      position: static;
+      margin-top: 2rem;
+      width: 100%;
+    }
+  }
+  
+  /* Media Queries for smaller mobile devices */
+  @media (max-width: 480px) {
+    .header-title {
+      font-size: 1rem;
+    }
+  
+    .header-description {
+      font-size: 0.7rem;
+    }
+  
+    .header-content {
+      font-size: 0.7rem;
+    }
+  
+    /* Awards Section */
+    .awards-grid {
+      grid-template-columns: 1fr; /* Display 1 item per row on very small devices */
+      margin-bottom: 2rem;
+    }
+  
+    .award-item {
+      padding: 0.5rem;
+    }
+  
+    .award-img-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  
+    .award-title {
+      font-size: 0.9rem;
+    }
+  
+    .award-description {
+      font-size: 0.55rem;
+    }
+  }
+  
+
+  /* Award Item */
+.award-item {
+    padding: 1rem;
+    background-color: transparent;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+  }
+  
+  /* Hover Effect for Award Item */
+  .award-item:hover {
+    transform: scale(1.05); /* Slightly increase size on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    background-color: #f4f4f4; /* Light background color on hover */
+  }
+  
+  /* Mobile Adjustments */
+  @media (max-width: 768px) {
+    .award-item:hover {
+      transform: scale(1.03); /* Slightly smaller scale for mobile devices */
+    }
   }
   
