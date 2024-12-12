@@ -19,10 +19,11 @@ const Download = () => {
           Download our application from App Store
         </h1>
         <p className="paragraph-download">
-          Experience the future of innovation with RAVON. Empowering businesses worldwide,
-          RAVON delivers cutting-edge digital solutions for web, mobile, and connected platforms, 
-          helping you achieve more with ease.
+        Fueltrix is an advanced fuel management system that helps businesses track fuel consumption, manage inventory, 
+        and monitor deliveries in real-time. Our web and mobile solutions streamline operations, enhance security, and 
+        provide accurate tracking and analytics to help businesses make informed decisions and reduce costs.
         </p>
+
 
         {/* Contact Section */}
         <motion.div
