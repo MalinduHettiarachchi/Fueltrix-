@@ -1,63 +1,60 @@
-.about-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 40px;
-    background-color: #ffffff;
-    color: #041228;
-    font-family: 'Poppins', sans-serif;
-    text-align: left;
-    height: 88vh;
-}
-
-.about-text {
-    flex: 2;
-    max-width: 600px;
-    margin-left: 40px;
-}
-
-.about-text h2 {
-    font-size: 16px;
-    font-weight: bold;
-    color: #041228;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-.about-text h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #041228;
-    font-family: 'Poppins', sans-serif;
-    text-align: left;
-}
-
-.about-text p {
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    color: #041228;
-}
-
-.about-image {
-    flex: 1;
-    max-width: 400px;
-    text-align: center;
-    margin-right: 20px;
-    margin-top: 20px;
-}
-
-.about-image img {
+.leadership-title {
+    background-color:#ffff;
     width: 100%;
-    border-radius: 15px;
-    object-fit: cover;
-}
+    padding: 90px;
+    box-sizing: border-box;
+    border-bottom: 0.1875rem solid #d8dde2;
 
-.image-caption {
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
+  }
+  
+  .leadership-title h1 {
     color: #041228;
-}
+    font-size: 36px;
+    font-weight: bolder;
+    text-align: left;
+    margin: 0;
+    font-family: 'Arial Black', sans-serif;
+  }
+  
+  .leadership-title h6 {
+    color: #041228;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 12px;
+    position: relative;
+    text-align: left;
+  }
+  
+  .leadership-title h6::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: red;
+    width: 30px;
+    margin-top: 4px;
+  }
+  
+  /* Mobile-Responsive Styles */
+  @media only screen and (max-width: 768px) {
+    .leadership-title {
+      padding: 50px 20px; /* Reduce padding for smaller screens */
+    }
+  
+    .leadership-title h1 {
+      font-size: 28px; /* Adjust font size for better readability */
+      text-align: center; /* Center align text for mobile */
+    }
+  
+    .leadership-title h6 {
+      font-size: 10px; /* Adjust font size for the subheading */
+      text-align: center; /* Center align subheading */
+    }
+  
+    .leadership-title h6::after {
+      margin: 0 auto; /* Center align the underline */
+    }
+  }
+  
 
+  .Backgroun_bg{
+    background-color: #fff;
+  }

@@ -1,0 +1,135 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Default for larger screens */
+    gap: 3rem;
+    padding: 3rem;
+    background-color: #fff;
+    text-align: left;
+  }
+  
+  .grid-item {
+    padding: 2rem 0;
+  }
+  
+  .grid-item h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    color: #000;
+    text-align: left;
+  }
+  
+  .grid-item p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  /* Mobile-specific styles */
+  @media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr; /* One column for mobile */
+      gap: 2rem; /* Reduce spacing for mobile */
+      padding: 1.5rem; /* Reduce padding for mobile */
+    }
+  
+    .grid-item h2 {
+      font-size: 1.5rem; /* Slightly smaller font for headers */
+    }
+  
+    .grid-item p {
+      font-size: 0.9rem; /* Slightly smaller font for paragraphs */
+    }
+  }
+  
+
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 1.25rem;
+  }
+  
+  td {
+    padding: 1.25rem;
+  }
+  
+  .grid-item {
+    position: relative;
+    padding: 2rem 0;
+    overflow: hidden;
+  }
+  
+  .grid-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 0.125rem;
+    width: 100%;
+    background-color: black;
+  }
+  
+  .grid-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 0.25rem;
+    width: 100%;
+    background-color: #ff0000;
+    transform: translateX(-100%);
+    animation: none;
+  }
+  
+  .grid-item:hover::after {
+    animation: runLine 0.5s forwards;
+  }
+  
+  @keyframes runLine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+
+  .responsive-table {
+    width: 90%; 
+    border-collapse: collapse; 
+    margin-left: 20px;
+    margin-bottom: 50px;
+  }
+  
+  .responsive-table td {
+    padding: 1rem; 
+  }
+  
+  .grid-item {
+    border-radius: 5px; 
+    padding: 1rem; 
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-table {
+      display: block; 
+    }
+  
+    .responsive-table tr {
+      display: flex; 
+      flex-direction: column; 
+      margin-bottom: 1rem; 
+    }
+  
+    .responsive-table td {
+      width: 100%; 
+      display: block; 
+    }
+  }
+
+  
