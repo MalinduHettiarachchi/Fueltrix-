@@ -22,7 +22,7 @@ function About_3() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <i className="fas fa-gas-pump icon"></i>
+            <i className="fas fa-gas-pump icon-about"></i>
             <h3>Real-time Fuel Tracking</h3>
             <p>Monitor fuel consumption and deliveries instantly with advanced tracking solutions.</p>
           </motion.div>
@@ -34,7 +34,7 @@ function About_3() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <i className="fas fa-boxes icon"></i>
+            <i className="fas fa-boxes icon-about"></i>
             <h3>Efficient Inventory Management</h3>
             <p>Streamline fuel inventory and ensure accurate stock levels with minimal effort.</p>
           </motion.div>
@@ -46,7 +46,7 @@ function About_3() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <i className="fas fa-chart-line icon"></i>
+            <i className="fas fa-chart-line icon-about"></i>
             <h3>Actionable Analytics</h3>
             <p>Gain insights through detailed analytics to optimize operations and reduce costs.</p>
           </motion.div>

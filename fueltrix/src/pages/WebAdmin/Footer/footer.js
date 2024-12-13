@@ -87,7 +87,7 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="footer-bottom">
-          <p>We are tracking any intention of piracy.</p>
+          <p>We actively prevent unauthorized use and piracy of our content.</p>
           <p className="copyright">
           <p>Copyright © 2024 Fueltrix. All rights reserved. | Designed and Developed by Fueltrix IT (Pvt) Ltd</p>
           </p>
