@@ -3,7 +3,7 @@ import "./about_1.css";
 
 function About_1() {
   return (
-    <div>
+    <div className="buttom_con">
       {/* Grid Section */}
       <div className="grid-container">
         <div className="grid-item">
