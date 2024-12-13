@@ -1,74 +1,189 @@
-.ft {
-    background-color: #041228;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    padding: 20px 20px;
-}
+/* Footer.css */
+:root {
+    --primary-bg-color: #030b18;
+    --text-color: #9CA3AF;
+    --white-color: #FFFFFF;
+    --green-gradient-start: #252626;
+    --green-gradient-end: #565856;
+    --border-color: #374151;
+  }
+  
+  .footer {
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    padding: 2.5rem 0;
+    align-items: center;
 
-.footer-links {
+  }
+  
+  .footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .footer-top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .footer-top {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+  
+  .footer-logo-section {
+    text-align: center;
     display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 40px;
-    text-align: left;
-    gap: 20px;
-}
-.column i{
-    font-size: 28px;
-    margin-bottom: 8px;
-    margin-top: 30px;
-}
-.column span{
-    font-size: 25px;
-}
-.column h4 {
-    font-size: 18px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid white;
-    display: inline-block;
-    padding-bottom: 5px;
-}
-
-.column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.column ul li {
-    margin-bottom: 10px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.social-icons  {
-    display: flex;
-    gap: 10px;
-}
-
-.social-icons i {
-    font-size: 24px;
-    cursor: pointer;
-    margin-top: -40px;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.footer-payment {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  @media (min-width: 640px) {
+    .footer-logo-section {
+      text-align: left;
+      align-items: flex-start;
+    }
+  }
+  
+  .footer-brand {
+    color: var(--white-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-tagline {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 640px) {
+    .footer-tagline {
+      text-align: left;
+    }
+  }
+  
+  .social-icons {
     display: flex;
     justify-content: center;
-}
-
-.footer-payment img {
-    max-width: 300px;
-    height: auto;
-    border-radius: 15px;
-}
-
-.footer-bottom {
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+  }
+  
+  @media (min-width: 640px) {
+    .social-icons {
+      justify-content: flex-start;
+    }
+  }
+  
+  .social-icon {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: var(--white-color);
+  }
+  
+  .brochure-btn {
+    background: linear-gradient(to right, var(--green-gradient-start), var(--green-gradient-end));
+    color: var(--white-color);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .brochure-btn:hover {
+    background: linear-gradient(to right, #383939, #313231);
+  }
+  
+  .footer-section {
     text-align: center;
-    font-size: 14px;
-    padding-top: 20px;
-}
+    margin-top: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .footer-section {
+      text-align: left;
+    }
+  }
+  
+  .section-title {
+    color: var(--white-color);
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .contact-list,
+  .link-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .contact-list li,
+  .link-list li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @media (min-width: 640px) {
+    .contact-list li,
+    .link-list li {
+      justify-content: flex-start;
+    }
+  }
+  
+  .icon {
+    margin-right: 0.5rem;
+  }
+  
+  .footer-bottom {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.875rem;
+  }
+  
+  .copyright {
+    margin-top: 0.5rem;
+  }
 
+
+  .corner-section{
+    margin-left: 100px;
+  }
+
+
+  @media (max-width: 480px) {
+    .corner-section{
+        margin-left: 0px;
+      }
+  }
+
+  @media (max-width: 640px) {
+    .corner-section{
+        margin-left: 0px;
+      }
+  }
+
+
+  
