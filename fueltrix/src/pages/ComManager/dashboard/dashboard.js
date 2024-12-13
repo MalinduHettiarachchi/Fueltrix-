@@ -28,6 +28,8 @@ function Dashboard() {
   const [fuelRequests, setFuelRequests] = useState([]);
   const [vehicleCount, setVehicleCount] = useState(0); // For vehicle count
   const [driverCount, setDriverCount] = useState(0); // For driver count
+  const [pumpData, setPumpData] = useState([]);
+
 
   useEffect(() => {
     if (vehicles.length > 0) {
@@ -95,6 +97,7 @@ function Dashboard() {
     }
   }, [managerDetails]);
 
+  
   // Component to render the vehicle list table
   const VehicleList = () => (
     <div className="vehicle-list">
@@ -435,6 +438,24 @@ function Dashboard() {
     return acc;
   }, {});
 
+  useEffect(() => {
+    const fetchPumpData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/pump-collection?company=${managerDetails.company}`
+        );
+        setPumpData(response.data);
+      } catch (error) {
+        console.error("Error fetching pump collection data:", error);
+      }
+    };
+  
+    if (managerDetails?.company) {
+      fetchPumpData();
+    }
+  }, [managerDetails]);
+  
+
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
     switch (activeComponent) {
@@ -498,8 +519,34 @@ function Dashboard() {
             </div>
           </div>
         );
-      case "Payment":
-        return <div className="content-container">Payment Section</div>;
+        case "Payment":
+          return (
+            <div className="content-container">
+              <h2>Pump Collection Data</h2>
+              <div className="pump-collection">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Pump ID</th>
+                      <th>Fuel Type</th>
+                      <th>Collected Amount ($)</th>
+                      <th>Collection Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pumpData.map((pump) => (
+                      <tr key={pump.id}>
+                        <td>{pump.pumpId}</td>
+                        <td>{pump.fuelType}</td>
+                        <td>{pump.collectedAmount}</td>
+                        <td>{new Date(pump.collectionDate).toLocaleDateString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );        
       case "Settings":
         return (
           <div className="contentset">

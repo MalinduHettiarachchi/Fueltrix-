@@ -1012,7 +1012,38 @@ app.post("/api/update-vehicle-requested-volume", async (req, res) => {
 });
 
 
+app.get('/api/pump-collection', async (req, res) => {
+  try {
+      // Ensure company query parameter is provided
+      const { company } = req.query;
+      if (!company) {
+          return res.status(400).json({ error: 'Company name is required' });
+      }
 
+      // Query the 'PumpCollection' collection where the company matches
+      const pumpsSnapshot = await admin.firestore()
+          .collection('Pump')
+          .where('company', '==', company)
+          .get();
+
+      // Check if documents exist
+      if (pumpsSnapshot.empty) {
+          return res.status(404).json({ error: 'No pumps found for the given company' });
+      }
+
+      // Map the results to an array
+      const pumpData = pumpsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+      }));
+
+      // Return the data
+      res.status(200).json(pumpData);
+  } catch (error) {
+      console.error('Error fetching pump data:', error);
+      res.status(500).json({ error: 'Failed to fetch pump collection data' });
+  }
+});
 
 
 // Start the server
