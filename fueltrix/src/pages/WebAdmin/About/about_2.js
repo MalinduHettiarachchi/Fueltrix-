@@ -12,7 +12,12 @@ function About_2() {
           </p>
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <video controls style={{ maxWidth: "100%", height: "auto", width: "500px", border: "none" }}>
+          <video
+            autoPlay
+            loop
+            muted
+            style={{ maxWidth: "100%", height: "auto", width: "500px", border: "none" }}
+          >
             <source src="/images/Fuel Monitoring System .mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
