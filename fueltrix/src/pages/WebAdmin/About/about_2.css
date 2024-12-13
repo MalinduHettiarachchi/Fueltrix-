@@ -1,5 +1,5 @@
 .yellow-container {
-    background-color: #041228;
+    background: linear-gradient(115deg, #041228, #1e287e);
     display: flex;
     flex-direction: row; /* Default for PC */
     width: 100%;
