@@ -53,12 +53,12 @@ function Contact_1() {
           </p>
         </div>
 
-        <h1>2024: AI-Powered Optimization</h1>
+        <h1>2024: Advanced Optimization Tools</h1>
         <div className='history-normal'>
           <p>
-            Leveraging artificial intelligence, Fueltrix now offers predictive analytics to optimize 
-            fuel usage, detect anomalies, and reduce costs further. This innovation solidifies our position 
-            as a leader in the fuel management industry.
+            In 2024, Fueltrix introduced advanced optimization tools that enhance fuel management efficiency 
+            by identifying usage patterns, detecting anomalies, and offering actionable insights to reduce costs. 
+            This innovation underscores our commitment to providing cutting-edge solutions for businesses.
           </p>
         </div>
 
