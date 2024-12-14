@@ -124,7 +124,7 @@ html, body {
     outline: none; /* Ensures no default outline */
   }
 
-  .sign {
+  .signnn {
     width: 70%; /* Full-width button */
     padding: 8px; /* Increased padding for larger button */
     font-size: 1rem;
@@ -279,9 +279,9 @@ html, body {
     padding: 8px;
   }
 
-  .sign, .successful {
+  .signnn, .successful {
     width: 100%; /* Make buttons full width on mobile */
-    margin-left: 0;
+    margin-left: 0px;
   }
 
   .benefit-grid {
@@ -307,7 +307,7 @@ html, body {
   }
   .pby {
     margin-left: 0px;
-    
+    text-align: center;
   }
 
   .rightpb {

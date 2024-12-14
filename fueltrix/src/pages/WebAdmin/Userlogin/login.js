@@ -36,7 +36,8 @@ function Login() {
   };
 
   return (
-    <div className="two-column-container">
+    <div className="bg-color-login">
+    <div className="two-column-container-login">
       <div className="leftc">
       <button
           className="lback-button"
@@ -52,9 +53,9 @@ function Login() {
         <img src={img} alt="Fuletrix" className="left-image" />
       </div>
       <div className="rightc">
-        <p className="login">Login</p>
+        <p className="loginnn">Login</p>
         <label className="loginun">Login to your FULETRIX account.</label>
-        <p className="email-label">Email</p>
+        <p className="email-label-login">Email</p>
         <div className="form-group">
           <input 
             type="email" 
@@ -64,7 +65,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)} // Update email state on change
           />
         </div>
-        <p className="password-label">Password</p>
+        <p className="password-label-login">Password</p>
         <div className="form-group">
           <input 
             type="password" 
@@ -77,6 +78,7 @@ function Login() {
         <button className="sign-in" onClick={handleLogin}>SIGN IN</button>
         <p className="buyn">Don't have a FUELTRIX package? <span><a href="/buy">Buy Now</a></span></p>
       </div>
+    </div>
     </div>
   );
 }
