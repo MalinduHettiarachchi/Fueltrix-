@@ -645,6 +645,11 @@ app.post('/api/driver/register', async (req, res) => {
   const { name, email, contact, password, company } = req.body;
 
   try {
+    // Validate contact number (must be 10 digits)
+    if (!/^\d{10}$/.test(contact)) {
+      return res.status(400).json({ message: 'Invalid contact number. It must be exactly 10 digits.' });
+    }
+
     // Check if the email already exists
     const existingUserSnapshot = await db.collection('Driver')
       .where('email', '==', email)
@@ -669,6 +674,7 @@ app.post('/api/driver/register', async (req, res) => {
     res.status(500).json({ message: 'Registration failed. Please try again.' });
   }
 });
+
 
 
 
@@ -892,6 +898,11 @@ app.put('/api/fuel-price/:id', async (req, res) => {
 app.post('/api/contact', (req, res) => {
   const { name, email, mobile, subject, message } = req.body;
 
+  // Validate mobile number (must be 10 digits)
+  if (!/^\d{10}$/.test(mobile)) {
+    return res.status(400).json({ error: 'Invalid mobile number. It must be exactly 10 digits.' });
+  }
+
   // Save the message to Firestore
   admin.firestore().collection('messages').add({
     name,
@@ -938,6 +949,8 @@ app.post('/api/contact', (req, res) => {
     res.status(500).json({ error: 'Error saving message' });
   });
 });
+
+
 
 app.get('/api/contact', async (req, res) => {
   try {
