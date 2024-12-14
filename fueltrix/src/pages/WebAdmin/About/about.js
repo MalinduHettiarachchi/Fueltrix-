@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import About_1 from "./about_1";
 import About_2 from "./about_2";
 import About_3 from "./about_3";
+import About_4 from "./about_4";
 
 
 
@@ -31,6 +32,7 @@ function About() {
           Fueltrix: Revolutionizing Fuel Management
         </motion.h1>
       </motion.div>
+      <About_4/>
       <About_3/>
       <About_2/>
       <About_1/>

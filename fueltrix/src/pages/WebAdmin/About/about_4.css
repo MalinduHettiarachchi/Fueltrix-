@@ -1,0 +1,122 @@
+.intro-section-p {
+    align-content: left;
+    font-size: 19px;
+    font-weight: bold;
+    margin-left: 33px;
+    padding-right: 0px;
+}
+
+.intro-section-hr {
+    margin-left: 33px;
+    background-color: #000;
+    height: 3px;
+}
+
+.intro-section-h1 {
+    color: #000;
+    font-weight: bold;
+    font-size: 35px;
+    margin-left: 33px;
+}
+
+.resized-image-left {
+    width: 800px;
+    height: auto;
+    margin-left: 0px;
+}
+
+.image-container-left {
+    margin-left: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.resized-image-right {
+    width: 800px;
+    height: auto;
+    margin-right: 0px;
+}
+
+.image-container-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0;
+}
+
+.text-section-about {
+    margin-left: 100px;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-section-about h3 {
+    margin-left: 70px;
+    font-size: 35px;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.text-section-about p {
+    margin-left: 70px;
+    font-size: 1.1rem;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.text-section-btn {
+    margin-left: 50px;
+}
+
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .What-we-do-table {
+      display: block;
+      width: 100%;
+    }
+  
+    .What-we-do-table tr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+  
+    .image-container-left,
+    .image-container-right {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+    }
+  
+    .resized-image-left,
+    .resized-image-right {
+      width: 90%; /* Adjust width for mobile */
+      height: auto;
+    }
+  
+    .text-section-about {
+      margin: 0;
+      padding: 10px;
+      text-align: center; /* Center-align text for smaller screens */
+    }
+  
+    .text-section-about h3 {
+      margin: 10px 0;
+      font-size: 28px; /* Smaller font size for headers */
+    }
+  
+    .text-section-about p {
+      margin: 10px 0;
+      font-size: 1rem; /* Smaller font size for paragraphs */
+      line-height: 1.4; /* Adjust line height for readability */
+    }
+  }
+  
