@@ -57,7 +57,7 @@
 /* Mobile styles */
 @media screen and (max-width: 768px) {
   .navbar {
-    border-radius: 15px;
+    border-radius: 10px;
   }
 
   .row {
