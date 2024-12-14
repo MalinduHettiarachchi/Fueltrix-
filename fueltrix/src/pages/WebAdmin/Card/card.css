@@ -1,3 +1,4 @@
+/* Global styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,20 +11,23 @@ body {
     color: white;
 }
 
+/* Flex container for cards */
 .card-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:35px;
+    gap: 35px;
     padding: 50px;
+    flex-wrap: wrap; /* Allow cards to wrap on smaller screens */
 }
 
+/* Styles for individual cards */
 .card {
     background-color: #d8d7d7;
     border-radius: 30px;
     padding: 20px;
     text-align: center;
-    width: 300px; /* Width is now 80% of the parent container */
+    width: 300px; /* Width is fixed for desktop */
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -33,7 +37,6 @@ body {
     border: 2px solid transparent;
     margin-bottom: -20px;
 }
-
 
 .card:hover {
     border-color: #041228; /* Blue border on hover */
@@ -78,22 +81,43 @@ body {
     cursor: pointer;
 }
 
-.buy-page{
+.buy-page {
     color: #041228;
 }
 
-.grab{
+/* Text styles */
+.grab {
     margin-top: 10px;
     font-size: 35px;
-    font-weight: 450;
-    color: #041228;
     font-weight: 550;
+    color: #041228;
 }
 
-.we{
+.we {
     margin-top: -5px;
-    color:  rgb(100, 100, 100);
+    color: rgb(100, 100, 100);
     font-family: 'Poppins', sans-serif;
     font-size: 18px;
     margin-bottom: -25px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column; /* Stack the cards in a column on mobile */
+        align-items: flex-start; /* Align cards to the start */
+    }
+
+    .card {
+        width: 100%; /* Cards take full width */
+        margin-bottom: 20px; /* Add space between stacked cards */
+        height: auto; /* Allow cards to resize based on content */
+    }
+    .grab {
+        font-size: 25px;
+    }
+    
+    .we {
+        font-size: 12px;
+    }
 }

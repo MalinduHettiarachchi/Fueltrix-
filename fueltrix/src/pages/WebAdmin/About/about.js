@@ -8,6 +8,7 @@ import About_1 from "./about_1";
 import About_2 from "./about_2";
 import About_3 from "./about_3";
 import About_4 from "./about_4";
+import Contact_1 from "./contact_1";
 
 
 
@@ -36,6 +37,7 @@ function About() {
       <About_3/>
       <About_2/>
       <About_1/>
+      <Contact_1/>
       <Footer />
     </div>
   );

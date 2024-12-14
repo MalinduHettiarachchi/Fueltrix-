@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../NavBarr/navbarr';
 import Footer from '../Footer/footer';
 import './contact.css';
+import Contact_2 from './contact_2';
 
 function Contact() {
   const [name, setName] = useState('');
@@ -55,12 +56,12 @@ function Contact() {
   
 
   return (
-    <div>
+    <div className='bg-colors'>
       <Navbar />
       <div className="ccontact">
         <div className="contact-info">
           <h2>Contact Us</h2>
-          <p><i className="fas fa-envelope"></i> <strong>Email:</strong> coventry@gmail.com</p>
+          <p><i className="fas fa-envelope"></i> <strong>Email:</strong> fueltrix@gmail.com</p>
           <p><i className="fas fa-phone-alt"></i> <strong>Hotline:</strong> +94 71 169 1008</p>
           <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> COVENTRY, Hakmana Road, Gabada Veediya, Matara, LK</p>
           <div className="social-icons">
@@ -112,6 +113,7 @@ function Contact() {
           {error && <p className="error-message">{error}</p>}
         </div>
       </div>
+      <Contact_2/>
       <Footer />
     </div>
   );
