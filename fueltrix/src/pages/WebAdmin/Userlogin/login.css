@@ -12,17 +12,18 @@
   align-items: center;
 }
 
-
 .leftc {
   background-color: #ffffff; /* Light background for left column */
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .left-image {
   width: 100vh;
-    height: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
 }
+
 .rightc {
   background-color: #ffffff; /* Dark background for right column */
   color: #041228;
@@ -43,15 +44,15 @@
   font-size: 1.1rem;
   margin-bottom: 30px;
   color: rgb(100, 100, 100);
-  
 }
 
 .form-group {
   margin-bottom: 20px;
   width: 100%; /* Ensure full-width form elements */
-  
 }
-.email-input::placeholder,.password-input::placeholder{
+
+.email-input::placeholder,
+.password-input::placeholder {
   color: rgb(100, 100, 100);
 }
 
@@ -62,7 +63,8 @@
   margin-bottom: 5px;
   margin-left: 100px;
 }
-.password-label{
+
+.password-label {
   color: #041228;
   display: block;
   font-size: 1rem;
@@ -85,23 +87,22 @@
 
 /* White outline when focused */
 .email-input:focus, .password-input:focus {
-  box-shadow: 0 0 0.5px 1px r#041228; /* White outline */
+  box-shadow: 0 0 0.5px 1px #041228; /* White outline */
   outline: none; /* Ensures no default outline */
 }
 
-
 .dont {
-  align-self:flex-end;
+  align-self: flex-end;
   font-size: 0.9rem;
   color: #041228;
   margin-top: 10px;
   margin-right: 100px;
   cursor: pointer;
 }
-.dont:hover{
+
+.dont:hover {
   text-decoration: underline;
 }
-
 
 .sign-in {
   width: 70%; 
@@ -121,8 +122,6 @@
   font-size: 0.9rem;
   margin-top: 20px;
   color: #041228;
-  
-  
 }
 
 .buyn span {
@@ -130,7 +129,8 @@
   cursor: pointer;
   font-weight: 600;
 }
-.buyn span:hover{
+
+.buyn span:hover {
   text-decoration: underline;
 }
 
@@ -146,6 +146,7 @@
   font-size: 16px;
   color: #041228;
 }
+
 .lback-image {
   width: 24px;
   height: auto;
@@ -154,3 +155,99 @@
 .lback-button:hover {
   font-weight: 600;
 }
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .two-column-container {
+    flex-direction: column; /* Stack columns vertically */
+    height: auto; /* Allow height to adjust based on content */
+  }
+
+  .leftc, .rightc {
+    flex: none;
+    width: 100%; /* Make both columns full width on mobile */
+    padding: 20px;
+    justify-content: flex-start;
+  }
+
+  .left-image {
+    width: 80vw; /* Make the left image responsive */
+    height: auto;
+  }
+
+  .login {
+    margin-left: 0;
+    font-size: 2rem; /* Smaller font size for mobile */
+    margin-bottom: 10px;
+  }
+
+  .loginun {
+    margin-left: 0;
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .email-label,
+  .password-label {
+    margin-left: 0;
+    font-size: 1rem;
+  }
+
+  .email-input,
+  .password-input {
+    width: 90% !important; /* Make input fields wider on mobile */
+  }
+
+  .sign-in {
+    width: 90%; /* Make button full width on mobile */
+    margin-left: 0; /* Remove left margin */
+    margin-top: 20px;
+  }
+
+  .buyn {
+    margin-left: 0;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .lback-button {
+    padding: 15px 12px; /* Adjust padding for mobile */
+    font-size: 14px;
+  }
+
+  .lback-image {
+    width: 18px; /* Resize back icon for mobile */
+  }
+
+  /* Adjust don’t have an account text */
+  .dont {
+    margin-right: 0;
+    margin-top: 10px;
+  }
+  .loginun {
+    margin-left: 40px;
+text-align: center;
+  }
+  .rightc {
+
+    justify-content: center;
+    align-items: flex-start; /* Align content to the left */
+  }
+
+  .email-input{
+    text-align: center;
+  }
+
+  .password-input{
+    text-align: center;
+  }
+  .email-label{
+    text-align: center;
+
+  }
+
+  .password-label{
+    text-align: center;
+  }
+}
+

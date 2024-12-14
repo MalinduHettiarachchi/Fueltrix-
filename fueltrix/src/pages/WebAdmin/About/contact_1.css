@@ -1,0 +1,172 @@
+ /* General PC styles */
+ .banner {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .banner-image {
+    width: 100%;  /* Ensure it covers the full width of the container */
+    height: auto;  /* Automatically adjust height based on width */
+    max-height: 300px;  /* Adjust max height as per your requirement */
+    object-fit: cover;  /* Ensure the image covers the space without distortion */
+  }
+  
+  .banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 70px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+
+ .innovations {
+    margin: 40px 10%; 
+    text-align: left; /* Align all content to the left */
+}
+
+.innovations h1 {
+    font-family: 'Arial Black', sans-serif; 
+    font-size: 27px;
+    margin-bottom: 35px;
+    text-align: left; /* Explicitly align left */
+    max-width: 50rem;
+    color: black;
+}
+
+.bg-colors{
+    background-color: #ffff;
+}
+
+.innovations p {
+    font-family: 'Arial Black', sans-serif; 
+    font-size: 16px;
+    margin-bottom: 35px;
+    color: rgb(37, 37, 37);
+    text-align: left; /* Explicitly align left */
+    max-width: 50rem;
+}
+
+.innovations hr {
+    height: 3px;
+    background-color: black;
+    width: 59%;
+    margin-bottom: 35px;
+    text-align: left; /* Ensure alignment */
+    
+}
+
+.History-bold{
+    color: black;
+    font-weight: bold;
+    font-size: 10px;
+
+}
+
+.history-normal p{
+    max-width: 50rem;
+}
+ 
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .innovations {
+        margin: 40px 5%; 
+    }
+
+    .innovations h1 {
+        font-size: 30px; 
+    }
+
+    .innovations p {
+        font-size: 15px; 
+    }
+
+    .innovations hr {
+        width: 70%; 
+    }
+}
+
+@media (max-width: 992px) {
+    .innovations h1 {
+        font-size: 26px; 
+    }
+
+    .innovations p {
+        font-size: 14px; 
+    }
+
+    .innovations hr {
+        width: 80%; 
+    }
+
+    .history-normal p {
+        font-size: 15px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .innovations {
+        margin: 30px 5%;
+    }
+
+    .innovations h1 {
+        font-size: 24px;
+        text-align: center; /* Center-align on mobile for better visuals */
+    }
+
+    .innovations p {
+        font-size: 13px;
+        text-align: center; /* Center-align for smaller screens */
+    }
+
+    .innovations hr {
+        width: 90%;
+        margin: 20px auto;
+    }
+    .banner-text {
+        font-size: 40px;
+      }
+}
+
+@media (max-width: 576px) {
+    .innovations {
+        margin: 20px 5%;
+    }
+
+    .innovations h1 {
+        font-size: 20px;
+        text-align: center; /* Keep centered for narrow screens */
+    }
+
+    .innovations p {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .history-normal p {
+        font-size: 14px;
+    }
+
+    .History-bold {
+        font-size: 8px;
+    }
+}
+
+/* Responsive buttons */
+@media (max-width: 768px) {
+    .explore-button {
+        font-size: 14px; 
+        padding: 8px 16px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .explore-button {
+        font-size: 12px; 
+        padding: 6px 12px; 
+    }
+} 
