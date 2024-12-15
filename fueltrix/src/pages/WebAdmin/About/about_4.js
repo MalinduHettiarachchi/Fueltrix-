@@ -10,7 +10,7 @@ function About_4() {
           <tr>
             <td className="image-container-left">
               <img
-                src="https://media.licdn.com/dms/image/D5612AQEisH_ffwRZaQ/article-cover_image-shrink_720_1280/0/1700644340290?e=2147483647&v=beta&t=zNGTHWSyZIwV_1BtYk7ErlnIxT0ZjGdFJ9Gpr60Abxg"
+                src="https://www.uffizio.com/wp-content/uploads/2024/02/ADAS-8-1.jpg"
                 alt="Real-Time Fuel Tracking"
                 className="resized-image-left"
               />
