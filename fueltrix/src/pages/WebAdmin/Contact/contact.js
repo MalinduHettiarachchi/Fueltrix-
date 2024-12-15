@@ -62,8 +62,8 @@ function Contact() {
         <div className="contact-info">
           <h2>Contact Us</h2>
           <p><i className="fas fa-envelope"></i> <strong>Email:</strong> fueltrix@gmail.com</p>
-          <p><i className="fas fa-phone-alt"></i> <strong>Hotline:</strong> +94 71 169 1008</p>
-          <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> COVENTRY, Hakmana Road, Gabada Veediya, Matara, LK</p>
+          <p><i className="fas fa-phone-alt"></i> <strong>Hotline:</strong> +94 76 941 1008</p>
+          <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> FUELTRIX, Galle Road, Matara, LK</p>
           <div className="social-icons">
             <i className="fab fa-facebook"></i>
             <i className="fab fa-instagram"></i>

@@ -76,7 +76,7 @@ const Footer = () => {
             <ul className="link-list">
             <li>Transportation</li>
               <li>Construction</li>
-              <li>Mining</li>
+              <li>Manufacturing</li>
               <li>Logistics</li>
               <li>Oil & Gas</li>
               <li>Agriculture</li>

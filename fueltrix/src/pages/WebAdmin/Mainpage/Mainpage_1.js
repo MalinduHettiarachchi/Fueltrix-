@@ -88,7 +88,7 @@ const HomePage = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
             >
         <button className="contact-button-btn" onClick={handleContactClick}>
-          Contact Fueltrix
+          Get Connected
           <FontAwesomeIcon icon={faArrowRight} className="arrow-icon" />
         </button>
             </motion.div>
