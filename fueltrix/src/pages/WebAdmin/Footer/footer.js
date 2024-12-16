@@ -1,78 +1,100 @@
 import React from "react";
-import "../Footer/footer.css";
-import Payimg from '../Footer/pay.png'
+import './footer.css';
+import { FaPhoneAlt, FaEnvelope, FaSkype } from 'react-icons/fa';
+import { FaTwitter, FaFacebook, FaYoutube, FaInstagram } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
-function footer() {
+const Footer = () => {
   return (
-    <div className="ft">
-        <div className="footer-links">
-        <div className="column">
-          <div>
-            <i className="fab fa-whatsapp"></i>
-            <span> WhatsApp</span>
-            <p>+94 770085670</p>
-          </div>
-          <h4>FUELTIX Card</h4>
-          <ul>
-            <li><a href="/buy">Buy Now</a></li>
-            <li><a href="/ourteam">Our Team</a></li>
-            <li><a href="/card">Custom Card</a></li>
-            <li><a href="/review">Review</a></li>
-          </ul>
-        </div>
-        <div className="column">
-          <div>
-            <i className="fas fa-phone"></i>
-            <span> Call us</span>
-            <p>+94 770085670</p>
-          </div>
-          <h4>Help & Support</h4>
-          <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-        <div className="column">
-          <div>
-            <i className="fas fa-envelope"></i>
-            <span> Mail us</span>
-            <p>fueltixsl@gmail.com</p>
-          </div>
-          <h4>Social Media</h4>
-          <ul className="social-icons">
-          <li>
-    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-      <i className="fab fa-facebook"></i>
-    </a>
-  </li>
-  <li>
-    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-      <i className="fab fa-instagram"></i>
-    </a>
-  </li>
-  <li>
-    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-      <i className="fab fa-twitter"></i>
-    </a>
-  </li>
-  <li>
-    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-      <i className="fab fa-linkedin"></i>
-    </a>
-  </li>
-          </ul>
-        </div>
-      </div>
+    <footer className="footer">
+      <div className="footer-container">
+        {/* Top Section */}
+        <div className="footer-top">
+          {/* Logo Section */}
+          <div className="footer-logo-section">
+            <h1 className="footer-brand">Fueltrix</h1>
+            <p className="footer-tagline">
+              Overall client rating is 4.9 out<br /> of 10,000 Clients for Fueltrix.
+            </p>
+            <div className="social-icons">
+              <a href="#" className="social-icon"><FaTwitter /></a>
+              <a href="#" className="social-icon"><FaFacebook /></a>
+              <a href="#" className="social-icon"><FaYoutube /></a>
+              <a href="#" className="social-icon"><FaInstagram /></a>
+            </div>
+            <button className="brochure-btn">
+            <Link to="/contact" style={{ color: 'inherit', textDecoration: 'none' }}>
+              Contact Us
+            </Link>
+          </button>       
+             </div>
 
-      <div className="footer-payment">
-        <img src={Payimg} alt="Payment Methods" />
-      </div>
+          {/* For Work Inquiry Section */}
+          <div className="footer-section">
+            <h3 className="section-title">For Work Inquiry</h3>
+            <ul className="contact-list">
+              <li><FaPhoneAlt className="icon" /> +94 76 941 7154</li>
+              <li><FaPhoneAlt className="icon" /> +94 77 008 5670</li>
+              <li><FaEnvelope className="icon" /> career@fueltrix.lk</li>
+              <li><FaEnvelope className="icon" /> info@fueltrix.lk</li>
+              <li><FaSkype className="icon" /> fueltrix-skype</li>
+            </ul>
+          </div>
 
-      <div className="footer-bottom">
-        <p>© 2024 FUELTIX | Powered by FUELTIX IT</p>
+          {/* Company Section */}
+          <div className="footer-section">
+            <h3 className="section-title">Company</h3>
+            <ul className="link-list">
+              <li>About Us</li>
+              <li>Portfolio</li>
+              <li>Blog</li>
+              <li>Contact Us</li>
+              <li>FAQs</li>
+              <li>Privacy & Policy</li>
+            </ul>
+          </div>
+
+          {/* Services Section */}
+          <div className="footer-section">
+            <h3 className="section-title">Services</h3>
+            <ul className="link-list">
+            <li>Real-Time Fuel Delivery Tracking</li>
+              <li>Fuel Inventory Management System</li>
+              <li>Mobile App for Fuel Station Monitoring</li>
+              <li>Advanced Analytics for Fuel Operations</li>
+              <li>Fuel Theft Detection and Alerts</li>
+              <li>Custom Reports for Fuel Usage</li>
+            </ul>
+          </div>
+
+          {/* Industries Section */}
+
+          <div className="footer-section">
+          <div className="corner-section">
+
+            <h3 className="section-title">Industries</h3>
+            <ul className="link-list">
+            <li>Transportation</li>
+              <li>Construction</li>
+              <li>Manufacturing</li>
+              <li>Logistics</li>
+              <li>Oil & Gas</li>
+              <li>Agriculture</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="footer-bottom">
+          <p>We actively prevent unauthorized use and piracy of our content.</p>
+          <p className="copyright">
+          <p>Copyright © 2024 Fueltrix. All rights reserved. | Designed and Developed by Fueltrix IT (Pvt) Ltd</p>
+          </p>
+        </div>
       </div>
-    </div>
+    </footer>
   );
-}
+};
 
-export default footer;
+export default Footer;

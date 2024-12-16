@@ -1,35 +1,104 @@
 .navbar {
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #041228;
-    color: white;
-  }
-  .row{
-    display: flex;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #041228;
+  color: white;
+  z-index: 10;
+}
+
+.row {
+  display: flex;
+  align-items: center;
   list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.row li {
+  margin-left: 3.5rem;
+}
+
+.row li a {
+  padding: 0.5rem 0; /* Adjust this value to move the links up/down */
+  line-height: 2.2;
+  color: white;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 45px; /* Adjust the size of the logo and login images */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the images fit their container */
+}
+
+.login-img {
+  width: 30px; /* Adjust the size of the login image */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the images fit their container */
+}
+
+.log a img,
+.login a img {
+  vertical-align: middle; /* Vertically align the images within the list */
+}
+
+/* Hide items for mobile */
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .navbar {
+    border-radius: 10px;
   }
-  .row li{
-    margin-left: 3.5rem;
+
+  .row {
+    justify-content: space-between;
+    width: 100%;
   }
-  .row li a{
-    padding: 0.5rem 0;   /* Adjust this value to move the links up/down */
-    line-height: 2.2;
+
+  .desktop-only {
+    display: none;
   }
-  .logo-img {
-    width: 45px; /* Adjust the size of the logo and login images */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensure the images fit their container */
+
+  .mobile-only {
+    display: block;
   }
-  .login-img {
-    width: 30px; /* Adjust the size of the logo and login images */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensure the images fit their container */
+
+  .mobile-menu {
+    position: absolute;
+    top: 70px; /* Adjust based on your navbar height */
+    right: 0;
+    width: 100%;
+    background-color: #041228;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
   }
-  
-  .log a img, .login a img {
-    vertical-align: middle; /* Vertically align the images within the list */
+
+  .mobile-menu ul {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
- 
+
+  .mobile-menu ul li {
+    margin: 1rem 0;
+  }
+
+  .mobile-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+}

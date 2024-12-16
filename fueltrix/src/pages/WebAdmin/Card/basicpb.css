@@ -124,7 +124,7 @@ html, body {
     outline: none; /* Ensures no default outline */
   }
 
-  .sign {
+  .signnn {
     width: 70%; /* Full-width button */
     padding: 8px; /* Increased padding for larger button */
     font-size: 1rem;
@@ -260,3 +260,60 @@ html, body {
 }
 
 
+@media (max-width: 768px) {
+  /* Adjusting the container for mobile view */
+  .twcp {
+    flex-direction: column; /* Stack the columns vertically on smaller screens */
+    padding: 10px; /* Add some padding to the container */
+  }
+
+  .leftpb, .rightpb {
+    flex: none; /* Prevent the columns from taking equal space */
+    width: 100%; /* Make each column take full width */
+    padding: 20px;
+  }
+
+  /* Ensure the input fields are full width on mobile */
+  .email-input, .password-input {
+    width: 100% !important;
+    padding: 8px;
+  }
+
+  .signnn, .successful {
+    width: 100%; /* Make buttons full width on mobile */
+    margin-left: 0px;
+  }
+
+  .benefit-grid {
+    grid-template-columns: 1fr; /* Stack the benefits vertically on mobile */
+    gap: 15px;
+  }
+
+  /* Adjust the size of text and buttons for mobile */
+  .benefit-title {
+    font-size: 1.5rem;
+  }
+
+  .benefit-item h3 {
+    font-size: 1.1rem;
+  }
+
+  .price h3 {
+    font-size: 24px;
+  }
+
+  .installment-option {
+    font-size: 14px;
+  }
+  .pby {
+    margin-left: 0px;
+    text-align: center;
+  }
+
+  .rightpb {
+    margin-left:-15px;
+    padding: 0px; /* Optional padding to create space around the content */
+}
+
+
+}

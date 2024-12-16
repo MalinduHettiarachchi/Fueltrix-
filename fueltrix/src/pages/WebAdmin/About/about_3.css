@@ -1,0 +1,76 @@
+.who-we-are {
+    padding: 2rem;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin-top: 3rem;
+  }
+  
+  .who-we-are h2 {
+    font-size: 36px; /* Increase font size for emphasis */
+    font-weight: 700; /* Use a bolder weight */
+    margin-bottom: 20px;
+    text-align: center; /* Center the heading for better focus */
+    font-family: 'Poppins', sans-serif; /* Modern and elegant font */
+    background: linear-gradient(90deg, #f0f0f1, #041228 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; /* Gradient text effect */
+    line-height: 1.2; /* Slightly adjust line spacing */
+    margin-bottom: 4rem;
+  }
+  
+  
+  .info-table {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping */
+    margin-bottom: 5rem;
+
+  }
+  
+  .info-card {
+    flex: 1 1 calc(33.33% - 20px); /* Three cards per row by default */
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-card h3 {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #041228;
+  }
+  
+  .info-card p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .icon-about {
+    font-size: 60px;
+    color: #041228;
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .info-table {
+      flex-direction: column; /* Stack cards vertically */
+      align-items: center;
+    }
+  
+    .info-card {
+      flex: 1 1 100%; /* Full width for each card */
+      margin-bottom: 20px; /* Add spacing between cards */
+    }
+
+    .who-we-are h2 {
+        font-size: 26px; /* Increase font size for emphasis */
+      }
+  }
+  

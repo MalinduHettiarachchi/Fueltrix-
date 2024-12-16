@@ -1,156 +1,242 @@
-/* General reset */
-.two-column-container {
+/* General reset and layout */
+.two-column-container-login {
   display: flex;
   height: 100vh; /* Full height of the viewport */
   font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+
 }
+
 
 .leftc, .rightc {
-  flex: 1; /* Both columns will take up equal space */
+  flex: 1; /* Both columns take up equal space */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 .leftc {
-  background-color: #ffffff; /* Light background for left column */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #ffffff; /* Light background */
 }
+
 .left-image {
-  width: 100vh;
-    height: auto; /* Maintain aspect ratio */
+  max-width: 80%;
+  height: auto; /* Maintain aspect ratio */
 }
+
 .rightc {
-  background-color: #ffffff; /* Dark background for right column */
+  background-color: #ffffff;
   color: #041228;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; /* Align content to the left */
+  align-items: flex-start; /* Align content left */
 }
 
-.login {
-  margin-left: 100px;
-  font-size: 2.5rem; /* Larger font for 'Login' */
+.loginnn {
+  font-size: 2.5rem;
+  font-weight: bold;
   margin-bottom: 10px;
+  margin-left: 100px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
 .loginun {
-  margin-left: 100px;
   font-size: 1.1rem;
   margin-bottom: 30px;
   color: rgb(100, 100, 100);
-  
+  margin-left: 100px;
+
 }
 
 .form-group {
   margin-bottom: 20px;
-  width: 100%; /* Ensure full-width form elements */
-  
-}
-.email-input::placeholder,.password-input::placeholder{
-  color: rgb(100, 100, 100);
-}
-
-.email-label {
-  color: #041228;
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 5px;
-  margin-left: 100px;
-}
-.password-label{
-  color: #041228;
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 5px;
-  margin-left: 100px;
+  width: 100%;
 }
 
 .email-input, .password-input {
-  width: 70% !important;
-  padding: 8px !important;
+  width: 70%;
+  padding: 12px;
   font-size: 1rem;
-  border-radius: 25px !important;
-  border: none !important;
-  box-shadow: 0 0 0.5px 1px #041228; /* White outline */
+  border-radius: 25px;
+  border: 1px solid #ccc;
   outline: none;
   background-color: #ffffff;
   color: #041228;
-  box-sizing: border-box;
 }
 
-/* White outline when focused */
 .email-input:focus, .password-input:focus {
-  box-shadow: 0 0 0.5px 1px r#041228; /* White outline */
-  outline: none; /* Ensures no default outline */
+  border-color: #041228; /* Highlight on focus */
+  box-shadow: 0 0 5px rgba(4, 18, 40, 0.5); /* Subtle shadow */
 }
-
-
-.dont {
-  align-self:flex-end;
-  font-size: 0.9rem;
-  color: #041228;
-  margin-top: 10px;
-  margin-right: 100px;
-  cursor: pointer;
-}
-.dont:hover{
-  text-decoration: underline;
-}
-
 
 .sign-in {
-  width: 70%; 
-  padding: 8px; 
+  width: 70%;
+  padding: 10px;
   font-size: 1rem;
   background-color: #041228;
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   border: none;
   border-radius: 25px;
-  margin-left: 100px;
   margin-top: 20px;
   cursor: pointer;
+  margin-left: 120px;
+}
+
+.sign-in:hover {
+  background-color: #062945; /* Darker blue on hover */
 }
 
 .buyn {
-  margin-left: 100px;
   font-size: 0.9rem;
   margin-top: 20px;
   color: #041228;
-  
-  
+  margin-left: 120px;
+
 }
 
 .buyn span {
   color: #041228;
-  cursor: pointer;
   font-weight: 600;
+  cursor: pointer;
 }
-.buyn span:hover{
+
+.buyn span:hover {
   text-decoration: underline;
 }
 
 .lback-button {
   position: absolute;
-  display: flex;
   top: 10px;
   left: 10px;
   border: none;
   border-radius: 5px;
-  padding: 25px 20px;
+  padding: 10px 15px;
   cursor: pointer;
   font-size: 16px;
   color: #041228;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
 .lback-image {
   width: 24px;
   height: auto;
 }
 
-.lback-button:hover {
-  font-weight: 600;
+.email-label-login{
+  margin-left: 6rem;
+  padding: 0.5rem;
+}
+
+.password-label-login{
+  margin-left: 6rem;
+  padding: 0.5rem;
+
+
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .two-column-container-login {
+    flex-direction: column;
+  }
+
+  .leftc, .rightc {
+    flex: none;
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .left-image {
+    max-width: 60%;
+    height: auto;
+  }
+
+  .login {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .loginun {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .email-input, .password-input {
+    width: 90%; /* Full width on smaller screens */
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .sign-in {
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .buyn {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .lback-button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .lback-image {
+    width: 20px;
+  }
+  .buyn {
+    margin-left:0px;
+  
+  }
+  .loginun{
+    margin-left: 0px;
+  }
+
+  .loginnn {
+    font-size: 2rem;
+    margin-left: 0px;
+  }
+
+  .email-label-login, .password-label-login{
+    text-align: center;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login {
+    font-size: 1.8rem;
+  }
+
+  .loginun {
+    font-size: 0.9rem;
+  }
+
+  .email-input, .password-input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+
+  .sign-in {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .buyn {
+    font-size: 0.85rem;
+  }
+
+  .email-label-login, .password-label-login{
+    text-align: center;
+    margin-left: 0px;
+  }
 }

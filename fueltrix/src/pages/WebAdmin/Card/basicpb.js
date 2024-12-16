@@ -110,7 +110,7 @@ function Basicpb() {
             />
           </div>
           <p className="package">Package : Basic</p>
-          <button className="sign" onClick={handleSubmit}>
+          <button className="signnn" onClick={handleSubmit}>
             SUBMIT
           </button>
 

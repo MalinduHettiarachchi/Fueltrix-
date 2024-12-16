@@ -114,7 +114,7 @@ export default function Basicpp() {
             />
           </div>
           <p className="package">Package: Premium</p>
-          <button className="sign" onClick={handleSubmit}>
+          <button className="signnn" onClick={handleSubmit}>
             SUBMIT
           </button>
 

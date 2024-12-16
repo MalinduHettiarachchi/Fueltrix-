@@ -94,3 +94,72 @@
     color: #fff;
   }
   
+
+  /* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .ccontact {
+    flex-direction: column;
+    padding: 20px;
+    height: auto; /* Allow height to adjust dynamically for mobile */
+  }
+
+  .contact-info {
+    width: 100%;
+    text-align: center; /* Center-align content for better readability */
+    margin-bottom: 20px;
+  }
+
+  .contact-info h2 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .contact-info p {
+    font-size: 14px;
+  }
+
+  .social-icons {
+    display: flex;
+    justify-content: center; /* Center social icons on mobile */
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .social-icons i {
+    font-size: 18px;
+    margin: 5px;
+  }
+
+  .contactform {
+    width: 100%;
+    text-align: center; /* Center the form */
+    margin-top: 0;
+  }
+
+  .contactform form {
+    width: 100%; /* Allow the form to take full width */
+    max-width: 400px; /* Set a max width for better appearance */
+    margin: 0 auto; /* Center the form */
+  }
+
+  .contactform input,
+  .contactform textarea,
+  .contactform button {
+    width: 100%; /* Adjust inputs to full width */
+    font-size: 14px; /* Reduce font size for smaller screens */
+    padding: 12px;
+  }
+
+  .contactform textarea {
+    height: 100px; /* Adjust height for better usability on mobile */
+  }
+
+  .contactform button {
+    font-size: 14px; /* Adjust button font size */
+    padding: 12px;
+  }
+
+  .error-message {
+    font-size: 14px; /* Smaller error message font size */
+  }
+}
