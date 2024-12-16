@@ -29,6 +29,7 @@ function Dashboard() {
   const [vehicleCount, setVehicleCount] = useState(0); // For vehicle count
   const [driverCount, setDriverCount] = useState(0); // For driver count
   const [pumpData, setPumpData] = useState([]);
+  const [fuelPrices, setFuelPrices] = useState([]); // State to store fuel prices
 
 
   useEffect(() => {
@@ -329,6 +330,117 @@ function Dashboard() {
     </div>
   );
 
+  const PaymentDetails = () => {
+  const [pumpData, setPumpData] = useState([]);
+  const [fuelPrices, setFuelPrices] = useState([]);
+  const [calculatedPayments, setCalculatedPayments] = useState([]);
+
+  useEffect(() => {
+    const fetchPumpData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/pump-collection?company=${managerDetails.company}`
+        );
+        setPumpData(response.data);
+      } catch (error) {
+        console.error("Error fetching pump collection data:", error);
+      }
+    };
+
+    const fetchFuelPrices = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/fuel-prices");
+        setFuelPrices(response.data);
+      } catch (error) {
+        console.error("Error fetching fuel prices:", error);
+      }
+    };
+
+    if (managerDetails?.company) {
+      fetchPumpData();
+      fetchFuelPrices();
+    }
+  }, [managerDetails]);
+
+  useEffect(() => {
+    // Calculate payment as soon as pumpData and fuelPrices are loaded
+    const calculatePayments = () => {
+      const payments = pumpData.map((pump) => {
+        const matchingPrice = fuelPrices.find(
+          (price) =>
+            price.fuelType === pump.fuelType && price.shedType === pump.shedType
+        );
+
+        if (matchingPrice) {
+          // Calculate payment based on fuel price and pumped volume
+          const payment = matchingPrice.price * pump.fuelPumped;
+          return { ...pump, payment };
+        } else {
+          return { ...pump, payment: "Price not found" };
+        }
+      });
+      setCalculatedPayments(payments);
+    };
+
+    if (pumpData.length > 0 && fuelPrices.length > 0) {
+      calculatePayments();
+    }
+  }, [pumpData, fuelPrices]); // Re-run calculation when data changes
+
+  return (
+    <div className="pump-collection">
+  <table>
+    <thead>
+      <tr>
+        <th>Vehicle Number</th>
+        <th>Shed Type</th>
+        <th>Fuel Type</th>
+        <th>Pumped Volume</th>
+        <th>Unit Price (LKR)</th>
+        <th>Payment (LKR)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {calculatedPayments.map((pump, index) => {
+        // Find the corresponding price for the fuel type and shed type
+        const matchingPrice = fuelPrices.find(
+          (price) =>
+            price.fuelType === pump.fuelType && price.shedType === pump.shedType
+        );
+
+        return (
+          <tr key={index}>
+            <td>{pump.vehicleCode}</td>
+            <td>{pump.shedType}</td>
+            <td>{pump.fuelType}</td>
+            <td>{pump.fuelPumped}</td>
+            <td>{matchingPrice ? matchingPrice.price : "N/A"}.00</td> {/* Unit Price */}
+            <td>{pump.payment}.00</td> {/* Payment */}
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+  );
+};
+
+  useEffect(() => {
+    if (activeComponent === "Settings") {
+      const fetchFuelPrices = async () => {
+        try {
+          const response = await axios.get("http://localhost:5000/api/fuel-prices"); // Fetch all fuel prices
+          setFuelPrices(response.data); // Update state with fetched data
+        } catch (error) {
+          console.error("Error fetching fuel prices:", error);
+        }
+      };
+  
+      fetchFuelPrices();
+    }
+  }, [activeComponent]); // Fetch data when activeComponent is "Settings"
+
   const handleApproveRequest = async (request) => {
     if (!request) {
       alert("Please select a request to approve.");
@@ -523,48 +635,12 @@ function Dashboard() {
           return (
             <div className="content-container">
               <h2>Pump Collection Data</h2>
-              <div className="pump-collection">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Pump ID</th>
-                      <th>Fuel Type</th>
-                      <th>Collected Amount ($)</th>
-                      <th>Collection Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pumpData.map((pump) => (
-                      <tr key={pump.id}>
-                        <td>{pump.pumpId}</td>
-                        <td>{pump.fuelType}</td>
-                        <td>{pump.collectedAmount}</td>
-                        <td>{new Date(pump.collectionDate).toLocaleDateString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <PaymentDetails/>
             </div>
           );        
       case "Settings":
         return (
           <div className="contentset">
-            <h2>Update Your Account</h2>
-            <div className="account">
-              <p className="setname">Company Name</p>
-              <div className="set-group">
-                <input type="text" className="setname-input" />
-              </div>
-              <p className="setemail">Email</p>
-              <div className="set-group">
-                <input type="text" className="setemail-input" />
-              </div>
-              <p className="setpack">Your Package</p>
-              <div className="set-group">
-                <input type="text" className="setpack-input" />
-              </div>
-            </div>
           </div>
         );
       default:
@@ -628,4 +704,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Dashboard; 
