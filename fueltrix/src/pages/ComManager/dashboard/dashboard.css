@@ -456,3 +456,31 @@
   font-weight: bold;
   color: #fff;
 }
+
+.pump-collection table {
+  width: 80%;
+  border-collapse: collapse;
+}
+
+.pump-collection th,
+.pump-collection td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #041228;
+}
+
+.pump-collection th {
+  background-color: #041228;
+  color: #fff;
+}
+
+.pump-collection td {
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.pump-collection tr:hover {
+  font-weight: 600;
+  cursor: pointer;
+}
+
