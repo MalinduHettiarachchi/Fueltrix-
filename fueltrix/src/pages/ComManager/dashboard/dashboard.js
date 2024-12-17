@@ -6,11 +6,10 @@ import "../dashboard/dashboard.css";
 import Ihome from "../dashboard/home.png";
 import Idriver from "../dashboard/driver.png";
 import Irequest from "../dashboard/request.png";
-import Isetting from "../dashboard/setting.png";
+import Isetting from "../dashboard/logout.png";
 import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
 import axios from "axios";
-import PumpFuelChart from "./PumpFuelChart";
 import SessionChartp from "./SessionChartpetrol";
 import SessionChartd from "./SessionChartdiesel";
 import Modal from "../dashboard/payment";
@@ -156,12 +155,7 @@ function Dashboard() {
             <strong>Requested Volume (L):</strong>{" "}
             {selectedVehicle.requestedVolume}
           </p>
-          <button
-            onClick={() => setSelectedVehicle(null)}
-            className="vremovebutton"
-          >
-            Remove Vehicle
-          </button>
+          
         </div>
       ) : (
         <p>Select a vehicle to view details</p>
@@ -228,12 +222,7 @@ function Dashboard() {
           <p>
             <strong></strong> {selectedDriver.contact}
           </p>
-          <button
-            onClick={() => setSelectedDriver(null)}
-            className="dremovebutton"
-          >
-            Remove Driver
-          </button>
+          
         </div>
       ) : (
         <p>Select a driver to view details</p>
@@ -299,8 +288,7 @@ function Dashboard() {
             <strong>Request Volume (L):</strong> {selectedRequest.requestVolume}
           </p>
           <p>
-            <strong>Vehicle Number:</strong>{" "}
-            {selectedRequest.registrationNumber}
+            <strong>Vehicle Number:</strong> {selectedRequest.registrationNumber}
           </p>
           <p>
             <strong>Email:</strong> {selectedRequest.email}
@@ -309,29 +297,34 @@ function Dashboard() {
             <strong>Reason:</strong> {selectedRequest.reason}
           </p>
           <p>
-            <strong>Requested At:</strong>{" "}
-            {new Date(selectedRequest.requestedAt).toLocaleString()}
+            <strong>Status:</strong> {selectedRequest.approvedStatus}
           </p>
-          <div className="request-buttons">
-            <button
-              className="approvebtn"
-              onClick={() => handleApproveRequest(selectedRequest)}
-            >
-              Approve
-            </button>
-            <button
-              className="rejectbtn"
-              onClick={() => handleCancelRequest(selectedRequest)}
-            >
-              Reject
-            </button>
-          </div>
+          
+          {/* Conditionally render buttons */}
+          {selectedRequest.approvedStatus !== "approved" &&
+          selectedRequest.approvedStatus !== "rejected" ? (
+            <div className="request-buttons">
+              <button
+                className="approvebtn"
+                onClick={() => handleApproveRequest(selectedRequest)}
+              >
+                Approve
+              </button>
+              <button
+                className="rejectbtn"
+                onClick={() => handleCancelRequest(selectedRequest)}
+              >
+                Reject
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : (
         <p>Select a request to Approve or Reject</p>
       )}
     </div>
   );
+  
 
   const PaymentDetails = () => {
     const [pumpData, setPumpData] = useState([]);
@@ -682,6 +675,15 @@ function Dashboard() {
     }
   };
 
+  const handleSetActiveComponent = (component) => {
+    if (component === "Log Out") {
+      navigate("/fueltrix"); // Redirect to '/fueltrix'
+    } else {
+      setActiveComponent(component); // Set the active component for other items
+    }
+  };
+
+
   return (
     <div>
       <Navbar />
@@ -722,9 +724,10 @@ function Dashboard() {
             </p>
             <p
               className="dsetting"
-              onClick={() => setActiveComponent("Settings")}
+              onClick={() => handleSetActiveComponent("Log Out")}
             >
               <img src={Isetting} alt="Setting Icon" className="icon" />
+              Log Out
             </p>
           </div>
         </div>
