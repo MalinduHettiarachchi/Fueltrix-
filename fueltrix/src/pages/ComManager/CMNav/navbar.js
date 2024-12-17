@@ -24,11 +24,12 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul className="row">
-        <li className="log">
-          <Link to="/dashboard">
-            <img src={logoImage} alt="Logo" className="logo-img" />
-          </Link>
-        </li>
+      <li className="log">
+  <a href="/dashboard">
+    <img src={logoImage} alt="Logo" className="logo-img" />
+  </a>
+</li>
+
          
         {managerDetails && <li className="manager-name">{managerDetails.company}</li>}
         <li className='login'>
