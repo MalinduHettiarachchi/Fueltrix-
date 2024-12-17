@@ -1059,6 +1059,33 @@ app.get('/api/pump-collection', async (req, res) => {
 });
 
 
+app.post("/send-email", (req, res) => {
+  const { companyName, totalPrice, userEmail } = req.body;
+
+  // Setup email data
+  const mailOptions = {
+    from: "fueltrixteam@gmail.com",
+    to: userEmail, // Recipient email
+    subject: `Payment Details from ${companyName}`,
+    text: `Hello,
+
+Your payment details are as follows:
+
+Total Price: LKR ${totalPrice}.00
+
+Thank you for using our service.`,
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).json({ message: "Failed to send email.", error });
+    }
+    res.status(200).json({ message: "Email sent successfully!", info });
+  });
+});
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
