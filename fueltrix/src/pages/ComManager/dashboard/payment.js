@@ -5,6 +5,7 @@ import "./payment.css";
 const Modal = ({ show, totalPayment, company, onClose }) => {
   const [selectedMethod, setSelectedMethod] = useState("Visa");
   const [email, setEmail] = useState(""); // State for email input
+  const [paymentSuccess, setPaymentSuccess] = useState(false); // State to track payment success
 
   const handleOutsideClick = (e) => {
     if (e.target.classList.contains("pay-overlay")) {
@@ -26,11 +27,15 @@ const Modal = ({ show, totalPayment, company, onClose }) => {
         userEmail: email,
       });
 
-      alert("OTP sent to your email.");
-      console.log(response.data.message);
+      // If OTP sent successfully, show payment success message
+      if (response.status === 200) {
+        alert("Sent to your email.");
+        setPaymentSuccess(true);
+        console.log(response.data.message);
+      }
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send OTP. Please try again.");
+      alert("Failed to send email. Please try again.");
     }
   };
 
@@ -97,9 +102,17 @@ const Modal = ({ show, totalPayment, company, onClose }) => {
                 />
               </label>
               <button className="send-otp-btn" onClick={sendOtp}>
-                Send OTP
+                Pay
               </button>
             </div>
+
+            {/* Show payment success message */}
+            {paymentSuccess && (
+              <div className="payment-success">
+                <h3>Payment Successful!</h3>
+                <p>Your payment has been successfully processed.</p>
+              </div>
+            )}
           </div>
         )}
       </div>

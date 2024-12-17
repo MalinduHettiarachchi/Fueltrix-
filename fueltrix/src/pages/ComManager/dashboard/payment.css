@@ -129,6 +129,25 @@
     color: #041228;
   }
   
+  .payment-success {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #dff0d8;
+    border: 1px solid #3c763d;
+    color: #3c763d;
+    border-radius: 4px;
+  }
+  
+  .payment-success h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .payment-success p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
 
   
   
