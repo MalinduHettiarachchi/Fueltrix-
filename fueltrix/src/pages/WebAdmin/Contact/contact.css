@@ -163,3 +163,34 @@
     font-size: 14px; /* Smaller error message font size */
   }
 }
+
+
+
+.error-message {
+  color: #ff4d4f; /* Red color for errors */
+  background-color: #ffecec; /* Light red background */
+  border: 1px solid #ff4d4f;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 10px auto; /* Center the error container */
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 500px; /* Max width set to 500px */
+  width: 100%; /* Ensures responsiveness */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+  margin-left: 0px;
+}
+
+/* Optional: Smooth fade-in animation for the error message */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
