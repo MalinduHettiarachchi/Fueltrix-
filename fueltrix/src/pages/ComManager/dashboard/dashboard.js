@@ -13,7 +13,6 @@ import axios from "axios";
 import PumpFuelChart from "./PumpFuelChart";
 import SessionChartp from "./SessionChartpetrol";
 import SessionChartd from "./SessionChartdiesel";
-import Modal from "../dashboard/payment";
 
 function Dashboard() {
   const location = useLocation();
@@ -31,8 +30,6 @@ function Dashboard() {
   const [driverCount, setDriverCount] = useState(0); // For driver count
   const [pumpData, setPumpData] = useState([]);
   const [fuelPrices, setFuelPrices] = useState([]); // State to store fuel prices
-  const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState({ totalPayment: 0, company: '' });
 
 
   useEffect(() => {
@@ -334,132 +331,100 @@ function Dashboard() {
   );
 
   const PaymentDetails = () => {
-    const [pumpData, setPumpData] = useState([]);
-    const [fuelPrices, setFuelPrices] = useState([]);
-    const [calculatedPayments, setCalculatedPayments] = useState([]);
-  
-    useEffect(() => {
-      const fetchPumpData = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:5000/api/pump-collection?company=${managerDetails.company}`
-          );
-          setPumpData(response.data);
-        } catch (error) {
-          console.error("Error fetching pump collection data:", error);
-        }
-      };
-  
-      const fetchFuelPrices = async () => {
-        try {
-          const response = await axios.get("http://localhost:5000/api/fuel-prices");
-          setFuelPrices(response.data);
-        } catch (error) {
-          console.error("Error fetching fuel prices:", error);
-        }
-      };
-  
-      if (managerDetails?.company) {
-        fetchPumpData();
-        fetchFuelPrices();
-      }
-    }, [managerDetails]);
-  
-    useEffect(() => {
-      const calculatePayments = () => {
-        const payments = pumpData.map((pump) => {
-          const matchingPrice = fuelPrices.find(
-            (price) =>
-              price.fuelType === pump.fuelType && price.shedType === pump.shedType
-          );
-  
-          if (matchingPrice) {
-            const payment = matchingPrice.price * pump.fuelPumped;
-            return { ...pump, payment };
-          } else {
-            return { ...pump, payment: "Price not found" };
-          }
-        });
-        setCalculatedPayments(payments);
-      };
-  
-      if (pumpData.length > 0 && fuelPrices.length > 0) {
-        calculatePayments();
-      }
-    }, [pumpData, fuelPrices]);
-  
-    // Calculate the total payment
-    const totalPayment = calculatedPayments.reduce((total, pump) => {
-      return total + (typeof pump.payment === "number" ? pump.payment : 0);
-    }, 0);
+  const [pumpData, setPumpData] = useState([]);
+  const [fuelPrices, setFuelPrices] = useState([]);
+  const [calculatedPayments, setCalculatedPayments] = useState([]);
 
-    const handlePayNow = () => {
-      // Pass the total payment and company name to the modal
-      setModalData({
-        totalPayment,
-        company: managerDetails?.company || 'Unknown Company'
+  useEffect(() => {
+    const fetchPumpData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/pump-collection?company=${managerDetails.company}`
+        );
+        setPumpData(response.data);
+      } catch (error) {
+        console.error("Error fetching pump collection data:", error);
+      }
+    };
+
+    const fetchFuelPrices = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/fuel-prices");
+        setFuelPrices(response.data);
+      } catch (error) {
+        console.error("Error fetching fuel prices:", error);
+      }
+    };
+
+    if (managerDetails?.company) {
+      fetchPumpData();
+      fetchFuelPrices();
+    }
+  }, [managerDetails]);
+
+  useEffect(() => {
+    // Calculate payment as soon as pumpData and fuelPrices are loaded
+    const calculatePayments = () => {
+      const payments = pumpData.map((pump) => {
+        const matchingPrice = fuelPrices.find(
+          (price) =>
+            price.fuelType === pump.fuelType && price.shedType === pump.shedType
+        );
+
+        if (matchingPrice) {
+          // Calculate payment based on fuel price and pumped volume
+          const payment = matchingPrice.price * pump.fuelPumped;
+          return { ...pump, payment };
+        } else {
+          return { ...pump, payment: "Price not found" };
+        }
       });
-      setShowModal(true);  // Show the modal when "Pay Now" is clicked
+      setCalculatedPayments(payments);
     };
-  
-    const handleCloseModal = () => {
-      setShowModal(false);  // Close the modal
-    };
-  
-    const handleConfirmPayment = () => {
-      alert('Payment Confirmed');
-      setShowModal(false);  // Close the modal after confirming
-    };
-  
-    return (
-      <div className="pump-collection">
-        <button className="paybut" onClick={handlePayNow}>Pay Now</button>
-        <h2>Total Payment: LKR {totalPayment}.00</h2> {/* Display total payment */}
 
-        <table>
-          <thead>
-            <tr>
-              <th>Vehicle Number</th>
-              <th>Driver</th>
-              <th>Shed Type</th>
-              <th>Fuel Type</th>
-              <th>Pumped Volume</th>
-              <th>Unit Price (LKR)</th>
-              <th>Payment (LKR)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {calculatedPayments.map((pump, index) => {
-              const matchingPrice = fuelPrices.find(
-                (price) =>
-                  price.fuelType === pump.fuelType && price.shedType === pump.shedType
-              );
-  
-              return (
-                <tr key={index}>
-                  <td>{pump.vehicleCode}</td>
-                  <td>{pump.assistantFirstName} {pump.assistantLastName}</td>
-                  <td>{pump.shedType}</td>
-                  <td>{pump.fuelType}</td>
-                  <td>{pump.fuelPumped}</td>
-                  <td>{matchingPrice ? matchingPrice.price : "N/A"}.00</td>
-                  <td>{pump.payment}.00</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <Modal 
-         show={showModal} 
-         onClose={handleCloseModal} 
-         onConfirm={handleConfirmPayment}
-         totalPayment={modalData.totalPayment}
-         company={modalData.company} 
-      /> 
-      </div>
-    );
-  };
-  
+    if (pumpData.length > 0 && fuelPrices.length > 0) {
+      calculatePayments();
+    }
+  }, [pumpData, fuelPrices]); // Re-run calculation when data changes
+
+  return (
+    <div className="pump-collection">
+  <table>
+    <thead>
+      <tr>
+        <th>Vehicle Number</th>
+        <th>Shed Type</th>
+        <th>Fuel Type</th>
+        <th>Pumped Volume</th>
+        <th>Unit Price (LKR)</th>
+        <th>Payment (LKR)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {calculatedPayments.map((pump, index) => {
+        // Find the corresponding price for the fuel type and shed type
+        const matchingPrice = fuelPrices.find(
+          (price) =>
+            price.fuelType === pump.fuelType && price.shedType === pump.shedType
+        );
+
+        return (
+          <tr key={index}>
+            <td>{pump.vehicleCode}</td>
+            <td>{pump.shedType}</td>
+            <td>{pump.fuelType}</td>
+            <td>{pump.fuelPumped}</td>
+            <td>{matchingPrice ? matchingPrice.price : "N/A"}.00</td> {/* Unit Price */}
+            <td>{pump.payment}.00</td> {/* Payment */}
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+  );
+};
 
   useEffect(() => {
     if (activeComponent === "Settings") {
@@ -669,6 +634,7 @@ function Dashboard() {
         case "Payment":
           return (
             <div className="content-container">
+              <h2>Pump Collection Data</h2>
               <PaymentDetails/>
             </div>
           );        
