@@ -1,0 +1,87 @@
+
+.pay-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .pay-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 700px;
+    height: 400px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .topictop {
+    display: flex;
+    justify-content: space-between; /* Align children elements horizontally */
+    align-items: center;
+  }
+  
+  .company-name,
+  .total-payment {
+    margin: 0;
+    font-size: 35px;
+    color: #041228;
+    font-weight: 600;
+    margin-top: -5px;
+  }
+
+  .paymethod{
+    color: #041228;
+    text-align: left;
+    margin-top: 15px;
+    font-size: 20px;
+  }
+  
+  .radio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  .radio-label input[type="radio"] {
+    appearance: none;
+    width: 10px; /* New size for radio button */
+    height: 10px;
+    border: 2px solid #b9c4d4; /* Border color for unchecked state */
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative; /* Allow positioning of inner dot */
+    cursor: pointer;
+  }
+  
+  .radio-label input[type="radio"]:checked {
+    border: 2px solid #041228; /* Outer border */
+  }
+  
+  .radio-label input[type="radio"]:checked::after {
+    content: "";
+    position: absolute; /* Centering the inner dot */
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    background-color: #041228; /* Inner dot color */
+    border-radius: 50%; /* Make it circular */
+    transform: translate(-50%, -50%); /* Perfectly center the dot */
+  }
+  
