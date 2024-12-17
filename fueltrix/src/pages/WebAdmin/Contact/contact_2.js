@@ -96,9 +96,6 @@ function contact_2() {
         </div>
       </div>
 
-      <div className="legal-disclaimer-container">
-        <p>© 2024 Fueltrix, Inc. All rights reserved.</p>
-      </div>
     </div>
   );
 };
