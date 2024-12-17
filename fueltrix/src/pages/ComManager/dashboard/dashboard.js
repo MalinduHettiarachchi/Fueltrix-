@@ -725,7 +725,6 @@ function Dashboard() {
               onClick={() => setActiveComponent("Settings")}
             >
               <img src={Isetting} alt="Setting Icon" className="icon" />
-              Settings
             </p>
           </div>
         </div>
