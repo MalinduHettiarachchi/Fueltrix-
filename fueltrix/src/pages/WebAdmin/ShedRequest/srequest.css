@@ -184,3 +184,66 @@
   background-color: #f8d7da; /* Light red background */
   border: 1px solid #f5c6cb; /* Border matching error theme */
 }
+
+
+/* General mobile styles */
+@media only screen and (max-width: 768px) {
+  .shrc {
+    flex-direction: column; /* Stack the left and right sections */
+    height: auto;
+    padding: 2rem;
+  }
+
+  .leftsr, .rightsr {
+    flex: unset; /* Reset flex properties */
+    width: 100%;
+    text-align: center; /* Center text on mobile */
+    margin-bottom: 20px;
+  }
+
+  .leftsr p {
+    font-size: 40px; /* Smaller font for mobile */
+  }
+
+  .shed-group {
+    width: 90%; /* Make inputs take more space */
+    margin: 10px auto;
+  }
+
+  .shednum, .shedname, .shedem, .shedloc, .shedtype {
+    margin-left: 0; /* Remove left margin for labels */
+    text-align: left;
+  }
+
+  .shednum-input, .shedname-input, .shedem-input, .shedloc-input, .pickup, .submitshed {
+    width: 100%; /* Full width inputs and buttons */
+  }
+
+  .map-container {
+    height: 300px; /* Reduce map size on mobile */
+  }
+
+  .done-button {
+    padding: 8px 20px; /* Adjust padding for smaller buttons */
+  }
+
+  .search-box {
+    width: 90%; /* Full width search box */
+    left: 5%; /* Center within 90% */
+    transform: none; /* Remove centering transformation */
+  }
+
+  .search-input {
+    width: 100%; /* Full width input */
+  }
+
+  .message-container {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .pickup, .submitshed {
+    margin-left: 0; /* Center buttons */
+    margin-top: 10px;
+  }
+}

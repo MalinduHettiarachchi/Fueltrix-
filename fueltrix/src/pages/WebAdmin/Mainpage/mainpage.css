@@ -1,7 +1,8 @@
 .mainpage {
-    height: 310vh; /* Full viewport height */
     display: flex;
     flex-direction: column;
+        background-color: #ffffff;
+
 }
 
 .twoclomn {
@@ -49,6 +50,8 @@
     margin-top: -80px;
 }
 .features-container {
+  margin-top: 100px;
+  margin-bottom: 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -87,5 +90,15 @@
   .feature-card p {
     font-size: 14px;
     color: #d1d5db; /* Slightly lighter gray for the card's description text */
+  }
+  
+
+  .feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   

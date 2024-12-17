@@ -50,3 +50,89 @@
     }
   }
   
+
+
+  .partners-container {
+    background-color: #ffffff;
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+  
+  .partners-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    font-weight: 500;
+    color: #041228;
+  }
+  
+  .partners-logos {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    animation: scrollLeft 15s linear infinite; /* Continuous leftward movement */
+  }
+  
+  .partner-card {
+    background-color: #041228;
+    border-radius: 15px;
+    padding: 20px;
+    width: 180px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Ensure cards do not shrink */
+  }
+  
+  .partner-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  /* Animation to scroll left and repeat seamlessly */
+  @keyframes scrollLeft {
+    0% {
+      transform: translateX(0); /* Start at the beginning */
+    }
+    100% {
+      transform: translateX(-100%); /* Move left by half the width (looped content) */
+    }
+  }
+  
+  /* Mobile responsiveness (adjust for screens smaller than 768px) */
+  @media (max-width: 768px) {
+    .partners-container {
+      padding: 20px; /* Reduce padding for mobile */
+    }
+  
+    .partners-logos {
+      gap: 20px; /* Reduce gap between logos */
+    }
+  
+    .partner-card {
+      width: 120px;  /* Smaller card width on mobile */
+      height: 60px;  /* Smaller card height on mobile */
+      padding: 10px; /* Reduce padding for mobile */
+    }
+  
+    .partners-container h2 {
+      font-size: 1.2rem;  /* Smaller heading font size on mobile */
+      margin-bottom: 20px;  /* Adjust margin for smaller screens */
+    }
+  
+    /* Adjust the animation speed for mobile */
+    @keyframes scrollLeft {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%); /* Same leftward movement */
+      }
+    }
+  }
+  
