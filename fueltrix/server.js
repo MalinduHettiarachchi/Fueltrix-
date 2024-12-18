@@ -5,6 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const axios = require('axios'); // Importing axios
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require("./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
@@ -1112,6 +1113,62 @@ app.get("/api/shed-types", async (req, res) => {
   } catch (error) {
     console.error("Error fetching shed types:", error);
     res.status(500).json({ message: "Failed to fetch shed types" });
+  }
+});
+
+
+// Google Maps API Key
+const googleMapsApiKey = 'AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI';  // Replace with your Google Maps API key
+
+
+// Function to get coordinates using Google Maps Geocoding API
+const getCoordinatesFromAddress = async (address) => {
+  const encodedAddress = encodeURIComponent(address); // URL encode the address
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${googleMapsApiKey}`;
+  try {
+    const response = await axios.get(url);
+    const data = response.data;
+
+    if (data.status === 'OK') {
+      const location = data.results[0].geometry.location;
+      return {
+        lat: location.lat,
+        lng: location.lng,
+      };
+    } else {
+      throw new Error('Geocoding API failed');
+    }
+  } catch (error) {
+    console.error('Error fetching coordinates:', error);
+    throw new Error('Unable to get coordinates');
+  }
+};
+
+// API to fetch all sheds
+// API to fetch all sheds
+app.get('/api/sheds', async (req, res) => {
+  try {
+    // Fetch the shed collection from Firestore
+    const shedsSnapshot = await db.collection('Shed').get();
+    const shedsList = shedsSnapshot.docs.map(doc => doc.data());
+
+    // Loop through the sheds, geocode the address, and prepare the data
+    const locations = [];
+    for (const shed of shedsList) {
+      const coordinates = await getCoordinatesFromAddress(shed.location);  // Convert location to coordinates
+      locations.push({
+        shedName: shed.shedName,
+        location: shed.location,
+        shedRegisterNumber: shed.shedRegisterNumber, // Include shedRegisterNumber in the response
+        approvedStatus: shed.Approved_status, // Add Approved_status
+        coordinates: coordinates,
+      });
+    }
+
+    res.json(locations);  // Send the data back to the frontend
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
