@@ -11,6 +11,10 @@ import styled from 'styled-components'; // styled-components for modern styling
 import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css'; 
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+
 import {
     Box,
     Typography,
@@ -57,7 +61,7 @@ const Sidebar = ({ onChangeView }) => {
             )}
 
             <ul className="webadmin-sidebar-menu">
-                <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
+                <li><a href="#" onClick={() => onChangeView('shedMap')}><i className="fas fa-gas-pump"></i> Fuel Station Details</a></li>                <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyRequests')}><i className="fas fa-building"></i> Company Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('registeredSheds')}><i className="fas fa-industry"></i> Registered Sheds</a></li>
                 <li><a href="#" onClick={() => onChangeView('registeredCompanies')}><i className="fas fa-building"></i> Registered Companies</a></li>
@@ -86,6 +90,9 @@ const Header = () => {
         </header>
     );
 };
+
+
+
 
 
 
@@ -947,6 +954,115 @@ const ContactUsFormManagement = () => {
   };
 
 
+
+  const ShedMap = () => {
+    const [shedRequests, setShedRequests] = useState([]);
+    const [approvedSheds, setApprovedSheds] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const center = { lat: 6.9271, lng: 79.8612 };
+
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: 'AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI',
+        libraries: ['places'],
+    });
+
+    const getCoordinatesFromAddress = async (address) => {
+        try {
+            const response = await axios.get(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI`
+            );
+            const location = response.data.results[0]?.geometry?.location || null;
+            console.log(`Geocoded Coordinates for "${address}":`, location);
+            return location;
+        } catch (error) {
+            console.error('Error getting coordinates:', error);
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const seenLocations = new Set();
+                const shedRequestsResponse = await axios.get('http://localhost:5000/shed-requests');
+                const processedShedRequests = await Promise.all(
+                    shedRequestsResponse.data.map(async (shed) => {
+                        if (shed.location && !seenLocations.has(shed.location)) {
+                            seenLocations.add(shed.location);
+                            const coordinates = await getCoordinatesFromAddress(shed.location);
+                            return { ...shed, coordinates };
+                        }
+                        return { ...shed, coordinates: null };
+                    })
+                );
+                setShedRequests(processedShedRequests);
+
+                const approvedShedsResponse = await axios.get('http://localhost:5000/approved-sheds');
+                const processedApprovedSheds = await Promise.all(
+                    approvedShedsResponse.data.map(async (shed) => {
+                        if (shed.location && !seenLocations.has(shed.location)) {
+                            seenLocations.add(shed.location);
+                            const coordinates = await getCoordinatesFromAddress(shed.location);
+                            return { ...shed, coordinates };
+                        }
+                        return { ...shed, coordinates: null };
+                    })
+                );
+                setApprovedSheds(processedApprovedSheds);
+
+                console.log('Shed Requests:', processedShedRequests);
+                console.log('Approved Sheds:', processedApprovedSheds);
+            } catch (error) {
+                console.error('Error fetching shed data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (!isLoaded || loading) return <div>Loading...</div>;
+
+    return (
+        <div><br />
+            <h1>Fuel Station Map</h1>
+            <GoogleMap
+                id="shed-map"
+                mapContainerStyle={{ width: '100%', height: '500px' }}
+                zoom={10}
+                center={center}
+            >
+                {shedRequests.map((shed, index) =>
+                    shed.coordinates ? (
+                        <Marker
+                            key={`shed-request-${index}`}
+                            position={shed.coordinates}
+                            title={`Shed Name: ${shed.shedName || 'N/A'}`}
+                            icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                        />
+                    ) : null
+                )}
+                {approvedSheds.map((shed, index) =>
+                    shed.coordinates ? (
+                        <Marker
+                            key={`approved-shed-${index}`}
+                            position={shed.coordinates}
+                            title={`Shed Name: ${shed.shedName || 'N/A'}`}
+                            icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                        />
+                    ) : null
+                )}
+            </GoogleMap>
+        </div>
+    );
+};
+
+
+
+
+
+
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('dashboard');
     const [stats, setStats] = useState({
@@ -992,6 +1108,8 @@ const Dashboard = () => {
                 return <FuelPriceManagement />;
             case 'contactUsFormManage': // New case
                 return <ContactUsFormManagement />;
+            case 'shedMap': // New case
+                return <ShedMap />;
             default:
                 return (
                     <section className="webadmin-stats">
