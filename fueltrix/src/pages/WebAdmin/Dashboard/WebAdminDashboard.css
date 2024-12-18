@@ -15,7 +15,6 @@ body {
 /* Sidebar Styling */
 .webadmin-sidebar {
     font-family: 'Times New Roman', Times, serif; /* Set font style */
-
     min-height: 100vh;
     width: 250px;
     background: linear-gradient(45deg, #07275b, #041228);
@@ -49,7 +48,7 @@ body {
 .webadmin-sidebar-menu a {
     color: white;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 13px;
     display: block;
     padding: 10px;
     border-radius: 5px;

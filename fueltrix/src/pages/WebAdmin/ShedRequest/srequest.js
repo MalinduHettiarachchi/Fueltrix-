@@ -32,8 +32,23 @@ function SRequest() {
   const [generatedKey, setGeneratedKey] = useState('');
   const [message, setMessage] = useState('');
   const [shedType, setShedType] = useState('');
+  const [shedTypes, setShedTypes] = useState([]); // State for fetched shed types
 
 
+
+  useEffect(() => {
+    const fetchShedTypes = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/shed-types");
+        setShedTypes(response.data); // Set the fetched shed types
+      } catch (error) {
+        console.error("Error fetching shed types:", error);
+      }
+    };
+    fetchShedTypes();
+  }, []);
+  
+  
 
   const handleMapClick = (event) => {
     const lat = event.latLng.lat();
@@ -62,6 +77,8 @@ function SRequest() {
     }
   }, [message]);
 
+
+  
 
   const handleSubmit = async () => {
     try {
@@ -180,18 +197,18 @@ function SRequest() {
             <p className="shedtype">Shed Type</p>
             <div className="shed-group">
             <select
-                className="shedem-input"
-                value={shedType}
-                onChange={(e) => setShedType(e.target.value)}
-              >
-                <option value="">Select Shed Type</option>
-                <option value="Ceypetco">Ceypetco</option>
-                <option value="IOC">IOC</option>
-                <option value="EPC">EPC Contractors</option>
-                <option value="Petrochemical">Petrochemical</option>
-                <option value="Sinopec">Sinopec</option>
+              className="shedem-input"
+              value={shedType}
+              onChange={(e) => setShedType(e.target.value)}
+            >
+              <option value="">Select Shed Type</option>
+              {shedTypes.map((type, index) => (
+                <option key={index} value={type}>
+                  {type} {/* Adjust this line if your data structure changes */}
+                </option>
+              ))}
+            </select>
 
-              </select>
 
             </div>
             <p className="shedloc">Location</p>
