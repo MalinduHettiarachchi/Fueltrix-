@@ -1085,6 +1085,54 @@ Thank you for using our service.`,
   });
 });
 
+app.delete("/api/vehicles/:registrationNumber", async (req, res) => {
+  const { registrationNumber } = req.params;
+
+  try {
+    // Find the vehicle document based on the registration number
+    const vehicleSnapshot = await db.collection("Vehicle")
+      .where("registrationNumber", "==", registrationNumber)
+      .get();
+
+    if (vehicleSnapshot.empty) {
+      return res.status(404).json({ message: "Vehicle not found." });
+    }
+
+    // Delete the vehicle document
+    const vehicleDoc = vehicleSnapshot.docs[0]; // Assuming unique registrationNumber
+    await vehicleDoc.ref.delete();
+
+    res.status(200).json({ message: "Vehicle removed successfully." });
+  } catch (error) {
+    console.error("Error removing vehicle:", error);
+    res.status(500).json({ message: "Failed to remove vehicle." });
+  }
+});
+
+app.delete('/api/drivers/:driverName', async (req, res) => {
+  const { driverName } = req.params;
+
+  try {
+    // Find the driver by name
+    const driverSnapshot = await db.collection('Driver')
+      .where('name', '==', driverName)
+      .get();
+
+    if (driverSnapshot.empty) {
+      return res.status(404).json({ message: 'Driver not found.' });
+    }
+
+    // Assuming there's only one driver with this name, delete it
+    driverSnapshot.forEach(async (doc) => {
+      await doc.ref.delete();
+    });
+
+    res.status(200).json({ message: 'Driver removed successfully.' });
+  } catch (error) {
+    console.error('Error removing driver:', error);
+    res.status(500).json({ message: 'Failed to remove driver.' });
+  }
+});
 
 
 
