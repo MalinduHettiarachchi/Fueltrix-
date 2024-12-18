@@ -13,7 +13,8 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'; 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip  } from 'react-leaflet';
+import { Icon } from 'leaflet';
 
 import {
     Box,
@@ -954,16 +955,105 @@ const ContactUsFormManagement = () => {
   };
 
 
-const ShedMap = () => {
- 
+  const ShedMap = () => {
+    const [shedData, setShedData] = useState([]);
+    const [location, setLocation] = useState(null);
+    const [hoveredShed, setHoveredShed] = useState(null); // To track the hovered shed
+  
+    useEffect(() => {
+      // Fetch all shed locations from the backend API
+      const fetchSheds = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/sheds');
+          setShedData(response.data);
+        } catch (error) {
+          console.error('Error fetching shed data:', error);
+        }
+      };
+  
+      fetchSheds();
+  
+      // Get user's current location (optional)
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        });
+      }
+    }, []);
+  
+    if (!shedData.length) return <div>Loading...</div>;
+  
+    // Icon for regular marker
+    const defaultIcon = new Icon({
+      iconUrl: 'https://www.freeiconspng.com/thumbs/location-icon-png/location-map-pins-png-3.png',
+      iconSize: [25, 25],
+    });
+  
+    // Icon for hovered marker (change this icon as desired)
+    const hoverIcon = new Icon({
+      iconUrl: 'https://img.icons8.com/ios/50/000000/marker.png', // You can use a different icon here
+      iconSize: [30, 30], // Change size or icon for hover
+    });
+  
+    // Icon for approved shed (green)
+    const approvedIcon = new Icon({
+      iconUrl: 'https://www.freeiconspng.com/uploads/green-location-icons-17.png', // Green marker for approved
+      iconSize: [25, 25],
+    });
+  
+    // Icon for unapproved shed (red)
+    const unapprovedIcon = new Icon({
+      iconUrl: 'https://www.freeiconspng.com/uploads/red-location-icon-map-png-4.png', // Red marker for unapproved
+      iconSize: [25, 25],
+    });
+  
+    return (
+      <div><br/>
+        <MapContainer
+  center={[7.8731, 80.7718]} // Coordinates for the center of Sri Lanka
+  zoom={7} // Zoom level to fit the whole country
+  style={{ height: '500px', width: '100%' }}
+>
+  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-  return (
-    <div>
-      <h1>Fuel Station Map</h1>
-    </div>
-  );
-};
+  {/* User's current location */}
+  {location && (
+    <Marker position={[location.lat, location.lng]} icon={defaultIcon}>
+      <Popup>Your Location</Popup>
+    </Marker>
+  )}
 
+  {/* All shed locations */}
+  {shedData.map((shed, index) => (
+    <Marker
+      key={index}
+      position={[shed.coordinates.lat, shed.coordinates.lng]} // Use actual coordinates here
+      icon={hoveredShed === index ? hoverIcon : (shed.approvedStatus ? approvedIcon : unapprovedIcon)} // Change icon based on approval status
+      eventHandlers={{
+        onMouseOver: () => setHoveredShed(index), // Set hovered shed on hover
+        onMouseOut: () => setHoveredShed(null), // Reset on mouse out
+      }}
+    >
+      <Popup>
+        {shed.shedName}
+        <br />
+        {shed.location}
+        <br />
+        <strong>Status: </strong>{shed.approvedStatus ? 'Approved' : 'Not Approved'}
+      </Popup>
+      <Tooltip>
+        {shed.shedName} - {shed.shedRegisterNumber} {/* Show shed name and shed register number in tooltip */}
+      </Tooltip>
+    </Marker>
+  ))}
+</MapContainer>
+
+      </div>
+    );
+  };
 
 
 
