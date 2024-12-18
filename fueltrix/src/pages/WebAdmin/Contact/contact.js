@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Navbar from '../NavBarr/navbarr';
 import Footer from '../Footer/footer';
 import './contact.css';
 import Contact_2 from './contact_2';
 
 function Contact() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
@@ -15,30 +20,26 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!name || !email || !message) {
       setError('Please fill in all required fields.');
       return;
     }
-  
+
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await fetch('http://localhost:5000/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, mobile, subject, message }),
       });
-  
-      // Check if response is OK before attempting to parse JSON
+
       if (!response.ok) {
-        const result = await response.json();  // Get JSON error details
+        const result = await response.json();
         setError(result.error || 'Failed to send message. Please try again later.');
       } else {
-        const result = await response.json();  // Get success message
+        const result = await response.json();
         alert(result.message);
         setName('');
         setEmail('');
@@ -53,69 +54,102 @@ function Contact() {
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className='bg-colors'>
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      className="bg-colors"
+    >
       <Navbar />
+
+      {/* Contact Info Section */}
       <div className="ccontact">
-        <div className="contact-info">
+        <motion.div
+          className="contact-info"
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        >
           <h2>Contact Us</h2>
           <p><i className="fas fa-envelope"></i> <strong>Email:</strong> fueltrix@gmail.com</p>
           <p><i className="fas fa-phone-alt"></i> <strong>Hotline:</strong> +94 76 941 1008</p>
           <p><i className="fas fa-map-marker-alt"></i> <strong>Address:</strong> FUELTRIX, Galle Road, Matara, LK</p>
           <div className="social-icons">
-            <i className="fab fa-facebook"></i>
-            <i className="fab fa-instagram"></i>
-            <i className="fab fa-twitter"></i>
-            <i className="fab fa-linkedin"></i>
-            <i className="fab fa-tiktok"></i>
+            {['facebook', 'instagram', 'twitter', 'linkedin', 'tiktok'].map((icon, index) => (
+              <motion.i
+                key={icon}
+                className={`fab fa-${icon}`}
+                whileHover={{ scale: 1.2, rotate: 10 }}
+                transition={{ duration: 0.3 }}
+                style={{ margin: '0 10px', cursor: 'pointer' }}
+              ></motion.i>
+            ))}
           </div>
-        </div>
-        <div className="contactform">
+        </motion.div>
+
+        {/* Contact Form Section */}
+        <motion.div
+          className="contactform"
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        >
           <form onSubmit={handleSubmit}>
-            <input
+            <motion.input
+              whileFocus={{ boxShadow: '0px 0px 8px rgba(0, 123, 255, 0.5)' }}
               type="text"
               placeholder="Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
             />
-            <input
+            <motion.input
+              whileFocus={{ boxShadow: '0px 0px 8px rgba(0, 123, 255, 0.5)' }}
               type="email"
               placeholder="Your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <input
+            <motion.input
+              whileFocus={{ boxShadow: '0px 0px 8px rgba(0, 123, 255, 0.5)' }}
               type="text"
               placeholder="Mobile"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
             />
-            <input
+            <motion.input
+              whileFocus={{ boxShadow: '0px 0px 8px rgba(0, 123, 255, 0.5)' }}
               type="text"
               placeholder="Subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
-            <textarea
+            <motion.textarea
+              whileFocus={{ boxShadow: '0px 0px 8px rgba(0, 123, 255, 0.5)' }}
               placeholder="Your Message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
-            ></textarea>
-            <button type="csubmit" disabled={loading}>
+            ></motion.textarea>
+            <motion.button
+              type="csubmit"
+              disabled={loading}
+              whileHover={{ scale: 1.1, }}
+              transition={{ duration: 0.3 }}
+            >
               {loading ? 'Sending...' : 'SUBMIT'}
-            </button>
+            </motion.button>
           </form>
           {error && <p className="error-message">{error}</p>}
-        </div>
+        </motion.div>
       </div>
-      <Contact_2/>
+
+      <Contact_2 />
       <Footer />
-    </div>
+    </motion.div>
   );
 }
 

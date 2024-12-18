@@ -4,6 +4,7 @@ import { FaPhoneAlt, FaEnvelope, FaSkype } from 'react-icons/fa';
 import { FaTwitter, FaFacebook, FaYoutube, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -43,16 +44,24 @@ const Footer = () => {
 
           {/* Company Section */}
           <div className="footer-section">
-            <h3 className="section-title">Company</h3>
-            <ul className="link-list">
-              <li>About Us</li>
-              <li>Portfolio</li>
-              <li>Blog</li>
-              <li>Contact Us</li>
-              <li>FAQs</li>
-              <li>Privacy & Policy</li>
-            </ul>
-          </div>
+  <h3 className="section-title">Company</h3>
+  <ul className="link-list">
+
+    <li className="desktop-only">
+      <a href="/buy">Buy Now</a>
+    </li>
+    <li className="desktop-only">
+      <a href="/ourteam">Our Team</a>
+    </li>
+    <li className="desktop-only">
+      <a href="/about">About</a>
+    </li>
+    <li className="desktop-only">
+      <a href="/contact">Contact</a>
+    </li>
+  </ul>
+</div>
+
 
           {/* Services Section */}
           <div className="footer-section">
