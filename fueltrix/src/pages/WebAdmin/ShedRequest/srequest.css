@@ -1,6 +1,6 @@
 .shrc {
   display: flex;
-  height: 85vh; 
+  height: 90vh; 
   font-family: 'Poppins', sans-serif;
 }
 
@@ -119,7 +119,7 @@
   color: #ffffff;
   border: none;
   border-radius: 25px;
-  margin-left: 100px;
+  margin-left: 120px;
   margin-top: 20px;
   cursor: pointer;
 }
