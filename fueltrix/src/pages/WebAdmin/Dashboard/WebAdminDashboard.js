@@ -13,7 +13,7 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'; 
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import {
     Box,
@@ -954,110 +954,15 @@ const ContactUsFormManagement = () => {
   };
 
 
+const ShedMap = () => {
+ 
 
-  const ShedMap = () => {
-    const [shedRequests, setShedRequests] = useState([]);
-    const [approvedSheds, setApprovedSheds] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const center = { lat: 6.9271, lng: 79.8612 };
-
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: 'AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI',
-        libraries: ['places'],
-    });
-
-    const getCoordinatesFromAddress = async (address) => {
-        try {
-            const response = await axios.get(
-                `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=AIzaSyCKMNZbr0Io8Cnnxm7XJo6u5l7MppdWNhI`
-            );
-            const location = response.data.results[0]?.geometry?.location || null;
-            console.log(`Geocoded Coordinates for "${address}":`, location);
-            return location;
-        } catch (error) {
-            console.error('Error getting coordinates:', error);
-            return null;
-        }
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const seenLocations = new Set();
-                const shedRequestsResponse = await axios.get('http://localhost:5000/shed-requests');
-                const processedShedRequests = await Promise.all(
-                    shedRequestsResponse.data.map(async (shed) => {
-                        if (shed.location && !seenLocations.has(shed.location)) {
-                            seenLocations.add(shed.location);
-                            const coordinates = await getCoordinatesFromAddress(shed.location);
-                            return { ...shed, coordinates };
-                        }
-                        return { ...shed, coordinates: null };
-                    })
-                );
-                setShedRequests(processedShedRequests);
-
-                const approvedShedsResponse = await axios.get('http://localhost:5000/approved-sheds');
-                const processedApprovedSheds = await Promise.all(
-                    approvedShedsResponse.data.map(async (shed) => {
-                        if (shed.location && !seenLocations.has(shed.location)) {
-                            seenLocations.add(shed.location);
-                            const coordinates = await getCoordinatesFromAddress(shed.location);
-                            return { ...shed, coordinates };
-                        }
-                        return { ...shed, coordinates: null };
-                    })
-                );
-                setApprovedSheds(processedApprovedSheds);
-
-                console.log('Shed Requests:', processedShedRequests);
-                console.log('Approved Sheds:', processedApprovedSheds);
-            } catch (error) {
-                console.error('Error fetching shed data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    if (!isLoaded || loading) return <div>Loading...</div>;
-
-    return (
-        <div><br />
-            <h1>Fuel Station Map</h1>
-            <GoogleMap
-                id="shed-map"
-                mapContainerStyle={{ width: '100%', height: '500px' }}
-                zoom={10}
-                center={center}
-            >
-                {shedRequests.map((shed, index) =>
-                    shed.coordinates ? (
-                        <Marker
-                            key={`shed-request-${index}`}
-                            position={shed.coordinates}
-                            title={`Shed Name: ${shed.shedName || 'N/A'}`}
-                            icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                        />
-                    ) : null
-                )}
-                {approvedSheds.map((shed, index) =>
-                    shed.coordinates ? (
-                        <Marker
-                            key={`approved-shed-${index}`}
-                            position={shed.coordinates}
-                            title={`Shed Name: ${shed.shedName || 'N/A'}`}
-                            icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-                        />
-                    ) : null
-                )}
-            </GoogleMap>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Fuel Station Map</h1>
+    </div>
+  );
 };
-
 
 
 
