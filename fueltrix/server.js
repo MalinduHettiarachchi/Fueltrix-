@@ -5,7 +5,6 @@ const cors = require('cors');
 const session = require('express-session');
 const router = express.Router();
 const nodemailer = require("nodemailer");
-const axios = require('axios'); // Importing axios
 
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require("./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
@@ -237,7 +236,7 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
     // Construct the email content
     const messageContent = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
-        <h2 style="color: #1a73e8; text-align: center;">Your Fuel Station Request Has Been Approved</h2>
+        <h2 style="color: #1a73e8; text-align: center;">Your Shed Request Has Been Approved</h2>
         <p>Dear ${shedName} Team,</p>
         <p>We are pleased to inform you that your shed request has been approved! You can now access the Fueltrix Fuel Tracking System using the credentials provided below.</p>
 
@@ -972,9 +971,6 @@ app.get('/api/contact', async (req, res) => {
 });
 
 
-
-
-
 app.post('/api/fuel-requests/update-status', async (req, res) => {
   try {
     const { id, status, company } = req.body;
@@ -1088,6 +1084,56 @@ Thank you for using our service.`,
     res.status(200).json({ message: "Email sent successfully!", info });
   });
 });
+
+app.delete("/api/vehicles/:registrationNumber", async (req, res) => {
+  const { registrationNumber } = req.params;
+
+  try {
+    // Find the vehicle document based on the registration number
+    const vehicleSnapshot = await db.collection("Vehicle")
+      .where("registrationNumber", "==", registrationNumber)
+      .get();
+
+    if (vehicleSnapshot.empty) {
+      return res.status(404).json({ message: "Vehicle not found." });
+    }
+
+    // Delete the vehicle document
+    const vehicleDoc = vehicleSnapshot.docs[0]; // Assuming unique registrationNumber
+    await vehicleDoc.ref.delete();
+
+    res.status(200).json({ message: "Vehicle removed successfully." });
+  } catch (error) {
+    console.error("Error removing vehicle:", error);
+    res.status(500).json({ message: "Failed to remove vehicle." });
+  }
+});
+
+app.delete('/api/drivers/:driverName', async (req, res) => {
+  const { driverName } = req.params;
+
+  try {
+    // Find the driver by name
+    const driverSnapshot = await db.collection('Driver')
+      .where('name', '==', driverName)
+      .get();
+
+    if (driverSnapshot.empty) {
+      return res.status(404).json({ message: 'Driver not found.' });
+    }
+
+    // Assuming there's only one driver with this name, delete it
+    driverSnapshot.forEach(async (doc) => {
+      await doc.ref.delete();
+    });
+
+    res.status(200).json({ message: 'Driver removed successfully.' });
+  } catch (error) {
+    console.error('Error removing driver:', error);
+    res.status(500).json({ message: 'Failed to remove driver.' });
+  }
+});
+
 
 
 // Start the server
