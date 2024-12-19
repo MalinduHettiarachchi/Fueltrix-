@@ -100,9 +100,6 @@ const Modal = ({ show, totalPayment, company, email, onClose }) => {
     }
   };
   
-  
-  
-  
 
   if (!show) return null;
 

@@ -1288,7 +1288,6 @@ app.post("/api/sendPaymentEmail", (req, res) => {
 
       Your payment details are as follows:
       
-      Payment Method: ${selectedMethod}
       Total Price: LKR ${totalPayment}.00
       Time: ${time}
 
