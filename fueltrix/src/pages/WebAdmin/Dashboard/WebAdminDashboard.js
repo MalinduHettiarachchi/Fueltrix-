@@ -903,26 +903,38 @@ const FuelPriceManagement = () => {
 
 const ContactUsFormManagement = () => {
     const [formSubmissions, setFormSubmissions] = useState([]);
-    const [loading, setLoading] = useState(true); // To show loading state
+    const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-        const fetchSubmissions = async () => {
-          try {
-            const response = await axios.get('http://localhost:5000/api/contact');
-            console.log('Fetched submissions:', response.data); // Check the response
-            setFormSubmissions(response.data);
-          } catch (error) {
-            console.error('Error fetching submissions:', error);
-          } finally {
-            setLoading(false);
-          }
-        };
-        fetchSubmissions();
-      }, []);
-      
+      const fetchSubmissions = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/contact');
+          console.log('Fetched submissions:', response.data);
+          setFormSubmissions(response.data);
+        } catch (error) {
+          console.error('Error fetching submissions:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchSubmissions();
+    }, []);
+  
+    const handleDelete = async (id) => {
+      try {
+        await axios.delete(`http://localhost:5000/api/contact/${id}`);
+        setFormSubmissions((prevSubmissions) =>
+          prevSubmissions.filter((submission) => submission.id !== id)
+        );
+        console.log(`Submission with ID ${id} deleted successfully.`);
+      } catch (error) {
+        console.error('Error deleting submission:', error);
+      }
+    };
+  
     return (
       <div>
-        <br/>
+        <br />
         <h1>Contact Us Form Management</h1>
         {loading ? (
           <p>Loading submissions...</p>
@@ -934,6 +946,7 @@ const ContactUsFormManagement = () => {
                 <th>Email</th>
                 <th>Mobile No</th>
                 <th>Message</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -943,6 +956,14 @@ const ContactUsFormManagement = () => {
                   <td>{submission.email}</td>
                   <td>{submission.mobile}</td>
                   <td>{submission.message}</td>
+                  <td>
+                    <button
+                        className="review-button"
+                        onClick={() => handleDelete(submission.id)}
+                    >
+                        Review
+                    </button>
+                    </td>
                 </tr>
               ))}
             </tbody>
@@ -953,6 +974,7 @@ const ContactUsFormManagement = () => {
       </div>
     );
   };
+  
 
 
   const ShedMap = () => {
