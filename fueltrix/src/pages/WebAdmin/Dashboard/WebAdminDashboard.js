@@ -984,9 +984,11 @@ const ContactUsFormManagement = () => {
     const [error, setError] = useState(null);
     const [editedPackage, setEditedPackage] = useState(null);  
     const [updatedValues, setUpdatedValues] = useState({
-      driverCount: '',
-      vehicleCount: ''
-    });
+        driverCount: '',
+        vehicleCount: '',
+        price: '' // New field for price
+      });
+      
 
     useEffect(() => {
         fetchPackages();
@@ -1019,24 +1021,27 @@ const ContactUsFormManagement = () => {
         setEditedPackage(pkg);
         setUpdatedValues({
             driverCount: pkg.driverCount,
-            vehicleCount: pkg.vehicleCount
+            vehicleCount: pkg.vehicleCount,
+            price: pkg.price // Initialize price
         });
     };
+    
 
     const handleUpdate = async (pkg) => {
         const updatedPkg = {
             ...pkg,
             driverCount: updatedValues.driverCount,
-            vehicleCount: updatedValues.vehicleCount
+            vehicleCount: updatedValues.vehicleCount,
+            price: updatedValues.price // Include updated price
         };
-
+    
         try {
             const response = await fetch(`http://localhost:5000/api/packages/${pkg.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedPkg)
             });
-
+    
             if (!response.ok) throw new Error('Failed to update package');
             fetchPackages();  
             setEditedPackage(null);  
@@ -1044,6 +1049,7 @@ const ContactUsFormManagement = () => {
             setError(err.message);
         }
     };
+    
 
     return (
         <div>
@@ -1061,6 +1067,7 @@ const ContactUsFormManagement = () => {
                             <th>Package Type</th>
                             <th>Driver Count</th>
                             <th>Vehicle Count</th>
+                            <th>Package Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -1094,6 +1101,20 @@ const ContactUsFormManagement = () => {
                                         pkg.vehicleCount
                                     )}
                                 </td>
+                                <td>
+                                        {editedPackage && editedPackage.packageType === pkg.packageType ? (
+                                            <input
+                                                type="number"
+                                                name="price"
+                                                value={updatedValues.price}
+                                                onChange={handleEditChange}
+                                                className="input-field"
+                                            />
+                                        ) : (
+                                            pkg.price
+                                        )}
+                                    </td>
+
                                 <td>
                                     {editedPackage && editedPackage.packageType === pkg.packageType ? (
                                         <button onClick={() => handleUpdate(pkg)} className="btn save-btn">Save</button>
