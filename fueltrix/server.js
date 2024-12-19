@@ -1210,29 +1210,32 @@ app.get('/api/packages', async (req, res) => {
   try {
     const packagesSnapshot = await db.collection('Packages').get();
     const packagesList = packagesSnapshot.docs.map(doc => ({
-      id: doc.id, // Add document ID here
+      id: doc.id, 
       packageType: doc.data().PackageType,
       driverCount: doc.data().DriversCount,
       vehicleCount: doc.data().VehicleCount,
+      price: doc.data().Price // Include price
     }));
 
-    res.json(packagesList);  // Send data with IDs back to frontendd
+    res.json(packagesList);  
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
+
 // Update Package - Backend (Node.js)
 app.put('/api/packages/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { driverCount, vehicleCount } = req.body;
+    const { driverCount, vehicleCount, price } = req.body;
 
     // Update the package in Firestore using the document ID
     await db.collection('Packages').doc(id).update({
       DriversCount: driverCount,
-      VehicleCount: vehicleCount
+      VehicleCount: vehicleCount,
+      Price: price // Update price
     });
 
     res.status(200).json({ message: 'Package updated successfully' });
