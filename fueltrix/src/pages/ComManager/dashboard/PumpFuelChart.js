@@ -1,47 +1,33 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
-  BarElement,
+  LineElement,
   CategoryScale,
   LinearScale,
   Tooltip,
   Legend,
+  PointElement,
 } from "chart.js";
 import "./PumpFuelChart.css"; // Import the CSS file
 
 // Register required chart.js components
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+ChartJS.register(LineElement, CategoryScale, LinearScale, Tooltip, Legend, PointElement);
 
-const PumpFuelChart = () => {
+const PumpFuelChart = ({ vehiclesData }) => {
+  // Prepare the chart data
   const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    labels: vehiclesData.map((vehicle) => vehicle.registrationNumber), // Vehicle registration numbers as x-axis labels
     datasets: [
       {
-        label: "Downloads",
-        data: [10000, 11000, 9000, 12000, 15000, 10000, 8000],
-        backgroundColor: [
-          "#007BFF",
-          "#007BFF",
-          "#007BFF",
-          "#007BFF",
-          "#007BFF",
-          "#007BFF",
-          "#007BFF",
-        ],
-      },
-      {
-        label: "Page Views",
-        data: [5000, 6000, 4000, 7000, 9000, 5000, 3000],
-        backgroundColor: [
-          "#80CFFF",
-          "#80CFFF",
-          "#80CFFF",
-          "#80CFFF",
-          "#80CFFF",
-          "#80CFFF",
-          "#80CFFF",
-        ],
+        label: "Pumped Fuel Volume (L)", // Label for the dataset
+        data: vehiclesData.map((vehicle) => parseFloat(vehicle.pumpedVolume)), // Pumped volume for each vehicle
+        fill: false, // Don't fill under the line
+        borderColor: "#007BFF", // Line color
+        tension: 0.1, // Line smoothness
+        pointRadius: 5, // Display points for each vehicle
+        pointBackgroundColor: "#FFFFFF", // Point color
+        borderWidth: 2, // Line thickness
       },
     ],
   };
@@ -55,22 +41,33 @@ const PumpFuelChart = () => {
     },
     scales: {
       x: {
+        title: {
+          display: true,
+          text: "Vehicle Registration Number", // Label for the x-axis
+          color: "#aaa",
+        },
         grid: {
           display: false,
         },
       },
       y: {
+        title: {
+          display: true,
+          text: "Pumped Fuel Volume (L)", // Label for the y-axis
+          color: "#aaa",
+        },
         grid: {
           color: "#ddd",
         },
+        beginAtZero: true, // Ensure the y-axis starts at 0
       },
     },
   };
 
   return (
     <div className="pump-fuel-chart">
-      <h3>Page Views and Downloads</h3>
-      <Bar data={data} options={options} />
+      <h3>Pumped Fuel Volume for Each Vehicle</h3>
+      <Line data={data} options={options} />
     </div>
   );
 };

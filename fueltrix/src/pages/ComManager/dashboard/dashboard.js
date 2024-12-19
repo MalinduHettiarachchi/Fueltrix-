@@ -780,6 +780,30 @@ function Dashboard() {
     return acc;
   }, {});
 
+  const [vehiclesData, setVehiclesData] = useState([]); // Store vehicle data
+
+useEffect(() => {
+  if (managerDetails?.company) {
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
+        );
+        const companyVehicles = response.data[managerDetails.company]?.vehicles || [];
+
+        // Store vehicle data (each vehicle's pumped fuel and other details)
+        setVehiclesData(companyVehicles);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      }
+    };
+
+    fetchVehicles();
+  }
+}, [managerDetails]); // Trigger when the company details are updated
+
+  
+
   useEffect(() => {
     const fetchPumpData = async () => {
       try {
@@ -803,24 +827,25 @@ function Dashboard() {
       case "Home":
         return (
           <div className="contenthome">
-            <div className="first-row">
-              <SessionChartp groupedFuelData={groupedPetrolData} />
-              <SessionChartd groupedFuelData={groupedDieselData} />
-              <div className="info-boxes">
-                <div className="info-box">
-                  <h3>Vehicle</h3>
-                  <h1>Total Registered Vehicles</h1>
-                  <p>{vehicleCount}</p>
-                </div>
-                <div className="info-box">
-                  <h3>Driver</h3>
-                  <h1>Total Registered Drivers</h1>
-                  <p>{driverCount}</p>
-                </div>
+          <div className="first-row">
+            <SessionChartp groupedFuelData={groupedPetrolData} />
+            <SessionChartd groupedFuelData={groupedDieselData} />
+            <div className="info-boxes">
+              <div className="info-box">
+                <h3>Vehicle</h3>
+                <h1>Total Registered Vehicles</h1>
+                <p>{vehiclesData.length}</p>
+              </div>
+              <div className="info-box">
+                <h3>Driver</h3>
+                <h1>Total Registered Drivers</h1>
+                <p>{driverCount}</p>
               </div>
             </div>
-            <PumpFuelChart />
           </div>
+          {/* Render PumpFuelChart with all vehicles data */}
+          <PumpFuelChart vehiclesData={vehiclesData} />
+        </div>
         );
 
       case "Vehicles":
