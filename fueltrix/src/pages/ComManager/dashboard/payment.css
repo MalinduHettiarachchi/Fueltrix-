@@ -264,3 +264,16 @@
   font-size: 14px;
   color: #444;
 }
+/* Basic input styles */
+
+
+
+/* Error messages */
+.error {
+  color: red;
+  font-size: 9px;
+  text-align: left;
+}
+
+
+

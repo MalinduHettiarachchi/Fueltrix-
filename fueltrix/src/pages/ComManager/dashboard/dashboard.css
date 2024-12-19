@@ -415,16 +415,23 @@
 
 .contenthome {
   display: flex;
-  justify-content: center; /* Center the content horizontally */
-  align-items: center;    /* Center the content vertically */
-  margin: 20px;           /* Add some space around the container */
+  flex-direction: column;  /* Stack elements vertically */
+  justify-content: flex-start;  /* Align items at the top */
+  margin: 20px;
   gap: 20px;
   width: 95%;
 }
 
-.info-boxes {
-  flex-direction: column;
+.first-row {
   display: flex;
+  justify-content: space-between;  /* Distribute the elements evenly across the row */
+  width: 100%;
+  gap: 20px;
+}
+
+.info-boxes {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
