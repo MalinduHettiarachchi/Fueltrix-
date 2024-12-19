@@ -131,6 +131,28 @@ function Dashboard() {
     </div>
   );
 
+  const handleRemoveVehicle = async () => {
+    if (!selectedVehicle) return;
+  
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/vehicles/${selectedVehicle.registrationNumber}`
+      );
+      setVehicles((prevVehicles) =>
+        prevVehicles.filter(
+          (vehicle) =>
+            vehicle.registrationNumber !== selectedVehicle.registrationNumber
+        )
+      );
+      setSelectedVehicle(null);
+      alert("Vehicle removed successfully.");
+    } catch (error) {
+      console.error("Error removing vehicle:", error);
+      alert("Failed to remove vehicle.");
+    }
+  };
+  
+
   // Component to render selected vehicle details
   const VehicleDetails = () => (
     <div className="vehicle-details">
@@ -155,13 +177,16 @@ function Dashboard() {
             <strong>Requested Volume (L):</strong>{" "}
             {selectedVehicle.requestedVolume}
           </p>
-          
+          <button onClick={handleRemoveVehicle} className="remove-vehicle-button">
+            Remove
+          </button>
         </div>
       ) : (
         <p>Select a vehicle to view details</p>
       )}
     </div>
   );
+  
 
   useEffect(() => {
     if (managerDetails?.company) {
@@ -208,6 +233,25 @@ function Dashboard() {
     </div>
   );
 
+  const handleRemoveDriver = async () => {
+    if (!selectedDriver) return;
+  
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/drivers/${selectedDriver.name}` // Or use a unique identifier like selectedDriver._id
+      );
+      setDrivers((prevDrivers) =>
+        prevDrivers.filter((driver) => driver.name !== selectedDriver.name)
+      );
+      setSelectedDriver(null);
+      alert("Driver removed successfully.");
+    } catch (error) {
+      console.error("Error removing driver:", error);
+      alert("Failed to remove driver.");
+    }
+  };
+  
+
   // Component to render selected driver details
   const DriverDetails = () => (
     <div className="driver-details">
@@ -217,18 +261,24 @@ function Dashboard() {
             <strong>{selectedDriver.name}</strong>
           </h3>
           <p>
-            <strong></strong> {selectedDriver.email}
+            <strong>Email:</strong> {selectedDriver.email}
           </p>
           <p>
-            <strong></strong> {selectedDriver.contact}
+            <strong>Contact:</strong> {selectedDriver.contact}
           </p>
-          
+          <button
+            onClick={handleRemoveDriver}
+            className="remove-driver-button"
+          >
+            Remove
+          </button>
         </div>
       ) : (
         <p>Select a driver to view details</p>
       )}
     </div>
   );
+  
 
   // API endpoint to get pending fuel requests
   useEffect(() => {
