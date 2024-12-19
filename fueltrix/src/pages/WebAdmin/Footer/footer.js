@@ -46,7 +46,9 @@ const Footer = () => {
           <div className="footer-section">
   <h3 className="section-title">Company</h3>
   <ul className="link-list">
-
+  <li className="desktop-only">
+      <a href="/fueltrix">Home</a>
+    </li>
     <li className="desktop-only">
       <a href="/buy">Buy Now</a>
     </li>
