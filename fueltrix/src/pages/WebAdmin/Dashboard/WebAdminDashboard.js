@@ -1377,7 +1377,7 @@ const Dashboard = () => {
                     <section className="webadmin-stats">
                         <div className="webadmin-stat-card">
                             <i className="fas fa-warehouse"></i> {/* Icon for pending shed requests */}
-                            <h2>Pending Shed Requests</h2>
+                            <h2>Pending  Filling Station Requests</h2>
                             <p>{stats.pendingShedRequests} pending</p>
                         </div>
                         <div className="webadmin-stat-card">
@@ -1392,7 +1392,7 @@ const Dashboard = () => {
                         </div>
                         <div className="webadmin-stat-card">
                             <i className="fas fa-store-alt"></i> {/* Icon for total registered sheds */}
-                            <h2>Total Registered Sheds</h2>
+                            <h2>Total Registered  Filling Station</h2>
                             <p>{stats.totalRegisteredSheds} sheds</p>
                         </div>
                         <div className="webadmin-stat-card">
