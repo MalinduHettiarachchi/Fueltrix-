@@ -119,13 +119,13 @@ const Modal = ({ show, totalPayment, company, onClose }) => {
             </p>
             <div className="bank-info">
               <p>
-                <strong>Bank:</strong> Mastercredit
+                <strong>Bank:</strong> Commercial Bank of Ceylon 
               </p>
               <p>
-                <strong>Account number:</strong> 123456789
+                <strong>Account number:</strong> 8006454780
               </p>
               <p>
-                <strong>Routing number:</strong> 987654321
+                <strong>Routing number:</strong> 987654
               </p>
             </div>
           </div>
