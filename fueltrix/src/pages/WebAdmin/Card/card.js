@@ -45,6 +45,7 @@ function Card() {
             </h2>
             <p><i className="fas fa-truck"></i> {pkg.vehicleCount} Vehicles</p>
             <p><i className="fas fa-user"></i> {pkg.driverCount} Drivers</p>
+            <p><i className="fas fa-money-bill-wave"></i> {pkg.price} LK</p>
             <p><i className="fas fa-id-card"></i> Smart Business Card</p><br /><br />
             <p>
               <i className="fas fa-qrcode fa-3x"></i>

@@ -39,7 +39,7 @@ function SRequest() {
   useEffect(() => {
     const fetchShedTypes = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/shed-types");
+        const response = await axios.get("http://localhost:5000/api/shed-types/UI");
         setShedTypes(response.data); // Set the fetched shed types
       } catch (error) {
         console.error("Error fetching shed types:", error);

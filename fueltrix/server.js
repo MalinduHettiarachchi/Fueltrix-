@@ -5,6 +5,7 @@ const cors = require('cors');
 const session = require('express-session');
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const axios = require('axios');
 
 
 // Initialize Firestore with Firebase Admin SDK
@@ -237,7 +238,7 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
     // Construct the email content
     const messageContent = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
-        <h2 style="color: #1a73e8; text-align: center;">Your Shed Request Has Been Approved</h2>
+        <h2 style="color: #1a73e8; text-align: center;">Your Filling Station Request Has Been Approved</h2>
         <p>Dear ${shedName} Team,</p>
         <p>We are pleased to inform you that your shed request has been approved! You can now access the Fueltrix Fuel Tracking System using the credentials provided below.</p>
 
@@ -1209,35 +1210,65 @@ app.get('/api/packages', async (req, res) => {
   try {
     const packagesSnapshot = await db.collection('Packages').get();
     const packagesList = packagesSnapshot.docs.map(doc => ({
-      id: doc.id, // Add document ID here
+      id: doc.id, 
       packageType: doc.data().PackageType,
       driverCount: doc.data().DriversCount,
       vehicleCount: doc.data().VehicleCount,
+      price: doc.data().Price // Include price
     }));
 
-    res.json(packagesList);  // Send data with IDs back to frontendd
+    res.json(packagesList);  
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
 
+
 // Update Package - Backend (Node.js)
 app.put('/api/packages/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { driverCount, vehicleCount } = req.body;
+    const { driverCount, vehicleCount, price } = req.body;
 
     // Update the package in Firestore using the document ID
     await db.collection('Packages').doc(id).update({
       DriversCount: driverCount,
-      VehicleCount: vehicleCount
+      VehicleCount: vehicleCount,
+      Price: price // Update price
     });
 
     res.status(200).json({ message: 'Package updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+// Route to fetch shedType values from Firestore
+app.get("/api/shed-types/UI", async (req, res) => {
+  try {
+    const fuelPricesCollection = db.collection("fuelPrices"); // Replace with your collection name
+    const snapshot = await fuelPricesCollection.get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ message: "No shed types found" });
+    }
+
+    const shedTypeSet = new Set(); // Use Set to avoid duplicates
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.shedType) {
+        shedTypeSet.add(data.shedType); // Add shedType to the Set
+      }
+    });
+
+    const shedTypes = Array.from(shedTypeSet); // Convert Set back to an array
+    res.status(200).json(shedTypes);
+  } catch (error) {
+    console.error("Error fetching shed types:", error);
+    res.status(500).json({ message: "Failed to fetch shed types" });
   }
 });
 

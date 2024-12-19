@@ -8,7 +8,7 @@ import 'firebase/firestore';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion'; // Framer Motion for animations
 import styled from 'styled-components'; // styled-components for modern styling
-import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
+import logo from '../../../img/Fueltixlogo.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
@@ -62,9 +62,10 @@ const Sidebar = ({ onChangeView }) => {
             )}
 
             <ul className="webadmin-sidebar-menu">
-                <li><a href="#" onClick={() => onChangeView('shedMap')}><i className="fas fa-gas-pump"></i> Fuel Station Details</a></li>                <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
+                <li><a href="#" onClick={() => onChangeView('shedMap')}><i className="fas fa-gas-pump"></i> Filling Station Details</a></li>               
+                 <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Filling Station Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyRequests')}><i className="fas fa-building"></i> Company Registration Requests</a></li>
-                <li><a href="#" onClick={() => onChangeView('registeredSheds')}><i className="fas fa-industry"></i> Registered Sheds</a></li>
+                <li><a href="#" onClick={() => onChangeView('registeredSheds')}><i className="fas fa-industry"></i> Registered Filling Station</a></li>
                 <li><a href="#" onClick={() => onChangeView('registeredCompanies')}><i className="fas fa-building"></i> Registered Companies</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyVehicles')}><i className="fas fa-truck"></i> Company Vehicles</a></li>
                 <li><a href="#" onClick={() => onChangeView('driverManagement')}><i className="fas fa-user-tie"></i> Driver Management</a></li>
@@ -145,7 +146,7 @@ const ShedRequests = () => {
 
     return (
         <div className="ShedRequest">
-            <h1>Shed Registration Requests</h1>
+            <h1>Filling Station Registration Requests</h1>
             {success && <div className="SuccessMessage">{success}</div>}
             {shedRequests.length > 0 ? (
                 <table>
@@ -262,7 +263,7 @@ const RegisteredSheds = () => {
 
     return (
         <div className="registered-sheds">
-            <h2 className="title">Registered Sheds</h2>
+            <h2 className="title">Registered Filling Station</h2>
             {sheds.length > 0 ? (
                 <table className="shed-table">
                     <thead>
@@ -346,7 +347,7 @@ const PumpAssistantManagement = () => {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
-                            <th>Shed Name</th>
+                            <th>Filling Station Name</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -983,9 +984,11 @@ const ContactUsFormManagement = () => {
     const [error, setError] = useState(null);
     const [editedPackage, setEditedPackage] = useState(null);  
     const [updatedValues, setUpdatedValues] = useState({
-      driverCount: '',
-      vehicleCount: ''
-    });
+        driverCount: '',
+        vehicleCount: '',
+        price: '' // New field for price
+      });
+      
 
     useEffect(() => {
         fetchPackages();
@@ -1018,24 +1021,27 @@ const ContactUsFormManagement = () => {
         setEditedPackage(pkg);
         setUpdatedValues({
             driverCount: pkg.driverCount,
-            vehicleCount: pkg.vehicleCount
+            vehicleCount: pkg.vehicleCount,
+            price: pkg.price // Initialize price
         });
     };
+    
 
     const handleUpdate = async (pkg) => {
         const updatedPkg = {
             ...pkg,
             driverCount: updatedValues.driverCount,
-            vehicleCount: updatedValues.vehicleCount
+            vehicleCount: updatedValues.vehicleCount,
+            price: updatedValues.price // Include updated price
         };
-
+    
         try {
             const response = await fetch(`http://localhost:5000/api/packages/${pkg.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedPkg)
             });
-
+    
             if (!response.ok) throw new Error('Failed to update package');
             fetchPackages();  
             setEditedPackage(null);  
@@ -1043,6 +1049,7 @@ const ContactUsFormManagement = () => {
             setError(err.message);
         }
     };
+    
 
     return (
         <div>
@@ -1060,6 +1067,7 @@ const ContactUsFormManagement = () => {
                             <th>Package Type</th>
                             <th>Driver Count</th>
                             <th>Vehicle Count</th>
+                            <th>Package Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -1093,6 +1101,20 @@ const ContactUsFormManagement = () => {
                                         pkg.vehicleCount
                                     )}
                                 </td>
+                                <td>
+                                        {editedPackage && editedPackage.packageType === pkg.packageType ? (
+                                            <input
+                                                type="number"
+                                                name="price"
+                                                value={updatedValues.price}
+                                                onChange={handleEditChange}
+                                                className="input-field"
+                                            />
+                                        ) : (
+                                            pkg.price
+                                        )}
+                                    </td>
+
                                 <td>
                                     {editedPackage && editedPackage.packageType === pkg.packageType ? (
                                         <button onClick={() => handleUpdate(pkg)} className="btn save-btn">Save</button>
@@ -1355,7 +1377,7 @@ const Dashboard = () => {
                     <section className="webadmin-stats">
                         <div className="webadmin-stat-card">
                             <i className="fas fa-warehouse"></i> {/* Icon for pending shed requests */}
-                            <h2>Pending Shed Requests</h2>
+                            <h2>Pending  Filling Station Requests</h2>
                             <p>{stats.pendingShedRequests} pending</p>
                         </div>
                         <div className="webadmin-stat-card">
@@ -1370,7 +1392,7 @@ const Dashboard = () => {
                         </div>
                         <div className="webadmin-stat-card">
                             <i className="fas fa-store-alt"></i> {/* Icon for total registered sheds */}
-                            <h2>Total Registered Sheds</h2>
+                            <h2>Total Registered  Filling Station</h2>
                             <p>{stats.totalRegisteredSheds} sheds</p>
                         </div>
                         <div className="webadmin-stat-card">
