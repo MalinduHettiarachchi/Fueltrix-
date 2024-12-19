@@ -239,4 +239,42 @@
     text-align: center;
     margin-left: 0px;
   }
+
+  
 }
+
+
+
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 0px; /* Space for the icon inside the field */
+  box-sizing: border-box;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  left: 610px; /* Align the icon inside the input field */
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #555; /* Default icon color */
+}
+
+.password-toggle-icon:hover {
+  color: #000; /* Darken color on hover */
+}
+
+/* Hide the icon on small screens (mobile devices) */
+@media (max-width: 768px) {
+  .password-toggle-icon {
+    display: none;
+  }
+}
+
