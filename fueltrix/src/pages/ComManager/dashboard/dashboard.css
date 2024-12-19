@@ -540,3 +540,39 @@
 }
 
 
+.compliance-list table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+.compliance-list h3{
+  font-size: 1.8rem;
+  margin-top: 10px;
+  color: #041228;
+  text-align: left;
+  margin-left: 15px;
+  font-weight: 400;
+}
+
+.compliance-list th,
+.compliance-list td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #041228;
+}
+
+.compliance-list th {
+  background-color: #041228;
+  color: #fff;
+}
+
+.compliance-list td {
+  background-color: #ffffff;
+  color: #041228;
+}
+
+.compliance-list tr:hover {
+  font-weight: 600;
+  cursor: pointer;
+}
