@@ -1246,6 +1246,33 @@ app.put('/api/packages/:id', async (req, res) => {
 });
 
 
+// Route to fetch shedType values from Firestore
+app.get("/api/shed-types/UI", async (req, res) => {
+  try {
+    const fuelPricesCollection = db.collection("fuelPrices"); // Replace with your collection name
+    const snapshot = await fuelPricesCollection.get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ message: "No shed types found" });
+    }
+
+    const shedTypeSet = new Set(); // Use Set to avoid duplicates
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.shedType) {
+        shedTypeSet.add(data.shedType); // Add shedType to the Set
+      }
+    });
+
+    const shedTypes = Array.from(shedTypeSet); // Convert Set back to an array
+    res.status(200).json(shedTypes);
+  } catch (error) {
+    console.error("Error fetching shed types:", error);
+    res.status(500).json({ message: "Failed to fetch shed types" });
+  }
+});
+
+
 
 
 // Start the server
