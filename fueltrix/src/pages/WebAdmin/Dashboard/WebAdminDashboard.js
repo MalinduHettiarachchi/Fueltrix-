@@ -62,9 +62,10 @@ const Sidebar = ({ onChangeView }) => {
             )}
 
             <ul className="webadmin-sidebar-menu">
-                <li><a href="#" onClick={() => onChangeView('shedMap')}><i className="fas fa-gas-pump"></i> Fuel Station Details</a></li>                <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Shed Registration Requests</a></li>
+                <li><a href="#" onClick={() => onChangeView('shedMap')}><i className="fas fa-gas-pump"></i> Filling Station Details</a></li>               
+                 <li><a href="#" onClick={() => onChangeView('shedRequests')}><i className="fas fa-warehouse"></i> Filling Station Registration Requests</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyRequests')}><i className="fas fa-building"></i> Company Registration Requests</a></li>
-                <li><a href="#" onClick={() => onChangeView('registeredSheds')}><i className="fas fa-industry"></i> Registered Sheds</a></li>
+                <li><a href="#" onClick={() => onChangeView('registeredSheds')}><i className="fas fa-industry"></i> Registered Filling Station</a></li>
                 <li><a href="#" onClick={() => onChangeView('registeredCompanies')}><i className="fas fa-building"></i> Registered Companies</a></li>
                 <li><a href="#" onClick={() => onChangeView('companyVehicles')}><i className="fas fa-truck"></i> Company Vehicles</a></li>
                 <li><a href="#" onClick={() => onChangeView('driverManagement')}><i className="fas fa-user-tie"></i> Driver Management</a></li>
@@ -145,7 +146,7 @@ const ShedRequests = () => {
 
     return (
         <div className="ShedRequest">
-            <h1>Shed Registration Requests</h1>
+            <h1>Filling Station Registration Requests</h1>
             {success && <div className="SuccessMessage">{success}</div>}
             {shedRequests.length > 0 ? (
                 <table>
@@ -262,7 +263,7 @@ const RegisteredSheds = () => {
 
     return (
         <div className="registered-sheds">
-            <h2 className="title">Registered Sheds</h2>
+            <h2 className="title">Registered Filling Station</h2>
             {sheds.length > 0 ? (
                 <table className="shed-table">
                     <thead>
@@ -346,7 +347,7 @@ const PumpAssistantManagement = () => {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
-                            <th>Shed Name</th>
+                            <th>Filling Station Name</th>
                         </tr>
                     </thead>
                     <tbody>
