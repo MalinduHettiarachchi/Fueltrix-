@@ -8,7 +8,7 @@ import 'firebase/firestore';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion'; // Framer Motion for animations
 import styled from 'styled-components'; // styled-components for modern styling
-import logo from '../../../img/istockphoto-1390980481-612x612-removebg-preview.png'; // Adjust the path according to your folder structure
+import logo from '../../../img/Fueltixlogo.png'; // Adjust the path according to your folder structure
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import { useLocation } from 'react-router-dom';
 import L from 'leaflet';
