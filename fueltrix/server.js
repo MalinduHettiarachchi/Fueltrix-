@@ -1215,7 +1215,7 @@ app.get('/api/packages', async (req, res) => {
       vehicleCount: doc.data().VehicleCount,
     }));
 
-    res.json(packagesList);  // Send data with IDs back to frontend
+    res.json(packagesList);  // Send data with IDs back to frontendd
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -1240,9 +1240,6 @@ app.put('/api/packages/:id', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
-
-
-
 
 
 
