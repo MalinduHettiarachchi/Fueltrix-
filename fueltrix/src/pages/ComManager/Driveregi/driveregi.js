@@ -50,7 +50,7 @@ function Driveregi() {
 
   const handleRegister = async () => {
     if (!validateForm()) return; // Stop if validation fails
-
+  
     try {
       const response = await fetch(
         "http://localhost:5000/api/driver/register",
@@ -69,10 +69,17 @@ function Driveregi() {
         }
       );
       const data = await response.json();
-
+  
       if (response.ok) {
         alert(data.message); // Show success message
-        // Optionally redirect or clear form
+  
+        // Clear the input fields after successful registration
+        setName('');
+        setEmail('');
+        setContact('');
+        setPassword('');
+        
+        // Optionally, redirect or clear form
       } else {
         alert(data.message); // Show error message
       }
@@ -81,6 +88,7 @@ function Driveregi() {
       alert("Registration failed. Please try again.");
     }
   };
+  
 
   return (
     <div className="drivrg">

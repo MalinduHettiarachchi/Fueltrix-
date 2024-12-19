@@ -380,7 +380,8 @@ function Dashboard() {
     const [pumpData, setPumpData] = useState([]);
     const [fuelPrices, setFuelPrices] = useState([]);
     const [calculatedPayments, setCalculatedPayments] = useState([]);
-  
+    const [companyEmail, setCompanyEmail] = useState(''); // Store the logged-in company email
+    
     useEffect(() => {
       const fetchPumpData = async () => {
         try {
@@ -403,6 +404,7 @@ function Dashboard() {
       };
   
       if (managerDetails?.company) {
+        setCompanyEmail(managerDetails?.email || ''); // Assuming email is part of managerDetails
         fetchPumpData();
         fetchFuelPrices();
       }
@@ -435,12 +437,13 @@ function Dashboard() {
     const totalPayment = calculatedPayments.reduce((total, pump) => {
       return total + (typeof pump.payment === "number" ? pump.payment : 0);
     }, 0);
-
+  
     const handlePayNow = () => {
-      // Pass the total payment and company name to the modal
+      // Pass the total payment, company name, and company email to the modal
       setModalData({
         totalPayment,
-        company: managerDetails?.company || 'Unknown Company'
+        company: managerDetails?.company || 'Unknown Company',
+        email: companyEmail
       });
       setShowModal(true);  // Show the modal when "Pay Now" is clicked
     };
@@ -458,7 +461,7 @@ function Dashboard() {
       <div className="pump-collection">
         <button className="paybut" onClick={handlePayNow}>Pay Now</button>
         <h2>Total Payment: LKR {totalPayment}.00</h2> {/* Display total payment */}
-
+  
         <table>
           <thead>
             <tr>
@@ -493,15 +496,17 @@ function Dashboard() {
           </tbody>
         </table>
         <Modal 
-         show={showModal} 
-         onClose={handleCloseModal} 
-         onConfirm={handleConfirmPayment}
-         totalPayment={modalData.totalPayment}
-         company={modalData.company} 
-      /> 
+          show={showModal} 
+          onClose={handleCloseModal} 
+          onConfirm={handleConfirmPayment}
+          totalPayment={modalData.totalPayment}
+          company={modalData.company} 
+          email={modalData.email}  // Pass the company email to the modal
+        /> 
       </div>
     );
   };
+  
   
 
   useEffect(() => {
