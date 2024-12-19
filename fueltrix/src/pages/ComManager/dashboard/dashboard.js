@@ -9,6 +9,7 @@ import Irequest from "../dashboard/request.png";
 import Isetting from "../dashboard/logout.png";
 import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
+import ICompliance from "../dashboard/compliance.png";
 import axios from "axios";
 import SessionChartp from "./SessionChartpetrol";
 import SessionChartd from "./SessionChartdiesel";
@@ -466,7 +467,7 @@ function Dashboard() {
           <thead>
             <tr>
               <th>Vehicle Number</th>
-              <th>Driver</th>
+              <th>Pump Assistant</th>
               <th>Shed Type</th>
               <th>Fuel Type</th>
               <th>Pumped Volume</th>
@@ -714,6 +715,11 @@ function Dashboard() {
             </div>
           </div>
         );
+        case "Compliance":
+          return (
+            <div className="content-container">
+            </div>
+          );
         case "Payment":
           return (
             <div className="content-container">
@@ -769,6 +775,13 @@ function Dashboard() {
             >
               <img src={Irequest} alt="Request Icon" className="icon" />
               Requests
+            </p>
+            <p
+              className="dcompliance"
+              onClick={() => setActiveComponent("Compliance")}
+            >
+              <img src={ICompliance} alt="Payment Icon" className="icon" />
+              Compliance
             </p>
             <p
               className="dpayment"
