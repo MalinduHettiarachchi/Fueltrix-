@@ -55,7 +55,8 @@ function Card() {
               <span className="payment-options">KOKO</span> or <span className="payment-options">mintpay</span>
             </p>
             <button className="buy-now">
-              <a href={`/buy${pkg.packageType.toLowerCase()}`}>Buy Now</a>
+              {/* Keep the same structure for Buy Now links */}
+              <a href={`/buy${pkg.packageType.toLowerCase().slice(0, 1)}`}>Buy Now</a>
             </button>
           </div>
         ))}
