@@ -970,6 +970,18 @@ app.get('/api/contact', async (req, res) => {
   }
 });
 
+app.delete('/api/contact/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await admin.firestore().collection('messages').doc(id).delete();
+    console.log(`Document with ID ${id} deleted successfully.`);
+    res.status(200).json({ message: 'Submission deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ error: 'Error deleting submission' });
+  }
+});
+
 
 app.post('/api/fuel-requests/update-status', async (req, res) => {
   try {
