@@ -4,14 +4,20 @@ import "./payment.css";
 import CARD from "../dashboard/card.png";
 
 const Modal = ({ show, totalPayment, company, email, onClose }) => {
-  const [selectedMethod, setSelectedMethod] = useState("Card"); // Default selected method
+  const [selectedMethod, setSelectedMethod] = useState("Card");
   const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    cvv: "",
+    name: "",
+    expiryDate: "", // Expiry date in MM/YY format
+  });
+  const [rememberDetails, setRememberDetails] = useState(false);
+  const [errors, setErrors] = useState({
     cardNumber: "",
     cvv: "",
     name: "",
     expiryDate: "",
   });
-  const [rememberDetails, setRememberDetails] = useState(false);
 
   const handleOutsideClick = (e) => {
     if (e.target.classList.contains("pay-overlay")) {
@@ -33,73 +39,74 @@ const Modal = ({ show, totalPayment, company, email, onClose }) => {
 
   const handleCardInputChange = (e) => {
     const { name, value } = e.target;
-    setCardDetails({ ...cardDetails, [name]: value });
+    if (name === "expiryDate") {
+      // Ensure the input value follows MM/YY format
+      const formattedValue = value.replace(/[^0-9/]/g, "").slice(0, 5); // Allow only digits and a slash
+      setCardDetails({ ...cardDetails, expiryDate: formattedValue });
+    } else {
+      setCardDetails({ ...cardDetails, [name]: value });
+    }
+  };
+
+  const validateCardDetails = () => {
+    let valid = true;
+    const newErrors = { cardNumber: "", cvv: "", name: "", expiryDate: "" };
+
+    // Card number validation (only numbers and 16 digits)
+    if (!/^\d{16}$/.test(cardDetails.cardNumber)) {
+      newErrors.cardNumber = "Card number must be 16 digits and contain only numbers.";
+      valid = false;
+    }
+
+    // CVV validation (only numbers and 3 digits)
+    if (!/^\d{3}$/.test(cardDetails.cvv)) {
+      newErrors.cvv = "CVV must be 3 digits and contain only numbers.";
+      valid = false;
+    }
+
+    // Name validation (only letters and spaces)
+    if (!/^[A-Za-z\s]+$/.test(cardDetails.name)) {
+      newErrors.name = "Name should only contain letters and spaces.";
+      valid = false;
+    }
+
+    // Expiry date validation (check if valid date format MM/YY)
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardDetails.expiryDate)) {
+      newErrors.expiryDate = "Expiration date must be in MM/YY format.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
   };
 
   const handleSubmitPayment = async () => {
-    // Check if the selected payment method is 'Card' or 'Bank'
-    if (selectedMethod === "Card") {
-      // Validate if card details are filled
-      if (!cardDetails.cardNumber || !cardDetails.cvv || !cardDetails.name || !cardDetails.expiryDate) {
-        alert("Please fill in all required fields.");
-        return;
+    // Validate if card details are filled and valid
+    if (selectedMethod === "Card" && !validateCardDetails()) {
+      return;
+    }
+
+    // Prepare payment details for selected method
+    const paymentDetails = {
+      totalPayment,
+      company,
+      email,
+      cardDetails, // Include card details in the payload
+      time: new Date().toLocaleString(), // Send the current time
+    };
+
+    try {
+      // Send payment details to the server
+      const response = await axios.post("http://localhost:5000/api/sendPaymentEmail", paymentDetails);
+      if (response.status === 200) {
+        alert("Payment processed successfully!");
+        onClose(); // Close the modal after successful payment
       }
-  
-      // Prepare payment details for card payment
-      const paymentDetails = {
-        totalPayment,
-        company,
-        email,
-        cardDetails, // Include card details in the payload
-        time: new Date().toLocaleString(), // Send the current time
-      };
-  
-      try {
-        // Send card payment details to the server
-        const response = await axios.post("http://localhost:5000/api/sendPaymentEmail", paymentDetails);
-        if (response.status === 200) {
-          alert("Payment processed successfully!");
-          onClose(); // Close the modal after successful payment
-        }
-      } catch (error) {
-        console.error("Error sending email:", error);
-        alert("Failed to process payment.");
-      }
-  
-    } else if (selectedMethod === "Bank") {
-      // Check if proof of payment file is uploaded
-      const proofFile = document.getElementById("proof-upload").files[0];
-      if (!proofFile) {
-        alert("Please upload proof of payment.");
-        return;
-      }
-  
-      // Create a FormData object to send the proof of payment
-      const formData = new FormData();
-      formData.append("totalPayment", totalPayment);
-      formData.append("company", company);
-      formData.append("email", email);
-      formData.append("proofFile", proofFile); // Add the uploaded file
-      formData.append("time", new Date().toLocaleString());
-  
-      try {
-        // Send bank payment details and proof of payment to the server
-        const response = await axios.post("http://localhost:5000/api/sendBankPaymentEmail", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // Necessary for sending files
-          },
-        });
-        if (response.status === 200) {
-          alert("Payment processed successfully!");
-          onClose(); // Close the modal after successful payment
-        }
-      } catch (error) {
-        console.error("Error sending bank payment email:", error);
-        alert("Failed to process payment.");
-      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to process payment.");
     }
   };
-  
 
   if (!show) return null;
 
@@ -138,19 +145,48 @@ const Modal = ({ show, totalPayment, company, email, onClose }) => {
             <div className="card-input-grid">
               <div className="input-group">
                 <label>Card number *</label>
-                <input type="text" placeholder="0000 0000 0000 0000" name="cardNumber" onChange={handleCardInputChange} />
+                <input
+                  type="text"
+                  placeholder="0000 0000 0000 0000"
+                  name="cardNumber"
+                  value={cardDetails.cardNumber}
+                  onChange={handleCardInputChange}
+                />
+                {errors.cardNumber && <p className="error">{errors.cardNumber}</p>}
               </div>
               <div className="input-group">
                 <label>CVV *</label>
-                <input type="text" placeholder="123" name="cvv" onChange={handleCardInputChange} />
+                <input
+                  type="text"
+                  placeholder="123"
+                  name="cvv"
+                  value={cardDetails.cvv}
+                  onChange={handleCardInputChange}
+                />
+                {errors.cvv && <p className="error">{errors.cvv}</p>}
               </div>
               <div className="input-group">
                 <label>Name *</label>
-                <input type="text" placeholder="John Smith" name="name" onChange={handleCardInputChange} />
+                <input
+                  type="text"
+                  placeholder="John Smith"
+                  name="name"
+                  value={cardDetails.name}
+                  onChange={handleCardInputChange}
+                />
+                {errors.name && <p className="error">{errors.name}</p>}
               </div>
               <div className="input-group">
                 <label>Expiration date *</label>
-                <input type="text" placeholder="MM/YY" name="expiryDate" onChange={handleCardInputChange} />
+                <input
+                  type="text"
+                  placeholder="MM/YY"
+                  name="expiryDate"
+                  value={cardDetails.expiryDate}
+                  onChange={handleCardInputChange}
+                  maxLength="5" // Limit to 5 characters for MM/YY format
+                />
+                {errors.expiryDate && <p className="error">{errors.expiryDate}</p>}
               </div>
             </div>
           </div>

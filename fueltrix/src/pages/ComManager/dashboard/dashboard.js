@@ -11,11 +11,12 @@ import Ivehicle from "../dashboard/vehicle.png";
 import IPayment from "../dashboard/payment.png";
 import ICompliance from "../dashboard/compliance.png";
 import axios from "axios";
+import PumpFuelChart from "./PumpFuelChart";
 import SessionChartp from "./SessionChartpetrol";
 import SessionChartd from "./SessionChartdiesel";
 import Modal from "../dashboard/payment";
-import { jsPDF } from 'jspdf'; // Import jsPDF
-import 'jspdf-autotable'; 
+import { jsPDF } from "jspdf"; // Import jsPDF
+import "jspdf-autotable";
 
 function Dashboard() {
   const location = useLocation();
@@ -34,9 +35,8 @@ function Dashboard() {
   const [pumpData, setPumpData] = useState([]);
   const [fuelPrices, setFuelPrices] = useState([]); // State to store fuel prices
   const [showModal, setShowModal] = useState(false);
-  const [modalData, setModalData] = useState({ totalPayment: 0, company: '' });
+  const [modalData, setModalData] = useState({ totalPayment: 0, company: "" });
   const [complianceData, setComplianceData] = useState([]);
-
 
   useEffect(() => {
     if (vehicles.length > 0) {
@@ -104,7 +104,6 @@ function Dashboard() {
     }
   }, [managerDetails]);
 
-  
   // Component to render the vehicle list table
   const VehicleList = () => (
     <div className="vehicle-list">
@@ -137,7 +136,7 @@ function Dashboard() {
 
   const handleRemoveVehicle = async () => {
     if (!selectedVehicle) return;
-  
+
     try {
       await axios.delete(
         `http://localhost:5000/api/vehicles/${selectedVehicle.registrationNumber}`
@@ -155,7 +154,6 @@ function Dashboard() {
       alert("Failed to remove vehicle.");
     }
   };
-  
 
   // Component to render selected vehicle details
   const VehicleDetails = () => (
@@ -181,7 +179,10 @@ function Dashboard() {
             <strong>Requested Volume (L):</strong>{" "}
             {selectedVehicle.requestedVolume}
           </p>
-          <button onClick={handleRemoveVehicle} className="remove-vehicle-button">
+          <button
+            onClick={handleRemoveVehicle}
+            className="remove-vehicle-button"
+          >
             Remove
           </button>
         </div>
@@ -190,7 +191,6 @@ function Dashboard() {
       )}
     </div>
   );
-  
 
   useEffect(() => {
     if (managerDetails?.company) {
@@ -239,7 +239,7 @@ function Dashboard() {
 
   const handleRemoveDriver = async () => {
     if (!selectedDriver) return;
-  
+
     try {
       await axios.delete(
         `http://localhost:5000/api/drivers/${selectedDriver.name}` // Or use a unique identifier like selectedDriver._id
@@ -254,7 +254,6 @@ function Dashboard() {
       alert("Failed to remove driver.");
     }
   };
-  
 
   // Component to render selected driver details
   const DriverDetails = () => (
@@ -270,10 +269,7 @@ function Dashboard() {
           <p>
             <strong>Contact:</strong> {selectedDriver.contact}
           </p>
-          <button
-            onClick={handleRemoveDriver}
-            className="remove-driver-button"
-          >
+          <button onClick={handleRemoveDriver} className="remove-driver-button">
             Remove
           </button>
         </div>
@@ -282,7 +278,6 @@ function Dashboard() {
       )}
     </div>
   );
-  
 
   // API endpoint to get pending fuel requests
   useEffect(() => {
@@ -342,7 +337,8 @@ function Dashboard() {
             <strong>Request Volume (L):</strong> {selectedRequest.requestVolume}
           </p>
           <p>
-            <strong>Vehicle Number:</strong> {selectedRequest.registrationNumber}
+            <strong>Vehicle Number:</strong>{" "}
+            {selectedRequest.registrationNumber}
           </p>
           <p>
             <strong>Email:</strong> {selectedRequest.email}
@@ -353,7 +349,7 @@ function Dashboard() {
           <p>
             <strong>Status:</strong> {selectedRequest.approvedStatus}
           </p>
-          
+
           {/* Conditionally render buttons */}
           {selectedRequest.approvedStatus !== "approved" &&
           selectedRequest.approvedStatus !== "rejected" ? (
@@ -378,16 +374,20 @@ function Dashboard() {
       )}
     </div>
   );
-  
+
   const PaymentDetails = () => {
     const [pumpData, setPumpData] = useState([]);
     const [fuelPrices, setFuelPrices] = useState([]);
     const [calculatedPayments, setCalculatedPayments] = useState([]);
-    const [companyEmail, setCompanyEmail] = useState(''); // Store the logged-in company email
+    const [companyEmail, setCompanyEmail] = useState(""); // Store the logged-in company email
     const [showModal, setShowModal] = useState(false); // Modal state
-    const [modalData, setModalData] = useState({ totalPayment: 0, company: '', email: '' }); // Modal data
+    const [modalData, setModalData] = useState({
+      totalPayment: 0,
+      company: "",
+      email: "",
+    }); // Modal data
     const [pdfDownloaded, setPdfDownloaded] = useState(false); // Track PDF download
-  
+
     useEffect(() => {
       const fetchPumpData = async () => {
         try {
@@ -399,31 +399,34 @@ function Dashboard() {
           console.error("Error fetching pump collection data:", error);
         }
       };
-  
+
       const fetchFuelPrices = async () => {
         try {
-          const response = await axios.get("http://localhost:5000/api/fuel-prices");
+          const response = await axios.get(
+            "http://localhost:5000/api/fuel-prices"
+          );
           setFuelPrices(response.data);
         } catch (error) {
           console.error("Error fetching fuel prices:", error);
         }
       };
-  
+
       if (managerDetails?.company) {
-        setCompanyEmail(managerDetails?.email || ''); // Assuming email is part of managerDetails
+        setCompanyEmail(managerDetails?.email || ""); // Assuming email is part of managerDetails
         fetchPumpData();
         fetchFuelPrices();
       }
     }, [managerDetails]);
-  
+
     useEffect(() => {
       const calculatePayments = () => {
         const payments = pumpData.map((pump) => {
           const matchingPrice = fuelPrices.find(
             (price) =>
-              price.fuelType === pump.fuelType && price.shedType === pump.shedType
+              price.fuelType === pump.fuelType &&
+              price.shedType === pump.shedType
           );
-  
+
           if (matchingPrice) {
             const payment = matchingPrice.price * pump.fuelPumped;
             return { ...pump, payment };
@@ -433,79 +436,88 @@ function Dashboard() {
         });
         setCalculatedPayments(payments);
       };
-  
+
       if (pumpData.length > 0 && fuelPrices.length > 0) {
         calculatePayments();
       }
     }, [pumpData, fuelPrices]);
-  
+
     // Calculate the total payment
     const totalPayment = calculatedPayments.reduce((total, pump) => {
       return total + (typeof pump.payment === "number" ? pump.payment : 0);
     }, 0);
-  
+
     const handlePayNow = () => {
       // Pass the total payment, company name, and company email to the modal
       setModalData({
         totalPayment,
-        company: managerDetails?.company || 'Unknown Company',
-        email: companyEmail
+        company: managerDetails?.company || "Unknown Company",
+        email: companyEmail,
       });
-      setShowModal(true);  // Show the modal when "Pay Now" is clicked
+      setShowModal(true); // Show the modal when "Pay Now" is clicked
     };
-  
+
     const handleCloseModal = () => {
-      setShowModal(false);  // Close the modal
+      setShowModal(false); // Close the modal
     };
-  
+
     const handleConfirmPayment = () => {
-      alert('Payment Confirmed');
-      setShowModal(false);  // Close the modal after confirming
+      alert("Payment Confirmed");
+      setShowModal(false); // Close the modal after confirming
     };
-  
+
     // Function to download payment details as an advanced PDF
     const handleDownloadPDF = () => {
       const doc = new jsPDF();
-      const headers = ['Vehicle Number', 'Pump Assistant', 'Shed Type', 'Fuel Type', 'Pumped Volume', 'Unit Price (LKR)', 'Payment (LKR)'];
-  
-      const companyName = managerDetails?.company || 'Unknown Company';
+      const headers = [
+        "Vehicle Number",
+        "Pump Assistant",
+        "Shed Type",
+        "Fuel Type",
+        "Pumped Volume",
+        "Unit Price (LKR)",
+        "Payment (LKR)",
+      ];
+
+      const companyName = managerDetails?.company || "Unknown Company";
       // Set up document title and header styling
-      doc.setFont('Helvetica', 'bold');
+      doc.setFont("Helvetica", "bold");
       doc.setFontSize(18);
       doc.text(`Payment Details of ${companyName}`, 20, 20);
       doc.setFontSize(12);
-      
+
       // Set up table formatting with autoTable
       const tableData = calculatedPayments.map((pump) => {
         const matchingPrice = fuelPrices.find(
-          (price) => price.fuelType === pump.fuelType && price.shedType === pump.shedType
+          (price) =>
+            price.fuelType === pump.fuelType && price.shedType === pump.shedType
         );
-  
+
         return [
           pump.vehicleCode,
           `${pump.assistantFirstName} ${pump.assistantLastName}`,
           pump.shedType,
           pump.fuelType,
           pump.fuelPumped,
-          matchingPrice ? matchingPrice.price : 'N/A',
-          pump.payment
+          matchingPrice ? matchingPrice.price : "N/A",
+          pump.payment,
         ];
       });
-  
+
       doc.autoTable({
         head: [headers],
         body: tableData,
         startY: 30,
-        theme: 'striped', // Stripe rows for better readability
+        theme: "striped", // Stripe rows for better readability
         headStyles: {
           fillColor: [0, 51, 102],
           textColor: 255,
           fontSize: 12,
-          fontStyle: 'bold'
+          fontStyle: "bold",
         },
         bodyStyles: {
           fontSize: 10,
-          valign: 'middle'
+          valign: "middle",
         },
         columnStyles: {
           0: { cellWidth: 25 },
@@ -514,32 +526,38 @@ function Dashboard() {
           3: { cellWidth: 25 },
           4: { cellWidth: 25 },
           5: { cellWidth: 25 },
-          6: { cellWidth: 30 }
-        }
+          6: { cellWidth: 30 },
+        },
       });
-  
+
       // Add total payment section
-      doc.text(`Total Payment: LKR ${totalPayment}.00`, 20, doc.lastAutoTable.finalY + 10);
-  
+      doc.text(
+        `Total Payment: LKR ${totalPayment}.00`,
+        20,
+        doc.lastAutoTable.finalY + 10
+      );
+
       // Save the document as a PDF
-      doc.save('payment_details.pdf');
-  
+      doc.save("payment_details.pdf");
+
       // After PDF is downloaded, enable the "Pay Now" button
       setPdfDownloaded(true);
     };
-  
+
     return (
       <div className="pump-collection">
-        <button className="paybut" onClick={handleDownloadPDF}>Save Payments</button>
-        <button 
-          className="paybut" 
-          onClick={handlePayNow} 
-          disabled={!pdfDownloaded}  // Disable until PDF is downloaded
+        <button className="paybut" onClick={handleDownloadPDF}>
+          Save Payments
+        </button>
+        <button
+          className="paybut"
+          onClick={handlePayNow}
+          disabled={!pdfDownloaded} // Disable until PDF is downloaded
         >
           Pay Now
         </button>
-        <h2>Total Payment: LKR {totalPayment}.00</h2> {/* Display total payment */}
-  
+        <h2>Total Payment: LKR {totalPayment}.00</h2>{" "}
+        {/* Display total payment */}
         <table>
           <thead>
             <tr>
@@ -556,13 +574,16 @@ function Dashboard() {
             {calculatedPayments.map((pump, index) => {
               const matchingPrice = fuelPrices.find(
                 (price) =>
-                  price.fuelType === pump.fuelType && price.shedType === pump.shedType
+                  price.fuelType === pump.fuelType &&
+                  price.shedType === pump.shedType
               );
-  
+
               return (
                 <tr key={index}>
                   <td>{pump.vehicleCode}</td>
-                  <td>{pump.assistantFirstName} {pump.assistantLastName}</td>
+                  <td>
+                    {pump.assistantFirstName} {pump.assistantLastName}
+                  </td>
                   <td>{pump.shedType}</td>
                   <td>{pump.fuelType}</td>
                   <td>{pump.fuelPumped}</td>
@@ -573,15 +594,14 @@ function Dashboard() {
             })}
           </tbody>
         </table>
-  
-        <Modal 
-          show={showModal} 
-          onClose={handleCloseModal} 
+        <Modal
+          show={showModal}
+          onClose={handleCloseModal}
           onConfirm={handleConfirmPayment}
           totalPayment={modalData.totalPayment}
-          company={modalData.company} 
-          email={modalData.email}  
-        /> 
+          company={modalData.company}
+          email={modalData.email}
+        />
       </div>
     );
   };
@@ -589,20 +609,22 @@ function Dashboard() {
   const ComplianceList = () => {
     const [complianceData, setComplianceData] = useState([]);
     const [selectedCompliance, setSelectedCompliance] = useState(null);
-  
+
     useEffect(() => {
       const fetchComplianceData = async () => {
         try {
-          const response = await axios.get("http://localhost:5000/api/compliance"); // No company filter
+          const response = await axios.get(
+            "http://localhost:5000/api/compliance"
+          ); // No company filter
           setComplianceData(response.data || []);
         } catch (error) {
           console.error("Error fetching compliance data:", error);
         }
       };
-  
+
       fetchComplianceData();
     }, []); // Empty dependency array ensures this runs once when the component is mounted
-  
+
     return (
       <div className="compliance-list">
         <h3>Compliance</h3>
@@ -631,21 +653,20 @@ function Dashboard() {
       </div>
     );
   };
-  
-  
 
-  
   useEffect(() => {
     if (activeComponent === "Settings") {
       const fetchFuelPrices = async () => {
         try {
-          const response = await axios.get("http://localhost:5000/api/fuel-prices"); // Fetch all fuel prices
+          const response = await axios.get(
+            "http://localhost:5000/api/fuel-prices"
+          ); // Fetch all fuel prices
           setFuelPrices(response.data); // Update state with fetched data
         } catch (error) {
           console.error("Error fetching fuel prices:", error);
         }
       };
-  
+
       fetchFuelPrices();
     }
   }, [activeComponent]); // Fetch data when activeComponent is "Settings"
@@ -759,6 +780,30 @@ function Dashboard() {
     return acc;
   }, {});
 
+  const [vehiclesData, setVehiclesData] = useState([]); // Store vehicle data
+
+useEffect(() => {
+  if (managerDetails?.company) {
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/vehicles?company=${managerDetails.company}`
+        );
+        const companyVehicles = response.data[managerDetails.company]?.vehicles || [];
+
+        // Store vehicle data (each vehicle's pumped fuel and other details)
+        setVehiclesData(companyVehicles);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      }
+    };
+
+    fetchVehicles();
+  }
+}, [managerDetails]); // Trigger when the company details are updated
+
+  
+
   useEffect(() => {
     const fetchPumpData = async () => {
       try {
@@ -770,12 +815,11 @@ function Dashboard() {
         console.error("Error fetching pump collection data:", error);
       }
     };
-  
+
     if (managerDetails?.company) {
       fetchPumpData();
     }
   }, [managerDetails]);
-  
 
   // Render the appropriate component based on activeComponent
   const renderComponent = () => {
@@ -783,13 +827,14 @@ function Dashboard() {
       case "Home":
         return (
           <div className="contenthome">
+          <div className="first-row">
             <SessionChartp groupedFuelData={groupedPetrolData} />
             <SessionChartd groupedFuelData={groupedDieselData} />
             <div className="info-boxes">
               <div className="info-box">
                 <h3>Vehicle</h3>
                 <h1>Total Registered Vehicles</h1>
-                <p>{vehicleCount}</p>
+                <p>{vehiclesData.length}</p>
               </div>
               <div className="info-box">
                 <h3>Driver</h3>
@@ -798,6 +843,9 @@ function Dashboard() {
               </div>
             </div>
           </div>
+          {/* Render PumpFuelChart with all vehicles data */}
+          <PumpFuelChart vehiclesData={vehiclesData} />
+        </div>
         );
 
       case "Vehicles":
@@ -840,23 +888,20 @@ function Dashboard() {
             </div>
           </div>
         );
-        case "Compliance":
-          return (
-            <div className="content-container">
-            <ComplianceList/>
-            </div>
-          );
-        case "Payment":
-          return (
-            <div className="content-container">
-              <PaymentDetails/>
-            </div>
-          );        
-      case "Settings":
+      case "Compliance":
         return (
           <div className="content-container">
+            <ComplianceList />
           </div>
         );
+      case "Payment":
+        return (
+          <div className="content-container">
+            <PaymentDetails />
+          </div>
+        );
+      case "Settings":
+        return <div className="content-container"></div>;
       default:
         return <div className="content-container"></div>;
     }
@@ -869,7 +914,6 @@ function Dashboard() {
       setActiveComponent(component); // Set the active component for other items
     }
   };
-
 
   return (
     <div>
@@ -934,4 +978,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard; 
+export default Dashboard;
