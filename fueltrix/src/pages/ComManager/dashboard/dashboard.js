@@ -14,6 +14,8 @@ import axios from "axios";
 import SessionChartp from "./SessionChartpetrol";
 import SessionChartd from "./SessionChartdiesel";
 import Modal from "../dashboard/payment";
+import { jsPDF } from 'jspdf'; // Import jsPDF
+import 'jspdf-autotable'; 
 
 function Dashboard() {
   const location = useLocation();
@@ -376,13 +378,15 @@ function Dashboard() {
     </div>
   );
   
-
   const PaymentDetails = () => {
     const [pumpData, setPumpData] = useState([]);
     const [fuelPrices, setFuelPrices] = useState([]);
     const [calculatedPayments, setCalculatedPayments] = useState([]);
     const [companyEmail, setCompanyEmail] = useState(''); // Store the logged-in company email
-    
+    const [showModal, setShowModal] = useState(false); // Modal state
+    const [modalData, setModalData] = useState({ totalPayment: 0, company: '', email: '' }); // Modal data
+    const [pdfDownloaded, setPdfDownloaded] = useState(false); // Track PDF download
+  
     useEffect(() => {
       const fetchPumpData = async () => {
         try {
@@ -458,9 +462,81 @@ function Dashboard() {
       setShowModal(false);  // Close the modal after confirming
     };
   
+    // Function to download payment details as an advanced PDF
+    const handleDownloadPDF = () => {
+      const doc = new jsPDF();
+      const headers = ['Vehicle Number', 'Pump Assistant', 'Shed Type', 'Fuel Type', 'Pumped Volume', 'Unit Price (LKR)', 'Payment (LKR)'];
+  
+      const companyName = managerDetails?.company || 'Unknown Company';
+      // Set up document title and header styling
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(`Payment Details of ${companyName}`, 20, 20);
+      doc.setFontSize(12);
+      
+      // Set up table formatting with autoTable
+      const tableData = calculatedPayments.map((pump) => {
+        const matchingPrice = fuelPrices.find(
+          (price) => price.fuelType === pump.fuelType && price.shedType === pump.shedType
+        );
+  
+        return [
+          pump.vehicleCode,
+          `${pump.assistantFirstName} ${pump.assistantLastName}`,
+          pump.shedType,
+          pump.fuelType,
+          pump.fuelPumped,
+          matchingPrice ? matchingPrice.price : 'N/A',
+          pump.payment
+        ];
+      });
+  
+      doc.autoTable({
+        head: [headers],
+        body: tableData,
+        startY: 30,
+        theme: 'striped', // Stripe rows for better readability
+        headStyles: {
+          fillColor: [0, 51, 102],
+          textColor: 255,
+          fontSize: 12,
+          fontStyle: 'bold'
+        },
+        bodyStyles: {
+          fontSize: 10,
+          valign: 'middle'
+        },
+        columnStyles: {
+          0: { cellWidth: 25 },
+          1: { cellWidth: 35 },
+          2: { cellWidth: 25 },
+          3: { cellWidth: 25 },
+          4: { cellWidth: 25 },
+          5: { cellWidth: 25 },
+          6: { cellWidth: 30 }
+        }
+      });
+  
+      // Add total payment section
+      doc.text(`Total Payment: LKR ${totalPayment}.00`, 20, doc.lastAutoTable.finalY + 10);
+  
+      // Save the document as a PDF
+      doc.save('payment_details.pdf');
+  
+      // After PDF is downloaded, enable the "Pay Now" button
+      setPdfDownloaded(true);
+    };
+  
     return (
       <div className="pump-collection">
-        <button className="paybut" onClick={handlePayNow}>Pay Now</button>
+        <button className="paybut" onClick={handleDownloadPDF}>Save Payments</button>
+        <button 
+          className="paybut" 
+          onClick={handlePayNow} 
+          disabled={!pdfDownloaded}  // Disable until PDF is downloaded
+        >
+          Pay Now
+        </button>
         <h2>Total Payment: LKR {totalPayment}.00</h2> {/* Display total payment */}
   
         <table>
@@ -496,17 +572,20 @@ function Dashboard() {
             })}
           </tbody>
         </table>
+  
         <Modal 
           show={showModal} 
           onClose={handleCloseModal} 
           onConfirm={handleConfirmPayment}
           totalPayment={modalData.totalPayment}
           company={modalData.company} 
-          email={modalData.email}  // Pass the company email to the modal
+          email={modalData.email}  
         /> 
       </div>
     );
   };
+
+
   
   
 

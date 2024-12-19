@@ -9,6 +9,7 @@
     background-color: #041228;
     padding: 20px;
     color: #ffffff;
+    height: auto;
   }
   
   .dshright {
@@ -505,6 +506,11 @@
   font-size: 20px;
   margin-bottom: -10px;
 }
+.paybut:hover{
+  font-weight: 600;
+}
+
+
 .pump-collection h2{
   color: #041228;
   text-align: right;
