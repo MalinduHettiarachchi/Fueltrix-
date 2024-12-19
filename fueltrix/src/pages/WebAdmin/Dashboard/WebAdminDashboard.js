@@ -71,6 +71,7 @@ const Sidebar = ({ onChangeView }) => {
                 <li><a href="#" onClick={() => onChangeView('pumpAssistantManagement')}><i className="fas fa-gas-pump"></i> Pump Assistant Management</a></li>
                 <li><a href="#" onClick={() => onChangeView('fuelPriceManage')}><i className="fas fa-dollar-sign"></i> Fuel Price Management</a></li>
                 <li><a href="#" onClick={() => onChangeView('contactUsFormManage')}><i className="fas fa-envelope"></i> Contact Us Form Management</a></li>
+                <li><a href="#" onClick={() => onChangeView('managePackage')}><i className="fas fa-cubes"></i> Package Management</a></li>
                 <li><a href="#" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
@@ -976,6 +977,226 @@ const ContactUsFormManagement = () => {
   };
   
 
+  const PackageManagement = () => {
+    const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [editedPackage, setEditedPackage] = useState(null);  
+    const [updatedValues, setUpdatedValues] = useState({
+      driverCount: '',
+      vehicleCount: ''
+    });
+
+    useEffect(() => {
+        fetchPackages();
+    }, []);
+
+    const fetchPackages = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const response = await fetch('http://localhost:5000/api/packages');
+          if (!response.ok) throw new Error('Failed to fetch packages');
+          const data = await response.json();
+          setPackages(data);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setUpdatedValues((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleEditClick = (pkg) => {
+        setEditedPackage(pkg);
+        setUpdatedValues({
+            driverCount: pkg.driverCount,
+            vehicleCount: pkg.vehicleCount
+        });
+    };
+
+    const handleUpdate = async (pkg) => {
+        const updatedPkg = {
+            ...pkg,
+            driverCount: updatedValues.driverCount,
+            vehicleCount: updatedValues.vehicleCount
+        };
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/packages/${pkg.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedPkg)
+            });
+
+            if (!response.ok) throw new Error('Failed to update package');
+            fetchPackages();  
+            setEditedPackage(null);  
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    return (
+        <div>
+            <br/><br/>
+        <div className="container"><br/>
+            <h2 className="title">Package Management</h2>
+            
+            {loading && <div className="loading">Loading...</div>}
+            {error && <div className="error-alert">{error}</div>}
+
+            <div className="table-container">
+                <table className="package-table">
+                    <thead>
+                        <tr>
+                            <th>Package Type</th>
+                            <th>Driver Count</th>
+                            <th>Vehicle Count</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {packages.map((pkg) => (
+                            <tr key={pkg.id}>
+                                <td>{pkg.packageType}</td>
+                                <td>
+                                    {editedPackage && editedPackage.packageType === pkg.packageType ? (
+                                        <input
+                                            type="number"
+                                            name="driverCount"
+                                            value={updatedValues.driverCount}
+                                            onChange={handleEditChange}
+                                            className="input-field"
+                                        />
+                                    ) : (
+                                        pkg.driverCount
+                                    )}
+                                </td>
+                                <td>
+                                    {editedPackage && editedPackage.packageType === pkg.packageType ? (
+                                        <input
+                                            type="number"
+                                            name="vehicleCount"
+                                            value={updatedValues.vehicleCount}
+                                            onChange={handleEditChange}
+                                            className="input-field"
+                                        />
+                                    ) : (
+                                        pkg.vehicleCount
+                                    )}
+                                </td>
+                                <td>
+                                    {editedPackage && editedPackage.packageType === pkg.packageType ? (
+                                        <button onClick={() => handleUpdate(pkg)} className="btn save-btn">Save</button>
+                                    ) : (
+                                        <button onClick={() => handleEditClick(pkg)} className="btn edit-btn">Edit</button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* CSS Styles */}
+            <style jsx>{`
+                .container {
+                    padding: 30px;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    background-color: #f8fafc;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+                .error-alert {
+                    background-color: #fee2e2;
+                    border: 1px solid #ef4444;
+                    color: #dc2626;
+                    padding: 15px;
+                    border-radius: 6px;
+                    margin-bottom: 20px;
+                }
+                .loading {
+                    font-size: 20px;
+                    color: #555;
+                    margin-bottom: 20px;
+                }
+                .table-container {
+                    margin-top: 20px;
+                    overflow-x: auto;
+                }
+                .package-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+                th, td {
+                    padding: 15px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                }
+                th {
+                    background-color: #f0f4f8;
+                    font-weight: 600;
+                    color: #333;
+                }
+                td {
+                    background-color: #ffffff;
+                    color: #666;
+                }
+                input.input-field {
+                    width: 80px;
+                    padding: 8px;
+                    font-size: 14px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    background-color: #f9fafb;
+                }
+                button {
+                    padding: 8px 16px;
+                    font-size: 14px;
+                    border-radius: 6px;
+                    border: none;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
+                .btn {
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+                .edit-btn {
+                    background-color: #05276f;
+                    color: white;
+                }
+                .edit-btn:hover {
+                    background-color: #05270f;
+                }
+                .save-btn {
+                    background-color: #007BFF;
+                    color: white;
+                }
+                .save-btn:hover {
+                    background-color: #0056b3;
+                }
+            `}</style>
+        </div>
+        </div>
+    );
+};
+
+  
+
+
 
   const ShedMap = () => {
     const [shedData, setShedData] = useState([]);
@@ -1127,6 +1348,8 @@ const Dashboard = () => {
                 return <ContactUsFormManagement />;
             case 'shedMap': // New case
                 return <ShedMap />;
+            case 'managePackage': // New case
+                return <PackageManagement />;
             default:
                 return (
                     <section className="webadmin-stats">

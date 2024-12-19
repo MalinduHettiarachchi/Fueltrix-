@@ -6,6 +6,7 @@ const session = require('express-session');
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
+
 // Initialize Firestore with Firebase Admin SDK
 const serviceAccount = require("./fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json");
 //Mage path eka --D:/NIBM/HND/Final Project/Project/fueltrix-b50cf-firebase-adminsdk-ww4uh-ecacdc9c1b.json
@@ -1145,6 +1146,46 @@ app.delete('/api/drivers/:driverName', async (req, res) => {
     res.status(500).json({ message: 'Failed to remove driver.' });
   }
 });
+
+
+// Fetch all packages and include the document ID
+app.get('/api/packages', async (req, res) => {
+  try {
+    const packagesSnapshot = await db.collection('Packages').get();
+    const packagesList = packagesSnapshot.docs.map(doc => ({
+      id: doc.id, // Add document ID here
+      packageType: doc.data().PackageType,
+      driverCount: doc.data().DriversCount,
+      vehicleCount: doc.data().VehicleCount,
+    }));
+
+    res.json(packagesList);  // Send data with IDs back to frontend
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update Package - Backend (Node.js)
+app.put('/api/packages/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { driverCount, vehicleCount } = req.body;
+
+    // Update the package in Firestore using the document ID
+    await db.collection('Packages').doc(id).update({
+      DriversCount: driverCount,
+      VehicleCount: vehicleCount
+    });
+
+    res.status(200).json({ message: 'Package updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 
 
