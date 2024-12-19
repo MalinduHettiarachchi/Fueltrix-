@@ -1244,6 +1244,68 @@ app.put('/api/packages/:id', async (req, res) => {
 
 
 
+app.post("/api/sendPaymentEmail", (req, res) => {
+  const { company, email, totalPayment, time, selectedMethod } = req.body;
+  
+  // Email for the user (original email you were sending)
+  const userMailOptions = {
+    from: "fueltrixteam@gmail.com",
+    to: email,
+    subject: `Payment Details from ${company}`,
+    text: `
+      Hello,
+
+      Your payment details are as follows:
+      
+      Payment Method: ${selectedMethod}
+      Total Price: LKR ${totalPayment}.00
+      Time: ${time}
+
+      Thank you for using our service.
+    `,
+  };
+
+  // Send email to the user
+  transporter.sendMail(userMailOptions, (error, info) => {
+    if (error) {
+      console.log("Error sending user email:", error);
+      return res.status(500).json({ message: "Failed to send user email.", error });
+    }
+    console.log("User email sent:", info);
+  });
+
+  // Additional email to Thisara (with payment method details)
+  const thisaraMailOptions = {
+    from: "fueltrixteam@gmail.com",
+    to: "thisara.a2001@gmail.com",
+    subject: `Payment Notification from ${company}`,
+    text: `
+      Hello,
+
+      A payment has been processed with the following details:
+
+      Company Name: ${company}
+      Payment Method: ${selectedMethod}
+      Total Price: LKR ${totalPayment}.00
+      Time: ${time}
+
+      Thank you.
+    `,
+  };
+
+  // Send email to Thisara
+  transporter.sendMail(thisaraMailOptions, (error, info) => {
+    if (error) {
+      console.log("Error sending email to Thisara:", error);
+      return res.status(500).json({ message: "Failed to send email to Thisara.", error });
+    }
+    console.log("Email sent to Thisara:", info);
+    res.status(200).json({ message: "Payment processed and emails sent successfully!" });
+  });
+});
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
