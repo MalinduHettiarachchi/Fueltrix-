@@ -238,7 +238,7 @@ app.put('/shed-requests/:id/approve', async (req, res) => {
     // Construct the email content
     const messageContent = `
       <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border: 1px solid #e0e0e0;">
-        <h2 style="color: #1a73e8; text-align: center;">Your Shed Request Has Been Approved</h2>
+        <h2 style="color: #1a73e8; text-align: center;">Your Filling Station Request Has Been Approved</h2>
         <p>Dear ${shedName} Team,</p>
         <p>We are pleased to inform you that your shed request has been approved! You can now access the Fueltrix Fuel Tracking System using the credentials provided below.</p>
 
