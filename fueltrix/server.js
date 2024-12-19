@@ -1303,6 +1303,31 @@ app.post("/api/sendPaymentEmail", (req, res) => {
   });
 });
 
+app.get('/api/compliance', async (req, res) => {
+  try {
+    // Query the 'Compliance' collection
+    const complianceSnapshot = await admin.firestore()
+      .collection('Complain')
+      .get();
+
+    // Check if documents exist
+    if (complianceSnapshot.empty) {
+      return res.status(404).json({ error: 'No compliance data found' });
+    }
+
+    // Map the results to an array
+    const complianceData = complianceSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    // Return the data
+    res.status(200).json(complianceData);
+  } catch (error) {
+    console.error('Error fetching compliance data:', error);
+    res.status(500).json({ error: 'Failed to fetch compliance data' });
+  }
+});
 
 
 // Start the server

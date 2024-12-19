@@ -35,6 +35,7 @@ function Dashboard() {
   const [fuelPrices, setFuelPrices] = useState([]); // State to store fuel prices
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState({ totalPayment: 0, company: '' });
+  const [complianceData, setComplianceData] = useState([]);
 
 
   useEffect(() => {
@@ -585,10 +586,55 @@ function Dashboard() {
     );
   };
 
-
+  const ComplianceList = () => {
+    const [complianceData, setComplianceData] = useState([]);
+    const [selectedCompliance, setSelectedCompliance] = useState(null);
+  
+    useEffect(() => {
+      const fetchComplianceData = async () => {
+        try {
+          const response = await axios.get("http://localhost:5000/api/compliance"); // No company filter
+          setComplianceData(response.data || []);
+        } catch (error) {
+          console.error("Error fetching compliance data:", error);
+        }
+      };
+  
+      fetchComplianceData();
+    }, []); // Empty dependency array ensures this runs once when the component is mounted
+  
+    return (
+      <div className="compliance-list">
+        <h3>Compliance</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Driver Name</th>
+              <th>Email</th>
+              <th>Registration Number</th>
+              <th>Reason</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {complianceData.map((compliance, index) => (
+              <tr key={index} onClick={() => setSelectedCompliance(compliance)}>
+                <td>{compliance.driverName}</td>
+                <td>{compliance.email}</td>
+                <td>{compliance.registrationNumber}</td>
+                <td>{compliance.complain}</td>
+                <td>{new Date(compliance.createdAt).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
   
   
 
+  
   useEffect(() => {
     if (activeComponent === "Settings") {
       const fetchFuelPrices = async () => {
@@ -797,6 +843,7 @@ function Dashboard() {
         case "Compliance":
           return (
             <div className="content-container">
+            <ComplianceList/>
             </div>
           );
         case "Payment":
@@ -807,7 +854,7 @@ function Dashboard() {
           );        
       case "Settings":
         return (
-          <div className="contentset">
+          <div className="content-container">
           </div>
         );
       default:
