@@ -125,12 +125,7 @@ const Modal = ({ show, totalPayment, company, email, onClose }) => {
           >
             Card
           </button>
-          <button
-            className={`method-btn ${selectedMethod === "Bank" ? "active" : ""}`}
-            onClick={() => setSelectedMethod("Bank")}
-          >
-            Bank account
-          </button>
+          
         </div>
 
         {selectedMethod === "Card" && (
